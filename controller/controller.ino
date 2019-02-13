@@ -1,5 +1,3 @@
-short i = 205;
-
 void setup() {
   Serial.begin(9600);
   Serial.println("~~~Starting Motor~~~");
@@ -15,6 +13,7 @@ void setup() {
 }
 
 void loop() {
+  static short i = 205;
 
   // Slowly Rev Motor Up
   for(; i < 500; i+= 5) {
