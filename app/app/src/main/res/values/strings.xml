@@ -1,9 +1,8 @@
 <resources>
-    <string name="app_name">MechanicalSpeedometerConverter</string>
-    <string name="title_home">Calibrate</string>
-    <string name="title_dashboard">Live Data</string>
-    <string name="title_notifications">Settings</string>
-    // <string name="button2">Button2</string>
+    <string name="app_name">Mechanical Speedometer Converter</string>
+    <string name="title_calibrate">Calibrate</string>
+    <string name="title_liveData">Live Data</string>
+    <string name="title_settings">Settings</string>
+    <string name="button">Button</string>
     <string name="bluetooth">bluetooth</string>
-    <string name="button">Button</string> //
 </resources>
