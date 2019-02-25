@@ -81,4 +81,13 @@
         app:layout_constraintTop_toBottomOf="@+id/btButton"/>
 
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#3d53fd"
+        android:dividerHeight="4px"
+        android:id="@+id/btList"/>
+
+    <include layout="@layout/empty_list_item" />
+
 </android.support.constraint.ConstraintLayout>

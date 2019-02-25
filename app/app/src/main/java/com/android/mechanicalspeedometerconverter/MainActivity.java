@@ -3,6 +3,7 @@ package com.android.mechanicalspeedometerconverter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import java.util.Set;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
@@ -27,7 +29,12 @@ import java.util.UUID;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.CompletionService;
+
 import android.os.Handler;
+import android.widget.ProgressBar;
+import android.support.v7.widget.Toolbar;
+import android.support.design.widget.CoordinatorLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,12 +43,15 @@ public class MainActivity extends AppCompatActivity {
     private Button increButton;
     private Button decreButton;
     private TextView mValue;
-
+    private ProgressBar toolbarProgressCircle;
+    private Toolbar mToolbar;
+    private ListView btList;
     int count = 0;
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
+    private BluetoothDevicesAdapter btDevicesAdapter;
     private StringBuilder recDataString = new StringBuilder();
-
+    private CoordinatorLayout mCoordinatorLayout;
 
     // SPP UUID service - this should work for most devices
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -51,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private Set<BluetoothDevice> pairedDevices;
-    private final static int REQUEST_ENABLE_BT=1;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -82,22 +92,59 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        // bluetooth button
         btButton = findViewById(R.id.btButton);
         btButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //open(view);
-                if(!mBluetoothAdapter.isEnabled())
+                if(mBluetoothAdapter.isEnabled())
                 {
-                    //open(view);
-                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                    bluetoothSearch();
                 } else {
-                    Toast.makeText(MainActivity.this, "Bluetooth already enabled",
-                            Toast.LENGTH_LONG).show();
+                    bluetoothEnable();
                 }
             }
         });
+
+        // bluetooth device list
+        btList = findViewById(R.id.btList);
+        btList.setOnClickListener(new View.OnClickListener(int position) {
+            @Override
+            public void onClick(View view) {
+                mToolbar.setSubtitle("Asking to connect");
+                final BluetoothDevice device = bluetoothDevicesAdapter.getItem(position);
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setCancelable(false)
+                        .setTitle("Connect")
+                        .setMessage("Do you want to connect to: " + device.getName() + " - " +
+                                device.getAddress())
+                        .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Log.d(Constants.TAG, "Opening new Activity");
+                                mBluetoothAdapter.cancelDiscovery();
+                                toolbarProgressCircle.setVisibility(View.INVISIBLE);
+
+                                Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
+
+                                intent.putExtra(Constants.EXTRA_DEVICE, device);
+
+                                startActivity(intent);
+                            }
+                        })
+
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mToolbar.setSubtitle("Cancelled connection");
+                                Log.d(Constants.TAG, "Cancelled");
+                            }
+                        }).show();
+
+            }
+        })
 
         mValue = findViewById(R.id.value);
 
@@ -125,12 +172,42 @@ public class MainActivity extends AppCompatActivity {
         //finish();
 
     }
+
+
+
+    private void bluetoothSearch() {
+        if (mBluetoothAdapter.startDiscovery()) {
+            toolbarProgressCircle.setVisibility(View.VISIBLE);
+            mToolbar.setSubtitle("Searching for bluetooth devices");
+        } else {
+            mToolbar.setSubtitle("Error");
+            Snackbar.make(mCoordinatorLayout, "Failed to start searching",
+                    Snackbar.LENGTH_INDEFINITE).setAction("Try Again",
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            bluetoothSearch();
+                        }
+                    }).show();
+        }
+    }
+
+    private void bluetoothEnable() {
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBtIntent, Constants.REQUEST_ENABLE_BT);
+
+        Toast.makeText(MainActivity.this, "Bluetooth already enabled",
+                Toast.LENGTH_LONG).show();
+    }
+
     BluetoothDevice ArduinoDevice;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Bluetooth enabled", Toast.LENGTH_LONG).show();
+                bluetoothSearch();
+                /*Toast.makeText(this, "Bluetooth enabled", Toast.LENGTH_LONG).show();
                 pairedDevices = mBluetoothAdapter.getBondedDevices();
                 if (pairedDevices.size()>0) {
                     for (BluetoothDevice device: pairedDevices) {
@@ -140,11 +217,20 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
                     }
-                }
+                }*/
                 //open(View);
                 //pairedDevice(); //method that will be called
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "User canceled", Toast.LENGTH_LONG).show();
+            } else {
+                mToolbar.setSubtitle("Error");
+                Snackbar.make(mCoordinatorLayout, "Failed to enable bluetooth",
+                        Snackbar.LENGTH_INDEFINITE).setAction("Try Again",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                bluetoothEnable();
+                            }
+                        }).show();
+                //Toast.makeText(this, "User canceled", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -245,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };*/
 
-    public void open(View view){
+    /*public void open(View view){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Allow this application to use bluetooth?");
                 alertDialogBuilder.setPositiveButton("Yes",
@@ -266,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-    }
+    }*/
 
 
 
