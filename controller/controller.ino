@@ -2,7 +2,7 @@ volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, c
 volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
 unsigned long inRatio;
-unsigned long outRatio;
+unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 
 /*
  * Calculate inRatio via stored values.
@@ -22,7 +22,7 @@ void setup() {
 
   // change hardCoded numbers to be read in from EEPROM
   updateInputRatio(4, 1.04829, 1.0);
-  outRatio = 1.4;
+  outRatio = 1.4 * 10000000;
 
   // Configure PWM (Count Up, Fast PWM 10-bit, CLK/64)
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
@@ -49,7 +49,7 @@ ISR(EXT_INT1_vect) {
     return;
 
   SPHr = inRatio / (ctime - ptime);
-  targetRPM = SPHr * targetRPM;
+  targetRPM = SPHr * outRatio / 10000000;
 }
 
 void loop() {
