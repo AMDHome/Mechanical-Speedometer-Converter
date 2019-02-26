@@ -1,6 +1,6 @@
 package com.android.mechanicalspeedometerconverter;
 
-import android.support.v7.widget.RecyclerView;
+//import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -11,18 +11,15 @@ import android.widget.TextView;
 
 public class BluetoothDevicesAdapter extends ArrayAdapter<BluetoothDevice> {
 
-    public TextView name;
-    public TextView address;
 
-    // View lookup cache
-     public View viewHolder(View view) {
-        //super(view);
-        name = view.findViewById(R.id.device_name);
-        address = view.findViewById(R.id.device_address);
+    static class ViewHolder {
+        TextView name;
+        TextView address;
 
-        //public ViewHolder(View view) {
-        //    ButterKnife.bind(this, view);
-        //}
+        public ViewHolder(View view) {
+            name = view.findViewById(R.id.device_name);
+            address = view.findViewById(R.id.device_address);
+        }
     }
 
     public BluetoothDevicesAdapter(Context context) {
@@ -32,6 +29,7 @@ public class BluetoothDevicesAdapter extends ArrayAdapter<BluetoothDevice> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder viewHolder;
         // Get the data item for this position
         BluetoothDevice device = getItem(position);
 
@@ -41,7 +39,7 @@ public class BluetoothDevicesAdapter extends ArrayAdapter<BluetoothDevice> {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_device, parent, false);
-            viewHolder = new viewHolder(convertView);
+            viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
 
         } else {

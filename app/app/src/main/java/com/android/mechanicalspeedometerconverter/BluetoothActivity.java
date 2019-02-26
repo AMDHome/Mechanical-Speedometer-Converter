@@ -33,19 +33,12 @@ public class BluetoothActivity extends AppCompatActivity {
     BluetoothService bluetoothService;
     BluetoothDevice device;
 
-    @Bind(R.id.edit_text)
     EditText editText;
-    @Bind(R.id.send_button)
     Button sendButton;
-    @Bind(R.id.chat_list_view)
     ListView chatListView;
-    @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.empty_list_item)
     TextView emptyListTextView;
-    @Bind(R.id.toolbar_progress_bar)
-    ProgressBar toolbalProgressBar;
-    @Bind(R.id.coordinator_layout_bluetooth)
+    ProgressBar toolbarProgressBar;
     CoordinatorLayout coordinatorLayout;
 
     MenuItem reconnectButton;
@@ -57,16 +50,6 @@ public class BluetoothActivity extends AppCompatActivity {
     private boolean autoScrollIsChecked = true;
     public static boolean showTimeIsChecked = true;
 
-    @OnClick(R.id.send_button) void send() {
-        // Send a item_message using content of the edit text widget
-        String message = editText.getText().toString();
-        if (message.trim().length() == 0) {
-            editText.setError("Enter text first");
-        } else {
-            sendMessage(message);
-            editText.setText("");
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,20 +57,38 @@ public class BluetoothActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bluetooth);
 
 
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
 
+        editText = findViewById(R.id.edit_text);
         editText.setError("Enter text first");
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    send();
+
+                    sendButton = findViewById(R.id.send_button);
+                    sendButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick (View view){
+
+                            // Send a item_message using content of the edit text widget
+                            String message = editText.getText().toString();
+                            if (message.trim().length() == 0) {
+                                editText.setError("Enter text first");
+                            } else {
+                                sendMessage(message);
+                                editText.setText("");
+                            }
+                        }
+                    });
+
                     return true;
                 }
                 return false;
             }
         });
 
+        coordinatorLayout = findViewById(R.id.coordinator_layout_bluetooth);
         snackTurnOn = Snackbar.make(coordinatorLayout, "Bluetooth turned off", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Turn On", new View.OnClickListener() {
                     @Override public void onClick(View v) {
@@ -98,13 +99,19 @@ public class BluetoothActivity extends AppCompatActivity {
 
 
         chatAdapter = new ChatAdapter(this);
+
+        chatListView = findViewById(R.id.chat_list_view);
+
+        emptyListTextView = findViewById(R.id.empty_list_item);
         chatListView.setEmptyView(emptyListTextView);
         chatListView.setAdapter(chatAdapter);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        toolbarProgressBar = findViewById(R.id.toolbar_progress_bar);
         myHandler handler = new myHandler(BluetoothActivity.this);
 
 
@@ -172,7 +179,6 @@ public class BluetoothActivity extends AppCompatActivity {
         }
     }
 
-
     private static class myHandler extends Handler {
         private final WeakReference<BluetoothActivity> mActivity;
 
@@ -191,20 +197,20 @@ public class BluetoothActivity extends AppCompatActivity {
                         case Constants.STATE_CONNECTED:
                             activity.setStatus("Connected");
                             activity.reconnectButton.setVisible(false);
-                            activity.toolbalProgressBar.setVisibility(View.GONE);
+                            activity.toolbarProgressBar.setVisibility(View.GONE);
                             break;
                         case Constants.STATE_CONNECTING:
                             activity.setStatus("Connecting");
-                            activity.toolbalProgressBar.setVisibility(View.VISIBLE);
+                            activity.toolbarProgressBar.setVisibility(View.VISIBLE);
                             break;
                         case Constants.STATE_NONE:
                             activity.setStatus("Not Connected");
-                            activity.toolbalProgressBar.setVisibility(View.GONE);
+                            activity.toolbarProgressBar.setVisibility(View.GONE);
                             break;
                         case Constants.STATE_ERROR:
                             activity.setStatus("Error");
                             activity.reconnectButton.setVisible(true);
-                            activity.toolbalProgressBar.setVisibility(View.GONE);
+                            activity.toolbarProgressBar.setVisibility(View.GONE);
                             break;
                     }
                     break;

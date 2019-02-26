@@ -9,58 +9,39 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
-import android.widget.Toast;
 import android.content.Intent;
 import android.bluetooth.BluetoothAdapter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import java.util.Set;
+//import java.util.Set;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import java.util.ArrayList;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.ListView;
-import android.bluetooth.BluetoothSocket;
-import android.bluetooth.BluetoothServerSocket;
-import java.util.UUID;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.concurrent.CompletionService;
-
-import android.os.Handler;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.CoordinatorLayout;
+import android.content.IntentFilter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
-    private Button btButton;
-    private Button increButton;
-    private Button decreButton;
-    private TextView mValue;
-    private ProgressBar toolbarProgressCircle;
+    private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothDevicesAdapter btDevicesAdapter;
+
     private Toolbar mToolbar;
     private ListView btList;
-    int count = 0;
-    private BluetoothAdapter btAdapter = null;
-    private BluetoothSocket btSocket = null;
-    private BluetoothDevicesAdapter btDevicesAdapter;
-    private StringBuilder recDataString = new StringBuilder();
+    private TextView emptyListView;
+    private ProgressBar toolbarProgressCircle;
     private CoordinatorLayout mCoordinatorLayout;
 
-    // SPP UUID service - this should work for most devices
-    private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private TextView mTextMessage;
+    private Button btButton;
+    //private Button increButton;
+    //private Button decreButton;
+    //private TextView mValue;
 
-    // String for MAC address
-    private static String address;
-
-    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    private Set<BluetoothDevice> pairedDevices;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -85,15 +66,48 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // bluetooth button
+        mToolbar = findViewById(R.id.toolbar);
+        btList = findViewById(R.id.devices_list_view);
+        emptyListView = findViewById(R.id.empty_list_item);
+        mCoordinatorLayout = findViewById(R.id.coordinator_layout_main);
+        mTextMessage = findViewById(R.id.message);
         btButton = findViewById(R.id.btButton);
+        toolbarProgressCircle = findViewById(R.id.toolbar_progress_bar);
+        //mValue = findViewById(R.id.value);
+
+        setSupportActionBar(mToolbar);
+        mToolbar.setSubtitle("None");
+
+        btDevicesAdapter = new BluetoothDevicesAdapter(this);
+
+        btList.setAdapter(btDevicesAdapter);
+        btList.setEmptyView(emptyListView);
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (mBluetoothAdapter == null) {
+            Log.e(Constants.TAG, "Device has no bluetooth");
+            new AlertDialog.Builder(MainActivity.this)
+                    .setCancelable(false)
+                    .setTitle("No Bluetooth")
+                    .setMessage("Your device has no bluetooth")
+                    .setPositiveButton("Close app", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            Log.d(Constants.TAG, "App closed");
+                            finish();
+                        }
+                    }).show();
+        }
+
+
+        // bluetooth button
         btButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,12 +122,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // bluetooth device list
-        btList = findViewById(R.id.btList);
-        btList.setOnClickListener(new View.OnClickListener(int position) {
+        btList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //btList.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View view) {
                 mToolbar.setSubtitle("Asking to connect");
-                final BluetoothDevice device = bluetoothDevicesAdapter.getItem(position);
+                final BluetoothDevice device = btDevicesAdapter.getItem(position);
 
                 new AlertDialog.Builder(MainActivity.this)
                         .setCancelable(false)
@@ -125,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Log.d(Constants.TAG, "Opening new Activity");
                                 mBluetoothAdapter.cancelDiscovery();
+
                                 toolbarProgressCircle.setVisibility(View.INVISIBLE);
 
                                 Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
@@ -144,11 +162,11 @@ public class MainActivity extends AppCompatActivity {
                         }).show();
 
             }
-        })
+        });
 
-        mValue = findViewById(R.id.value);
 
-        increButton = findViewById(R.id.increButton);
+
+        /*increButton = findViewById(R.id.increButton);
         increButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,11 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 mValue.setText(Integer.toString(count));
                 //mConnectedThread.write(count);
             }
-        });
-        //Intent homeIntent= new Intent(MainActivity.this, CalibrateActivity.class);
-        //startActivity(homeIntent);
-        //finish();
-
+        });*/
     }
 
 
@@ -193,33 +207,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bluetoothEnable() {
+        mToolbar.setSubtitle("Enabling Bluetooth");
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, Constants.REQUEST_ENABLE_BT);
-
-        Toast.makeText(MainActivity.this, "Bluetooth already enabled",
-                Toast.LENGTH_LONG).show();
     }
 
-    BluetoothDevice ArduinoDevice;
+    @Override protected void onStart() {
+        super.onStart();
+
+        Log.d(Constants.TAG, "Registering receiver");
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(mReceiver, filter);
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        Log.d(Constants.TAG, "Receiver unregistered");
+        unregisterReceiver(mReceiver);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
                 bluetoothSearch();
-                /*Toast.makeText(this, "Bluetooth enabled", Toast.LENGTH_LONG).show();
-                pairedDevices = mBluetoothAdapter.getBondedDevices();
-                if (pairedDevices.size()>0) {
-                    for (BluetoothDevice device: pairedDevices) {
-                        if (device.getName().equals("DSD TECH HC-05")) {
-                            ArduinoDevice = device;
-                            Toast.makeText(this, "Bluetooth connected", Toast.LENGTH_LONG).show();
-                            break;
-                        }
-                    }
-                }*/
-                //open(View);
-                //pairedDevice(); //method that will be called
             } else {
                 mToolbar.setSubtitle("Error");
                 Snackbar.make(mCoordinatorLayout, "Failed to enable bluetooth",
@@ -234,6 +249,42 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    // Create a BroadcastReceiver for ACTION_FOUND
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Get the BluetoothDevice object from the Intent
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                device.fetchUuidsWithSdp();
+
+                if (btDevicesAdapter.getPosition(device) == -1) {
+                    // -1 is returned when the item is not in the adapter
+                    btDevicesAdapter.add(device);
+                    btDevicesAdapter.notifyDataSetChanged();
+                }
+
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                toolbarProgressCircle.setVisibility(View.INVISIBLE);
+                mToolbar.setSubtitle("None");
+
+            } else if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                switch (state) {
+                    case BluetoothAdapter.STATE_OFF:
+                        Snackbar.make(mCoordinatorLayout, "Bluetooth turned off", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("Turn on", new View.OnClickListener() {
+                                    @Override public void onClick(View v) {
+                                        bluetoothEnable();
+                                    }
+                                }).show();
+                        break;
+                }
+            }
+        }
+    };
 
     /*Button bluetooth = (Button) findViewById(R.id.button);
     private void pairedDevice()
@@ -260,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
 
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
         final LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View Viewlayout = inflater.inflate(R.layout.activity_main, (ViewGroup) findViewById(R.id.bt_list));
+        final View Viewlayout = inflater.inflate(R.layout.oldactivity_main, (ViewGroup) findViewById(R.id.bt_list));
         popDialog.setTitle("Paired Bluetooth Devices");
         popDialog.setView(Viewlayout);
 

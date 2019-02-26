@@ -6,12 +6,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:divider">@color/dividerColor</item>
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/ugf_logo</item>
         <!-- <item name="android:adjustViewBounds">true</item>
          <item name="android:scaleType">centerCrop</item>-->
+    </style>
+
+    <style name="CustomToolbarColor" parent="@style/ThemeOverlay.AppCompat.Dark" >
+        <item name="android:textColorSecondary"> @color/colorTextSecondary </item>
     </style>
 
 </resources>
