@@ -138,7 +138,7 @@ public class ledControl extends AppCompatActivity {
         {
             try
             {
-                btSocket.getOutputStream().write("d".toString().getBytes());
+                btSocket.getOutputStream().write("b".toString().getBytes());
             }
             catch (IOException e)
             {
@@ -160,7 +160,16 @@ public class ledControl extends AppCompatActivity {
                 if (a!=null) {
                     msg("InputStream a is not null");
                     int str=a.read();
-                    System.out.println(str);
+                    System.out.println("receiving " + str);
+                    if(str==122) {
+                        System.out.println("122 is Z");
+                    }
+                    if(str==10) {
+                        System.out.println("10 is LF");
+                    }
+                    if(str==13) {
+                        System.out.println("13 is CR");
+                    }
 //                    String str = convertInputStreamToString(a);
 
   //                  System.out.println(str);
@@ -174,52 +183,6 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
-
-    private static String convertInputStreamToString(InputStream is) {
-
-        BufferedReader br = null;
-        StringBuilder sbContent = new StringBuilder();
-
-        try{
-
-            /*
-             * Create BufferedReader from InputStreamReader
-             */
-            br = new BufferedReader(new InputStreamReader(is));
-
-            /*
-             * read line by line and append content to
-             * StringBuilder
-             */
-            String strLine = null;
-            boolean isFirstLine = true;
-
-            while( (strLine = br.readLine()) != null){
-                if(isFirstLine)
-                    sbContent.append(strLine);
-                else
-                    sbContent.append("\n").append(strLine);
-
-                /*
-                 * Flag to make sure we don't append new line
-                 * before the first line.
-                 */
-                isFirstLine = false;
-            }
-
-        }catch(IOException ioe){
-            ioe.printStackTrace();
-        }finally{
-            try{
-                if(br  != null)
-                    br.close();
-            }catch(Exception e){ e.printStackTrace();  }
-        }
-
-        //convert StringBuilder to String and return
-        return sbContent.toString();
-    }
-
 
     private void msg(String s)
     {
