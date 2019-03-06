@@ -4,7 +4,7 @@ volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored
 unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 
-volatile unsigned long comp_ptime = 0;
+volatile unsigned long pTime = 0;
 
 /*
  * Calculate inRatio via stored values.
@@ -30,9 +30,9 @@ void setup() {
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
   TCCR1B = _BV(WGM12) | _BV(CS11) | _BV(CS10);
 
-  // Enable HW Interrupts: INT1 Rising Interrupt
-  EIMSK = _BV(INT1);
-  EICRA = _BV(ISC11) | _BV(ISC10);
+  // Enable Analog Comparator
+  ADCSRB = 0;
+  ACSR = _BV(ACI) | _BV(ACIE);
 
   // No Load Operating Values
   // Start-Up Min 205, Absolute Min: 0
@@ -40,18 +40,35 @@ void setup() {
   OCR1A = 0;
 }
 
-ISR(EXT_INT1_vect) {
-  static unsigned long comp_ptime = 0;
-  static unsigned long ctime = 0;
+ISR(ANALOG_COMP_vect) {
+  static unsigned long prevTime = 0;
+  static unsigned long currTime = 0;
+  static unsigned long elapsedTime = -1;
+  static char cycle = 1;
   
-  ctime = micros();
+  currTime = micros();
 
   // if counter overflow then just ignore, happens once every 70-ish minutes
-  if(ctime < comp_ptime)
+  if(currTime < prevTime) {
+    cycle += 1;
+    pTime = currTime;
     return;
+  }
 
-  SPHr = (unsigned long)inRatio / (ctime - comp_ptime);
-  targetRPM = (unsigned long) SPHr * outRatio / 10000000;
+  if(currTime - prevTime > 2000) {
+    if(cycle % 2) {
+      elapsedTime = currTime - prevTime;
+      
+    } else {
+      elapsedTime += currTime - prevTime;
+      pTime = currTime;
+      SPHr = (unsigned long) inRatio / elapsedTime;
+      targetRPM = (unsigned long) SPHr * outRatio / 10000000;
+    }
+
+    prevTime = currTime;
+    cycle += 1;
+  }  
 }
 
 void loop() {
@@ -95,7 +112,7 @@ void loop() {
 
    delay(50);
 
-   if(micros() - comp_ptime > inRatio) {
+   if(micros() - pTime > inRatio) {
     SPHr = 0;
    }
 }
