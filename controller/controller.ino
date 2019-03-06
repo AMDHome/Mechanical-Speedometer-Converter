@@ -44,17 +44,26 @@ ISR(ANALOG_COMP_vect) {
   static unsigned long prevTime = 0;
   static unsigned long currTime = 0;
   static unsigned long elapsedTime = -1;
-  static char cycle = 1;
+  static byte cycle = 1;
+  static bool skipNext = false;
   
   currTime = micros();
 
   // if counter overflow then just ignore, happens once every 70-ish minutes
-  if(currTime < prevTime) {
+  if(currTime < prevTime || skipNext) {
+    if(cycle % 2)
+      skipNext = true;
+      
+    if(skipNext)
+      skipNext = false;
+      
     cycle += 1;
     pTime = currTime;
     return;
   }
 
+  // There are two pulses of time we need to add to get total time between magnets.
+  // Do math on second pulse
   if(currTime - prevTime > 2000) {
     if(cycle % 2) {
       elapsedTime = currTime - prevTime;
