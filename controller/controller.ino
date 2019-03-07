@@ -38,6 +38,10 @@ void setup() {
   ADCSRB = 0;
   ACSR = _BV(ACI) | _BV(ACIE);
 
+  // Enable HW Interrupts: INT0 Rising Interrupt 
+  EIMSK = _BV(INT0); 
+  EICRA = _BV(ISC01) | _BV(ISC00); 
+
   // No Load Operating Values
   // Start-Up Min 205, Absolute Min: 0
   // Operating Range ~180 - 1023 (Lowest operating value may be lower)
@@ -82,6 +86,10 @@ ISR(ANALOG_COMP_vect) {
     prevTime = currTime;
     cycle += 1;
   }  
+}
+
+ISR(EXT_INT0_vect) {
+
 }
 
 void loop() {
