@@ -27,7 +27,7 @@ void setup() {
 
   // change hardCoded numbers to be read in from EEPROM
   updateInputRatio(4, 1.04829, 1.0);
-  outRatio = 1.4 * 10000000;
+  outRatio = 1.4 * 1000000;
   maxSpeed = 160;
 
   // Configure PWM (Count Up, Fast PWM 10-bit, CLK/64)
@@ -76,7 +76,7 @@ ISR(ANALOG_COMP_vect) {
       elapsedTime += currTime - prevTime;
       pTime = currTime;
       SPHr = (unsigned long) inRatio / elapsedTime;
-      targetRPM = (unsigned long) SPHr * outRatio / 10000000;
+      targetRPM = (unsigned long) SPHr * outRatio / 1000000;
     }
 
     prevTime = currTime;
@@ -91,6 +91,7 @@ void loop() {
   if(micros() - pTime > inRatio) {
     SPHr = 0;
     targetRPM = 0;
+    OCR1A = 0;
   }
 }
 
