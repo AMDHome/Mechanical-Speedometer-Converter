@@ -9,7 +9,7 @@
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowBackground">@drawable/ugf_logo</item>
         <!-- <item name="android:adjustViewBounds">true</item>
          <item name="android:scaleType">centerCrop</item>-->
     </style>
