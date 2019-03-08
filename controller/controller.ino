@@ -100,7 +100,7 @@ ISR(ANALOG_COMP_vect) {
     cycle += 1;
   }
 }
-/* Every 10ms (can be changed), a measurement of current motor RPM is taken. At this time, the error
+/* Every 100ms (can be changed), a measurement of current motor RPM is taken. At this time, the error
  * between targetRPM and currentRPM is used to make a change to OCR1A via PID. This process is repsonsible
  * for all PWM control except entering and exiting rest, since at rest this interrupt will not run.
  */
@@ -126,15 +126,16 @@ ISR(INT0_vect) {
   quarterTurns++; //Increment quarter turns every 5th slot
   slotCounter = 0;
 
-  if (current_time - last_time < 10000) //In addition, if > 10ms has elapsed, compute currentRPM
+  if (current_time - last_time < 100000) //In addition, if > 100ms has elapsed, compute currentRPM
     return;
 
   elapsed = current_time - last_time;
-  /* Quarter turns*10 to match targetRPM format, divided by 4 to get revolutions,
-   * divided by elapsed to get revolutions per microsecond, times one million micros/sec
-   * to get revolutions per second, times 60 to get rpm.
+  /* Math is quarter turns*10 to match targetRPM format, divided by 4 to get revs,
+   * divided by elapsed to get revs per microsecond, times one million micros/sec
+   * to get revs per second, times 60 to get rpm. But the order actually used is 
+   * slightly different to get division to occur at the end. 
    */
-  currentRPM = (((quarterTurns*10)/4)/elapsed)*1000000*60;
+  currentRPM = ((quarterTurns*10*1000000*60)/4)/elapsed;
   /* PID Implementation. Divisions by a hard coded 100 reflect that the PID coefficients
    * (kp, ki, kd) are larger by a factor of 100 to avoid float use. These may require
    * additional tuning.
