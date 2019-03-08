@@ -23,7 +23,7 @@ import android.os.Handler;
 import android.widget.TextView;
 
 
-import com.ecs193.speedometerconverter.R;
+//import com.ecs193.speedometerconverter.BluetoothActivity;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private Set<BluetoothDevice> pairedDevices;
 
 
+    //public void getBluetoothActivity() {}
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -51,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
                     //Intent a = new Intent(MainActivity.this,BluetoothActivity.class);
                     //startActivity(a);
                     //findViewById(R.id.bluetoothLayout).setVisibility(View.VISIBLE);
+
+                    //BluetoothActivity cls2 = new BluetoothActivity();
+                    //cls2.getBluetoothActivity();
+
                     BluetoothActivity();
                     return true;
                 case R.id.bottombar_settings:

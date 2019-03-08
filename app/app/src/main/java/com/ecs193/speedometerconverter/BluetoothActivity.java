@@ -49,11 +49,11 @@ public class BluetoothActivity extends MainActivity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bluetooth);
+    //@Override
+    //protected void onCreate(Bundle savedInstanceState) {
+    public void getBluetoothActivity() {
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_bluetooth);
 
         Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
 

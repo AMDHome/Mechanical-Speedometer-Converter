@@ -8,17 +8,25 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.ecs193.speedometerconverter.R;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.UUID;
 
 
@@ -28,8 +36,9 @@ public class ledControl extends AppCompatActivity {
 
 
     Button btnOn, btnOff, btnDis;
-    SeekBar brightness;
+    EditText txtField,txtField2,txtField3,txtField4,txtField5;
     TextView lumn;
+    ToggleButton tog;
     String address = null;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
@@ -44,7 +53,7 @@ public class ledControl extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent newint = getIntent();
-        address = newint.getStringExtra(BluetoothActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
+        address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
 
         //view of the ledControl
         setContentView(R.layout.activity_led_control);
@@ -53,10 +62,206 @@ public class ledControl extends AppCompatActivity {
         btnOn = (Button)findViewById(R.id.button2);
         btnOff = (Button)findViewById(R.id.button3);
         btnDis = (Button)findViewById(R.id.button4);
-        brightness = (SeekBar)findViewById(R.id.seekBar);
-        //lumn = (TextView)findViewById(R.id.lumn);
+        txtField = (EditText)findViewById(R.id.editText);
+        txtField2 = (EditText)findViewById(R.id.editText2);
+        txtField3 = (EditText)findViewById(R.id.editText3);
+        txtField4 = (EditText)findViewById(R.id.editText4);
+        txtField5 = (EditText)findViewById(R.id.editText5);
+        tog = (ToggleButton)findViewById(R.id.toggleButton);
+
 
         new ConnectBT().execute(); //Call the class to connect
+
+        tog.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() { //TOGGLE
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    if (btSocket!=null) {
+                        try
+                        {
+                            String str="U:";
+                            str=str+"0"+'\0';
+
+                            System.out.println(str);
+
+                            btSocket.getOutputStream().write(str.toString().getBytes());
+                        }
+                        catch (IOException e)
+                        {
+                            msg("Error");
+                        }
+                    }
+
+                } else {
+                    // The toggle is disabled
+                    if (btSocket!=null) {
+                        try
+                        {
+                            String str="U:";
+                            str=str+"1"+'\0';
+                            System.out.println(str);
+
+                            btSocket.getOutputStream().write(str.toString().getBytes());
+                        }
+                        catch (IOException e)
+                        {
+                            msg("Error");
+                        }
+                    }
+                }
+            }
+        });
+
+        txtField.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+
+                    if (btSocket!=null) {
+                        try
+                        {
+                            //String str = getText();
+                            String str = txtField.getText().toString();
+                            str="M:" + str + '\0';
+                            System.out.println(str);
+
+                            btSocket.getOutputStream().write(str.toString().getBytes());
+                        }
+                        catch (IOException e)
+                        {
+                            msg("Error");
+                        }
+                    }
+
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
+        txtField2.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD 2
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+
+                    if (btSocket!=null) {
+                        try
+                        {
+                            //String str = getText();
+                            String str = txtField2.getText().toString();
+                            str="N:" + str + '\0';
+                            System.out.println(str);
+
+                            btSocket.getOutputStream().write(str.toString().getBytes());
+                        }
+                        catch (IOException e)
+                        {
+                            msg("Error");
+                        }
+                    }
+
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
+        txtField3.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD 3
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+
+                    if (btSocket!=null) {
+                        try
+                        {
+                            //String str = getText();
+                            String str = txtField3.getText().toString();
+                            int result = Integer.parseInt(str);
+                            result=result*1000000;
+                            str=new Integer(result).toString();
+                            str="F:" + str + '\0';
+                            System.out.println(str);
+                            btSocket.getOutputStream().write(str.toString().getBytes());
+                        }
+                        catch (IOException e)
+                        {
+                            msg("Error");
+                        }
+                    }
+
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
+        txtField4.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD 4
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+
+                    if (btSocket!=null) {
+                        try
+                        {
+                            //String str = getText();
+                            //String str = txtField.getText().toString();
+                            String str = txtField4.getText().toString();
+                            int result = Integer.parseInt(str);
+                            result=result*1000000;
+                            str=new Integer(result).toString();
+                            str="S:" + str + '\0';
+                            System.out.println(str);
+
+                            btSocket.getOutputStream().write(str.toString().getBytes());
+
+                        }
+                        catch (IOException e)
+                        {
+                            msg("Error");
+                        }
+                    }
+
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
+        txtField5.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD 5
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+
+                    if (btSocket!=null) {
+                        try
+                        {
+                            //String str = getText();
+                            String str = txtField5.getText().toString();
+                            int result = Integer.parseInt(str);
+                            result=result*100000000;
+                            result=result / 63360;
+                            str=new Integer(result).toString();
+                            str="W:" + str + '\0';
+                            System.out.println(str);
+
+                            btSocket.getOutputStream().write(str.toString().getBytes());
+                        }
+                        catch (IOException e)
+                        {
+                            msg("Error");
+                        }
+                    }
+
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
         btnOn.setOnClickListener(new View.OnClickListener()
         {
@@ -84,33 +289,7 @@ public class ledControl extends AppCompatActivity {
             }
         });
 
-        brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser==true)
-                {
-                    lumn.setText(String.valueOf(progress));
-                    try
-                    {
-                        btSocket.getOutputStream().write(String.valueOf(progress).getBytes());
-                    }
-                    catch (IOException e)
-                    {
 
-                    }
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
 
     }
 
@@ -135,7 +314,7 @@ public class ledControl extends AppCompatActivity {
         {
             try
             {
-                btSocket.getOutputStream().write("b".toString().getBytes());
+                btSocket.getOutputStream().write("ab".toString().getBytes());
             }
             catch (IOException e)
             {
@@ -152,25 +331,12 @@ public class ledControl extends AppCompatActivity {
             {
                 InputStream a=null;
                 btSocket.getOutputStream().write("a".toString().getBytes());
+
                 a = btSocket.getInputStream();
-                //btSocket.getInputStream();
                 if (a!=null) {
                     msg("InputStream a is not null");
                     int str=a.read();
-                    System.out.println("receiving " + str);
-                    if(str==122) {
-                        System.out.println("122 is Z");
-                    }
-                    if(str==10) {
-                        System.out.println("10 is LF");
-                    }
-                    if(str==13) {
-                        System.out.println("13 is CR");
-                    }
-//                    String str = convertInputStreamToString(a);
-
-  //                  System.out.println(str);
-
+                    System.out.println(str);
 
                 }
             }
@@ -180,6 +346,7 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
+
 
     private void msg(String s)
     {
