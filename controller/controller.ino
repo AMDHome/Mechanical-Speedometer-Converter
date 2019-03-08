@@ -24,6 +24,7 @@ void updateInputRatio(char numMag, float wheelCirc, float finalDrive) {
 void setup() {
   Serial.begin(9600);
   pinMode(9, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   // change hardCoded numbers to be read in from EEPROM
   updateInputRatio(4, 1.04829, 1.0);
@@ -88,13 +89,15 @@ ISR(ANALOG_COMP_vect) {
   }  
 }
 
-ISR(EXT_INT0_vect) {
+ISR(INT0_vect) {
 
 }
 
 void loop() {
 
   checkBT();
+
+  delay(100);
 
   if(micros() - pTime > inRatio) {
     SPHr = 0;
@@ -170,8 +173,9 @@ char recvData(char* data) {
       digitalWrite(LED_BUILTIN, HIGH);
       return '\0';
     }
-  }
 
-  digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  
   return type;
 }
