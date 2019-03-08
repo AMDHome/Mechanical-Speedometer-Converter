@@ -35,13 +35,14 @@ void updateInputRatio(char numMag, float wheelCirc, float finalDrive) {
 }
 
 void setup() {
+  float temp;
   Serial.begin(9600);
   pinMode(9, OUTPUT);
 
   // change hardCoded numbers to be read in from EEPROM
-  updateInputRatio(4, 1.04829, 1.0);
-  outRatio = 1.4 * 1000000;
-  maxSpeed = 160;
+  updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+  outRatio = EEPROM.get(8, outRatio);
+  EEPROM.get(1, maxSpeed);
 
   // Configure PWM (Count Up, Fast PWM 10-bit, CLK/64)
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
@@ -132,8 +133,8 @@ ISR(INT0_vect) {
   elapsed = current_time - last_time;
   /* Math is quarter turns*10 to match targetRPM format, divided by 4 to get revs,
    * divided by elapsed to get revs per microsecond, times one million micros/sec
-   * to get revs per second, times 60 to get rpm. But the order actually used is 
-   * slightly different to get division to occur at the end. 
+   * to get revs per second, times 60 to get rpm. But the order actually used is
+   * slightly different to get division to occur at the end.
    */
   currentRPM = ((quarterTurns*10*1000000*60)/4)/elapsed;
   /* PID Implementation. Divisions by a hard coded 100 reflect that the PID coefficients
@@ -160,6 +161,7 @@ ISR(INT0_vect) {
 void loop() {
 
   checkBT();
+  delay(150);
 
   if(micros() - pTime > inRatio) { //We have come to rest; stop the motor
     SPHr = 0;
@@ -175,31 +177,38 @@ void loop() {
 
 void checkBT() {
   static char data[13];
+  bool updated = false;
+  float temp;
 
   // check and recieve data
   switch(recvData(data)) {
     case 'U': // Store Units
       EEPROM.update(0, data[0] - '0');
+      updated = true;
       break;
 
     case 'M': // Store Max Speed
       maxSpeed = (short) atoi(data);
       EEPROM.put(1, maxSpeed);
+      updated = true;
       break;
 
     case 'N': // Store Number of Magnets
       EEPROM.update(3, data[0] - '0');
-      // Update inRatio
+      updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      updated = true;
       break;
 
     case 'F': // Store Final Drive Ratio
       EEPROM.put(4, ((float) atoi(data)) / 1000000);
-      // Update inRatio
+      updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      updated = true;
       break;
 
     case 'S': // Store Speedometer Ratio
-      outRatio = ((float) atoi(data)) / 1000000;
+      outRatio = atoi(data);
       EEPROM.put(8, outRatio);
+      updated = true;
       break;
 
     case 'W': // Store Wheel Circumference
@@ -210,6 +219,13 @@ void checkBT() {
     case '\0':
     default:
       break;
+  }
+  if(updated) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    for(byte i = 0; data[i] != '\0' && i < 13; i++) {
+      Serial.print(data[i]);
+    }
+    Serial.println("");
   }
 }
 
