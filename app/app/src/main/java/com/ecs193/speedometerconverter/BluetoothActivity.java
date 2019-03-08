@@ -3,9 +3,12 @@ package com.ecs193.speedometerconverter;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,24 +16,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.os.Handler;
-import android.widget.TextView;
-
-
-import com.ecs193.speedometerconverter.R;
-
+import android.content.Context;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
 
-    public TextView mTextMessage;
+public class BluetoothActivity extends MainActivity {
+
     public static String EXTRA_ADDRESS = "device_address";
 
     Button btnPaired;
@@ -45,25 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            // here we set the listener
             switch (item.getItemId()) {
                 case R.id.bottombar_bluetooth:
-                    //Intent a = new Intent(MainActivity.this,BluetoothActivity.class);
-                    //startActivity(a);
-                    //findViewById(R.id.bluetoothLayout).setVisibility(View.VISIBLE);
-                    BluetoothActivity();
                     return true;
                 case R.id.bottombar_settings:
-                    findViewById(R.id.textView).setVisibility(View.GONE);
-                    findViewById(R.id.button).setVisibility(View.GONE);
-                    findViewById(R.id.ListView).setVisibility(View.GONE);
-                    //findViewById(R.id.bluetoothLayout).setVisibility(ConstraintLayout.GONE);
                     return true;
                 case R.id.bottombar_data:
-                    findViewById(R.id.textView).setVisibility(View.GONE);
-                    findViewById(R.id.button).setVisibility(View.GONE);
-                    findViewById(R.id.ListView).setVisibility(View.GONE);
-                    //findViewById(R.id.bluetoothLayout).setVisibility(ConstraintLayout.GONE);
                     return true;
             }
             return false;
@@ -74,21 +53,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_bluetooth);
 
-        BluetoothActivity();
+        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        //Integer btID = getResources().getIdentifier("@string/menu_bluetooth","layout", getPackageName());
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-    }
-
-    void BluetoothActivity() {
-        findViewById(R.id.textView).setVisibility(View.VISIBLE);
-        findViewById(R.id.button).setVisibility(View.VISIBLE);
-        findViewById(R.id.ListView).setVisibility(View.VISIBLE);
-        
         btnPaired = findViewById(R.id.button);
         devicelist = findViewById(R.id.ListView);
 
@@ -115,7 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 pairedDevicesList();
             }
         });
+
+        //BottomNavigationView navigation = findViewById(R.id.navigation);
+        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
+
+
 
     public void pairedDevicesList() {
         pairedDevices = myBluetooth.getBondedDevices();
@@ -141,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
             // Make an intent to start next activity.
-            Intent i = new Intent(MainActivity.this, ledControl.class);
+            Intent i = new Intent(BluetoothActivity.this, ledControl.class);
 
             //Change the activity.
             i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
@@ -150,4 +124,3 @@ public class MainActivity extends AppCompatActivity {
     };
 
 }
-

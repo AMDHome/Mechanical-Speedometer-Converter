@@ -25,12 +25,10 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            android:label="@string/app_name"/>
+        <activity android:name=".BottomBarActivity"/>
+        <activity android:name=".BluetoothActivity">
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <activity android:name=".ledControl"></activity>

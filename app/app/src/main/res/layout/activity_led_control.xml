@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.speedometerconverter.ledControl">
+    tools:context=".ledControl">
 
     <Button
         android:id="@+id/button2"
@@ -45,11 +45,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="lumni"
         tools:layout_editor_absoluteX="175dp"
-        tools:layout_editor_absoluteY="131dp" />
+        tools:layout_editor_absoluteY="131dp" />-->
 </android.support.constraint.ConstraintLayout>
