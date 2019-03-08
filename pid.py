@@ -1,4 +1,4 @@
-#from __future__ import print_function
+# Run using Python 2.7
 import sys
 import os
 import math
@@ -6,29 +6,29 @@ import string
 import pdb
 
 pwm = 180 # Could be anything 0-1023
-current = 2000 # Could be anything 0-12000
-target = 3000 # Could be anything 0-12000
-max = 1023
-min = 0
+current = 20000 # Could be anything 0-120000, divide by 10 to get rpm
+target = 30000 # Could be anything 0-120000, divide by 10 to get rpm
+max = 1023 # PWM_MAX
+min = 0 # PWM_MIN
 oldErr = 0
 pid_i = 0
-kp = .3 # Proportional coefficient
-ki = 0.05 # Integral coefficient 
-kd = .2 # Derivative coefficient 
-elapsedTime = 100
-acceptableErr = 1
+kp = 30 # Proportional coefficient
+ki = 5 # Integral coefficient
+kd = 20 # Derivative coefficient
+elapsedTime = 10000
+acceptableErr = 20 # 2 rpm
 currRPM = []
 pwmRec = []
-rpmToPwm = 10
+rpmToPwm = 100
 # Not a true simulation obviously, but close in spirit. Here pwm is tied in a predictable way to rpm and one could simply
-# deduce the correct pwm using (target/current)*startingPWM = correctPWM. But this is not the way of the real world. 
-print("Starting RPM: " + str(current) + "   Target RPM: " + str(target) + "    Starting PWM: " + str(pwm) + "\n") 
+# deduce the correct pwm using (target/current)*startingPWM = correctPWM. But this is not the way of the real world.
+print("Starting RPM: " + str(current) + "   Target RPM: " + str(target) + "    Starting PWM: " + str(pwm) + "\n")
 print("Current Motor RPM    Recommended PWM")
 while abs(target - current) > acceptableErr:
     error = target - current
-    pid_p = kp*error
-    pid_i = pid_i + ki*error
-    pid_d = kd*((error - oldErr)/elapsedTime)
+    pid_p = kp*error/100
+    pid_i = pid_i + ki*error/100
+    pid_d = kd*((error - oldErr)/elapsedTime)/100
     PID = pid_p + pid_i + pid_d
     current += PID
     pwm += PID/rpmToPwm
@@ -39,5 +39,5 @@ while abs(target - current) > acceptableErr:
     oldErr = error
     currRPM.append(current)
     pwmRec.append(pwm)
-    print ("    " + str(int(current)) + "                  " + str(int(pwm)))
-print ("\n" + str(len(pwmRec)) + " iterations")
+    print "    " + str(int(current)) + "                  " + str(int(pwm))
+print "\n" + str(len(pwmRec)) + " iterations"
