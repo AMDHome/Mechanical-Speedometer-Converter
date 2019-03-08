@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -32,7 +34,9 @@ public class ledControl extends AppCompatActivity {
 
     Button btnOn, btnOff, btnDis;
     SeekBar brightness;
+    EditText txtField;
     TextView lumn;
+    ToggleButton tog;
     String address = null;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
@@ -56,7 +60,9 @@ public class ledControl extends AppCompatActivity {
         btnOn = (Button)findViewById(R.id.button2);
         btnOff = (Button)findViewById(R.id.button3);
         btnDis = (Button)findViewById(R.id.button4);
+        txtField = (EditText)findViewById(R.id.editText);
         brightness = (SeekBar)findViewById(R.id.seekBar);
+        tog = (ToggleButton)findViewById(R.id.toggleButton);
         //lumn = (TextView)findViewById(R.id.lumn);
 
         new ConnectBT().execute(); //Call the class to connect
@@ -138,7 +144,7 @@ public class ledControl extends AppCompatActivity {
         {
             try
             {
-                btSocket.getOutputStream().write("b".toString().getBytes());
+                btSocket.getOutputStream().write("ab".toString().getBytes());
             }
             catch (IOException e)
             {
@@ -155,21 +161,12 @@ public class ledControl extends AppCompatActivity {
             {
                 InputStream a=null;
                 btSocket.getOutputStream().write("a".toString().getBytes());
+
                 a = btSocket.getInputStream();
-                //btSocket.getInputStream();
                 if (a!=null) {
                     msg("InputStream a is not null");
                     int str=a.read();
-                    System.out.println("receiving " + str);
-                    if(str==122) {
-                        System.out.println("122 is Z");
-                    }
-                    if(str==10) {
-                        System.out.println("10 is LF");
-                    }
-                    if(str==13) {
-                        System.out.println("13 is CR");
-                    }
+                    System.out.println(str);
 //                    String str = convertInputStreamToString(a);
 
   //                  System.out.println(str);
@@ -183,6 +180,52 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
+
+    private static String convertInputStreamToString(InputStream is) {
+
+        BufferedReader br = null;
+        StringBuilder sbContent = new StringBuilder();
+
+        try{
+
+            /*
+             * Create BufferedReader from InputStreamReader
+             */
+            br = new BufferedReader(new InputStreamReader(is));
+
+            /*
+             * read line by line and append content to
+             * StringBuilder
+             */
+            String strLine = null;
+            boolean isFirstLine = true;
+
+            while( (strLine = br.readLine()) != null){
+                if(isFirstLine)
+                    sbContent.append(strLine);
+                else
+                    sbContent.append("\n").append(strLine);
+
+                /*
+                 * Flag to make sure we don't append new line
+                 * before the first line.
+                 */
+                isFirstLine = false;
+            }
+
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }finally{
+            try{
+                if(br  != null)
+                    br.close();
+            }catch(Exception e){ e.printStackTrace();  }
+        }
+
+        //convert StringBuilder to String and return
+        return sbContent.toString();
+    }
+
 
     private void msg(String s)
     {
