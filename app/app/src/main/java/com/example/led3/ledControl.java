@@ -330,7 +330,7 @@ public class ledControl extends AppCompatActivity {
             try
             {
                 InputStream a=null;
-                btSocket.getOutputStream().write("a".toString().getBytes());
+                btSocket.getOutputStream().write("m1 on".toString().getBytes());
 
                 a = btSocket.getInputStream();
                 if (a!=null) {
