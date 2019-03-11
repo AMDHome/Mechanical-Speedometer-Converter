@@ -12,10 +12,10 @@ max = 1023 # PWM_MAX
 min = 0 # PWM_MIN
 oldErr = 0
 pid_i = 0
-kp = 30 # Proportional coefficient
-ki = 5 # Integral coefficient
-kd = 20 # Derivative coefficient
-elapsedTime = 10000
+kp = 31 # Proportional coefficient
+ki = 18 # Integral coefficient
+kd = 22 # Derivative coefficient
+kff = 90
 acceptableErr = 20 # 2 rpm
 currRPM = []
 pwmRec = []
@@ -26,12 +26,12 @@ print("Starting RPM: " + str(current) + "   Target RPM: " + str(target) + "    S
 print("Current Motor RPM    Recommended PWM")
 while abs(target - current) > acceptableErr:
     error = target - current
+    ff = kff*target/100
     pid_p = kp*error/100
-    pid_i = pid_i + ki*error/100
-    pid_d = kd*((error - oldErr)/elapsedTime)/100
-    PID = pid_p + pid_i + pid_d
-    current += PID
-    pwm += PID/rpmToPwm
+    pid_i += ki*error/100
+    pid_d = kd*(error - oldErr)/100
+    current = pid_p + pid_i + pid_d + ff
+    pwm = current/rpmToPwm
     if (pwm > max):
         pwm = max
     elif (pwm < min):

@@ -15,17 +15,18 @@
 volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
 volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
-unsigned long kp = 30; // Proportional constant
-unsigned long ki = 5;  // Integral constant
-unsigned long kd = 20; // Derivative constant
-unsigned long oldErr = 0; // Previous error
-unsigned long pid_p; // Proportional term
-unsigned long pid_i = 0; // Integral term
-unsigned long pid_d; // Derivative term
-unsigned long currentRPM = 0; // Feedback from slotted wheel on motor shaft
-unsigned long quarterTurns = 0; // Number of 90 degree rotations
-unsigned long slotCounter = 0; // Will count up to five, interrupt only acts every 5th slot encountered
-unsigned long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
+const unsigned long kp = 31; // Proportional constant
+const unsigned long ki = 18;  // Integral constant
+const unsigned long kd = 22; // Derivative constant
+const unsigned long kff = 90; // Feed Forward constant
+const unsigned long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
+volatile unsigned long oldErr = 0; // Previous error
+volatile unsigned long pid_p; // Proportional term
+volatile unsigned long pid_i = 0; // Integral term
+volatile unsigned long pid_d; // Derivative term
+volatile unsigned long pid_ff; // Feed Forward term
+volatile unsigned long currentRPM = 0; // Feedback from slotted wheel on motor shaft
+volatile unsigned long revolutions = 0; // Number of 360 degree rotations
 unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
@@ -73,7 +74,6 @@ void setup() {
   TCNT0 = 0;  // Reset Counter 0
   OCR0A = 20;  // Set compare value (number of holes that pass before interrupt is triggered
 
-
   // No Load Operating Values
   // Start-Up Min 205, Absolute Min: 0
   // Operating Range ~180 - 1023 (Lowest operating value may be lower)
@@ -119,19 +119,19 @@ ISR(ANALOG_COMP_vect) {
     cycle += 1;
   }
 }
+
 /* Every 100ms (can be changed), a measurement of current motor RPM is taken. At this time, the error
  * between targetRPM and currentRPM is used to make a change to OCR1A via PID. This process is repsonsible
  * for all PWM control except entering and exiting rest, since at rest this interrupt will not run.
  */
-ISR(INT0_vect) {
+ISR(TIMER0_COMPA_vect) {
   static unsigned long current_time = 0;
   static unsigned long last_time = 0;
-  static unsigned long elapsed = -1;
+  unsigned long elapsed;
   unsigned long error;
-  unsigned long PID;
-  unsigned long deltaPWM;
+  unsigned long newPWM;
 
-  current_time = micros();
+  current_time = micros2();
 
   // As before, if timer overflow occurs, do nothing on that interrupt instance
   if(last_time > current_time) {
@@ -139,45 +139,35 @@ ISR(INT0_vect) {
     return;
   }
 
-  if (++slotCounter != 5)
-    return;
-
-  quarterTurns++; //Increment quarter turns every 5th slot
-  slotCounter = 0;
+  revolutions++; //Interrupt has occured, so 20 slots have been past
 
   if (current_time - last_time < 100000) //In addition, if > 100ms has elapsed, compute currentRPM
     return;
 
   elapsed = current_time - last_time;
-  /* Math is quarter turns*10 to match targetRPM format, divided by 4 to get revs,
-   * divided by elapsed to get revs per microsecond, times one million micros/sec
-   * to get revs per second, times 60 to get rpm. But the order actually used is
-   * slightly different to get division to occur at the end.
+  /* Math is revolutions*10 to match targetRPM format, divided by elapsed to get
+   * revs per microsecond, times one million micros/sec to get revs per second,
+   * times 60 to get rpm. But a different order is used to save division for the end.
    */
-  currentRPM = ((quarterTurns*10*1000000*60)/4)/elapsed;
-  /* PID Implementation. Divisions by a hard coded 100 reflect that the PID coefficients
-   * (kp, ki, kd) are larger by a factor of 100 to avoid float use. These may require
-   * additional tuning.
+  currentRPM = (revolutions*10*1000000*60)/elapsed;
+  /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
+   * are larger by a factor of 100 to avoid floats. These may require additional tuning.
    */
   error = targetRPM - currentRPM;
+  pid_ff = kff*targetRPM/100;
   pid_p = kp*error/100;
   pid_i += ki*error/100;
-  pid_d = kd*((error - oldErr)/elapsed)/100;
-  PID = pid_p + pid_i + pid_d;
-  deltaPWM = PID/rpmToPwm;
-  if (OCR1A + deltaPWM > MAX)
+  pid_d = kd*(error - oldErr)/100;
+  newPWM = (pid_p + pid_i + pid_d + pid_ff)/rpmToPwm;
+  if (newPWM > MAX)
     OCR1A = MAX;
-  else if (OCR1A + deltaPWM < MIN)
+  else if (newPWM < MIN)
     OCR1A = MIN;
   else
-    OCR1A += deltaPWM;
+    OCR1A = newPWM;
   oldErr = error;
-  quarterTurns = 0;
+  revolutions = 0;
   last_time = current_time;
-}
-
-ISR(TIMER0_COMPA_vect) {
-
 }
 
 void loop() {
