@@ -1,4 +1,14 @@
+/*  *** Important! ***
+ *  This file has changed the default clock timer from timer 0 to timer 2.
+ *  micros(), millis(), delay(), delayMicroseconds(), and any functions that
+ *  rely on these functions will not work. I have provided identical functions
+ *  named micros2(), millis2(), delay2(), and delayMicroseconds2(). Any function
+ *  you want to use that also uses the default timing functions will need to be
+ *  rewritten to use my timing functions.
+ */
+
 #include <EEPROM.h>
+#include "wiring2.h"
 #define MAX 1023
 #define MIN 0
 
@@ -36,8 +46,12 @@ void updateInputRatio(char numMag, float wheelCirc, float finalDrive) {
 
 void setup() {
   float temp;
+
+  // change clock to timer 2
+  intit2();
   Serial.begin(9600);
   pinMode(9, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   // change hardCoded numbers to be read in from EEPROM
   updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
@@ -52,9 +66,13 @@ void setup() {
   ADCSRB = 0;
   ACSR = _BV(ACI) | _BV(ACIE);
 
-  // Enable HW Interrupts: INT0 Rising Interrupt
-  EIMSK = _BV(INT0);
-  EICRA = _BV(ISC01) | _BV(ISC00);
+  // Enable T0 External Clock Counter (Count Rising Edge)
+  TCCR0A = _BV(WGM01);
+  TCCR0B = _BV(CS02) | _BV(CS01) | _BV(CS00);   // remove CS00 for Falling Edge
+
+  TCNT0 = 0;  // Reset Counter 0
+  OCR0A = 20;  // Set compare value (number of holes that pass before interrupt is triggered
+
 
   // No Load Operating Values
   // Start-Up Min 205, Absolute Min: 0
@@ -69,7 +87,7 @@ ISR(ANALOG_COMP_vect) {
   static byte cycle = 1;
   static bool skipNext = false;
 
-  currTime = micros();
+  currTime = micros2();
 
   // if counter overflow then just ignore, happens once every 70-ish minutes
   if(currTime < prevTime || skipNext) {
@@ -158,21 +176,24 @@ ISR(INT0_vect) {
   last_time = current_time;
 }
 
+ISR(TIMER0_COMPA_vect) {
+
+}
+
 void loop() {
 
   checkBT();
-  delay(150);
+  delay2(150);
 
-  if(micros() - pTime > inRatio) { //We have come to rest; stop the motor
+  if(micros2() - pTime > inRatio) { //We have come to rest; stop the motor
     SPHr = 0;
     targetRPM = 0;
     OCR1A = 0;
     currentRPM = 0;
   }
   if(SPHr != 0 && currentRPM == 0) {
-    OCR1A = 210;
+    OCR1A = 250;
   }
-
 }
 
 void checkBT() {
@@ -256,8 +277,7 @@ char recvData(char* data) {
       digitalWrite(LED_BUILTIN, HIGH);
       return '\0';
     }
-  }
-
   digitalWrite(LED_BUILTIN, LOW);
+}
   return type;
 }
