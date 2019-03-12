@@ -28,9 +28,11 @@ volatile unsigned long pid_ff; // Feed Forward term
 volatile unsigned long currentRPM = 0; // Feedback from slotted wheel on motor shaft
 volatile unsigned long revolutions = 0; // Number of 360 degree rotations
 volatile unsigned long pTime = 0;
+volatile unsigned long elapsed;
 unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
+
 
 /*
  * Calculate inRatio via stored values.
@@ -51,6 +53,7 @@ void setup() {
   init2();
   Serial.begin(9600);
   Serial.println("~~~Starting Motor~~~"); 
+  pinMode(4, INPUT); 
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -67,9 +70,9 @@ void setup() {
   ADCSRB = 0;
   ACSR = _BV(ACI) | _BV(ACIE);
 
-  // Enable T0 External Clock Counter (Count Rising Edge)
   TCCR0A = _BV(WGM01);
   TCCR0B = _BV(CS02) | _BV(CS01) | _BV(CS00);   // remove CS00 for Falling Edge
+  TIMSK0 = _BV(OCIE0A); 
 
   TCNT0 = 0;  // Reset Counter 0
   OCR0A = 20;  // Set compare value (number of holes that pass before interrupt is triggered
@@ -79,46 +82,4 @@ void setup() {
   // Start-Up Min 205, Absolute Min: 0
   // Operating Range ~180 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
-}
-
-
-ISR(TIMER0_COMPA_vect) { 
-  static unsigned long current_time = 0;
-  static unsigned long last_time = 0;
-  unsigned long elapsed;
-  unsigned long error;
-  unsigned long newPWM;
-
-  current_time = micros2();
-
-  // As before, if timer overflow occurs, do nothing on that interrupt instance
-  if(last_time > current_time) {
-    last_time = current_time;
-    return;
-  }
-
-  revolutions++; //Interrupt has occured, so 20 slots have been past
-
-  // If at least 100ms have elapsed, compute currentRPM
-  if (current_time - last_time < 100000) {
-    return;
-  }
-
-  elapsed = current_time - last_time;
-  /* Math is revolutions*10 to match targetRPM format, divided by elapsed to get
-   * revs per microsecond, times one million micros/sec to get revs per second,
-   * times 60 to get rpm. But a different order is used to save division for the end.
-   */
-  currentRPM = (revolutions*10*1000000*60)/elapsed;
-  /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
-   * are larger by a factor of 100 to avoid floats. These may require additional tuning.
-   */
-  Serial.print(currentRPM/10);
-  Serial.println(" RPM");
-  revolutions = 0;
-  last_time = current_time;
-}
-
-void loop() {
-  OCR1A = 200;
 }
