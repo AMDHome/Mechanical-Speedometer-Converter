@@ -53,7 +53,7 @@ void setup() {
   init2();
   Serial.begin(9600);
   Serial.println("~~~Starting Motor~~~"); 
-  pinMode(4, INPUT); 
+  pinMode(4, INPUT_PULLUP); 
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
