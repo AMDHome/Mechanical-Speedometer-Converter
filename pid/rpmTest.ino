@@ -27,11 +27,22 @@ volatile unsigned long pid_d; // Derivative term
 volatile unsigned long pid_ff; // Feed Forward term
 volatile unsigned long currentRPM = 0; // Feedback from slotted wheel on motor shaft
 volatile unsigned long revolutions = 0; // Number of 360 degree rotations
+volatile unsigned long pTime = 0;
 unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
-volatile unsigned long pTime = 0;
+/*
+ * Calculate inRatio via stored values.
+ * finalDrive should be 1 if not being used
+ * wheelCirc will have units of meter or milliMiles (miles * 1000) [odd units but necessary for easy calcs]
+ */
+void updateInputRatio(char numMag, float wheelCirc, float finalDrive) {
+  // Hard coded number = 3,600,000,000 [microseconds/hr] / 1000 [compensate for milliMiles/meters]
+  //                     * 10 [compensate for SPHr/and targetRPM units]
+  // Complicated I know, but floats on arduino are very Very VERY slow
+  inRatio = (long) (finalDrive * wheelCirc * 36000000 / (float) numMag);
+}
 
 void setup() {
   float temp;
@@ -39,12 +50,22 @@ void setup() {
   // change clock to timer 2
   init2();
   Serial.begin(9600);
+  Serial.println("~~~Starting Motor~~~"); 
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+
+  // change hardCoded numbers to be read in from EEPROM
+  updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+  outRatio = EEPROM.get(8, outRatio);
+  EEPROM.get(1, maxSpeed);
 
   // Configure PWM (Count Up, Fast PWM 10-bit, CLK/64)
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
   TCCR1B = _BV(WGM12) | _BV(CS11) | _BV(CS10);
+
+  // Enable Analog Comparator
+  ADCSRB = 0;
+  ACSR = _BV(ACI) | _BV(ACIE);
 
   // Enable T0 External Clock Counter (Count Rising Edge)
   TCCR0A = _BV(WGM01);
@@ -52,6 +73,7 @@ void setup() {
 
   TCNT0 = 0;  // Reset Counter 0
   OCR0A = 20;  // Set compare value (number of holes that pass before interrupt is triggered
+  
 
   // No Load Operating Values
   // Start-Up Min 205, Absolute Min: 0
@@ -59,7 +81,8 @@ void setup() {
   OCR1A = 0;
 }
 
-ISR(TIMER0_COMPA_vect) {
+
+ISR(TIMER0_COMPA_vect) { 
   static unsigned long current_time = 0;
   static unsigned long last_time = 0;
   unsigned long elapsed;
@@ -76,8 +99,10 @@ ISR(TIMER0_COMPA_vect) {
 
   revolutions++; //Interrupt has occured, so 20 slots have been past
 
-  if (current_time - last_time < 100000) //In addition, if > 100ms has elapsed, compute currentRPM
+  // If at least 100ms have elapsed, compute currentRPM
+  if (current_time - last_time < 100000) {
     return;
+  }
 
   elapsed = current_time - last_time;
   /* Math is revolutions*10 to match targetRPM format, divided by elapsed to get
@@ -96,17 +121,4 @@ ISR(TIMER0_COMPA_vect) {
 
 void loop() {
   OCR1A = 200;
-  /* Rev Motor Up
-  for(short i = 150; i < 1000; i+= 5) {
-    OCR1A = i; // Range 0 - 1023
-    Serial.println(i);
-    delay(100);
-  }
-
-  // Rev Motor Down
-  for(short j = 1000; j > 150; j-=5) {
-    OCR1A = j; // Range 0 - 1023
-    Serial.println(j);
-    delay(100);
-  }*/
 }
