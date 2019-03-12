@@ -41,9 +41,11 @@ void setup() {
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  // change hardCoded numbers to be read in from EEPROM
+  // read numbers in from EEPROM
   updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
   outRatio = EEPROM.get(8, outRatio);
+
+  // Calculate maxRPM for our speedometer
   EEPROM.get(1, maxSpeed);
 
   // Configure PWM (Count Up, Fast PWM 10-bit, CLK/64)
@@ -57,9 +59,10 @@ void setup() {
   // Enable T0 External Clock Counter (Count Rising Edge)
   TCCR0A = _BV(WGM01);
   TCCR0B = _BV(CS02) | _BV(CS01) | _BV(CS00);   // remove CS00 for Falling Edge
+  TIMSK0 = _BV(OCIE0A);
 
   TCNT0 = 0;  // Reset Counter 0
-  OCR0A = 5;  // Set compare value (number of holes that pass before interrupt is triggered
+  OCR0A = 5;  // Set compare value (number of holes that pass before interrupt is triggered)
   
 
   // No Load Operating Values
