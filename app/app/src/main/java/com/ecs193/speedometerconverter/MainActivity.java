@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     TextView finalDriveText;
     TextView meterRatioText;
     TextView wheelSizeText;
+    Button btnOn, btnOff, btnDis;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -95,20 +96,14 @@ public class MainActivity extends AppCompatActivity {
                     meterSettings();
                     return true;
                 case R.id.bottombar_settings:
-                    findViewById(R.id.pairedDeviceTitle).setVisibility(View.GONE);
-                    findViewById(R.id.findButton).setVisibility(View.GONE);
-                    findViewById(R.id.listBluetooth).setVisibility(View.GONE);
-                    findViewById(R.id.calibrationTitle).setVisibility(View.GONE);
-                    findViewById(R.id.listSettings).setVisibility(View.GONE);
+                    findViewById(R.id.searchDevices).setVisibility(View.GONE);
+                    findViewById(R.id.meterSettings).setVisibility(View.GONE);
                     //setTitle("Calibration Settings");
                     //findViewById(R.id.bluetoothLayout).setVisibility(ConstraintLayout.GONE);
                     return true;
                 case R.id.bottombar_data:
-                    findViewById(R.id.pairedDeviceTitle).setVisibility(View.GONE);
-                    findViewById(R.id.findButton).setVisibility(View.GONE);
-                    findViewById(R.id.listBluetooth).setVisibility(View.GONE);
-                    findViewById(R.id.calibrationTitle).setVisibility(View.GONE);
-                    findViewById(R.id.listSettings).setVisibility(View.GONE);
+                    findViewById(R.id.searchDevices).setVisibility(View.GONE);
+                    findViewById(R.id.meterSettings).setVisibility(View.GONE);
                     //setTitle("Data");
                     //findViewById(R.id.bluetoothLayout).setVisibility(ConstraintLayout.GONE);
                     return true;
@@ -138,9 +133,7 @@ public class MainActivity extends AppCompatActivity {
     void BluetoothActivity() {
 
         // Get layout of bluetooth tab
-        findViewById(R.id.pairedDeviceTitle).setVisibility(View.VISIBLE);
-        findViewById(R.id.findButton).setVisibility(View.VISIBLE);
-        findViewById(R.id.listBluetooth).setVisibility(View.VISIBLE);
+        findViewById(R.id.searchDevices).setVisibility(View.VISIBLE);
 
         btnPaired = findViewById(R.id.findButton);
         devicelist = findViewById(R.id.listBluetooth);
@@ -216,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     void meterSettings() {
-
+        findViewById(R.id.meterSettings).setVisibility(View.VISIBLE);
         /*try {
             // Read user settings
             FileInputStream fin = openFileInput("SpeedometerSettings");
@@ -245,6 +238,9 @@ public class MainActivity extends AppCompatActivity {
         meterRatioText = findViewById(R.id.meterRatioText);
         wheelSizeText = findViewById(R.id.wheelSizeText);
         unitsText = findViewById(R.id.unitsText);
+        btnOn = (Button)findViewById(R.id.button2);
+        btnOff = (Button)findViewById(R.id.button3);
+        btnDis = (Button)findViewById(R.id.button4);
 
         final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.settings_array));
@@ -372,6 +368,31 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
 
+        btnOn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                turnOnLed();      //method to turn on
+            }
+        });
+
+        btnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                turnOffLed();   //method to turn off
+            }
+        });
+
+        btnDis.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Disconnect(); //close connection
+            }
+        });
     }
 
     private void msg(String s)
@@ -602,7 +623,7 @@ public class MainActivity extends AppCompatActivity {
             try
             {
                 InputStream a=null;
-                btSocket.getOutputStream().write("a".toString().getBytes());
+                btSocket.getOutputStream().write("m1 on".toString().getBytes());
 
                 a = btSocket.getInputStream();
                 if (a!=null) {
