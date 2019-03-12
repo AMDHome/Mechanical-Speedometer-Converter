@@ -26,12 +26,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"/>
-        <activity android:name=".BottomBarActivity"/>
-
-        <activity android:name=".BluetoothActivity"
-                  android:theme="@style/TabHeaderTheme">
-
-        </activity>
 
         <activity android:name=".ledControl"></activity>
 

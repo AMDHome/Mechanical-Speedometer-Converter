@@ -1,85 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+
+<!--<ScrollView-->
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintGuide_percent="0.33"
     tools:context=".MainActivity">
-
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pair_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
-
-    <ListView
-        android:visibility="gone"
-        android:id="@+id/ListView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="43dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:visibility="gone"
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="140dp"
-        android:layout_marginRight="140dp"
-        android:layout_marginBottom="17dp"
-        android:text="@string/pair_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/navigation" />
 
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         app:itemBackground="?attr/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:itemIconTint="@drawable/selector_bottombar_item"
         app:itemTextColor="@drawable/selector_bottombar_text"
-        app:menu="@menu/bottombar_menu"/>
-
-
-        <!--android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />-->
-
-    <!--<Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bluetooth"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />-->
+        app:menu="@menu/bottombar_menu"
+        />
+
+    <LinearLayout
+        android:id="@+id/searchDevices"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_rect_bkgrd"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/meterSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/navigation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/pairedDeviceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="@string/paired_devices"
+                android:textColor="?attr/colorAccent"
+                android:textSize="20sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/findButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                />
+
+            <Button
+                android:id="@+id/findButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:text="@string/find_button"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pairedDeviceTitle"
+                />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listBluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:baselineAligned="false"
+            android:divider="@color/colorPrimary"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/findButton"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/meterSettings"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/searchDevices"
+        android:background="@drawable/round_rect_bkgrd">
+
+        <TextView
+            android:id="@+id/calibrationTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/calibrate"
+            android:textColor="?attr/colorAccent"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/listSettings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginRight="10dp"
+                      android:orientation="horizontal"
+                      android:baselineAligned="false"
+                      app:layout_constraintTop_toBottomOf="@+id/calibrationTitle"
+                      >
+
+            <ListView
+                android:id="@+id/listSettings"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:divider="@color/colorBkgrd"
+                android:dividerHeight="0.5dp"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
+                android:text="@string/paired_devices"
+
+                android:textColor="?attr/colorAccent"
+                android:textSize="20sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/maxSpeedText"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"/>
+
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toRightOf="@+id/listSettings"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/unitsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/maxSpeedText"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/maxSpeedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/magnetsText"
+                    app:layout_constraintTop_toBottomOf="@+id/unitsText"
+                    />
+
+                <TextView
+                    android:id="@+id/magnetsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/finalDriveText"
+                    app:layout_constraintTop_toBottomOf="@+id/maxSpeedText"
+                    />
+
+                <TextView
+                    android:id="@+id/finalDriveText"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/meterRatioText"
+                    app:layout_constraintTop_toBottomOf="@+id/magnetsText"
+                    />
+
+                <TextView
+                    android:id="@+id/meterRatioText"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toTopOf="@+id/wheelSizeText"
+                    app:layout_constraintTop_toBottomOf="@+id/finalDriveText"
+                    />
+
+                <TextView
+                    android:id="@+id/wheelSizeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toEndOf="@+id/listSettings"
+                    app:layout_constraintTop_toBottomOf="@+id/meterRatioText"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--<Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="ON"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button4"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent" />-->
+
+        <!--<Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="OFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button4" />-->
+
+        <!--<Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="16dp"
+            android:text="DISCONNECT"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button3"
+            app:layout_constraintStart_toEndOf="@+id/button2" />-->
 
 
+
+
+
+        <!--<android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="?attr/colorPrimary"
+          android:minHeight="?attr/actionBarSize"
+          app:theme="@style/ThemeOverlay.AppCompat.Dark"/>-->
+
+
+
+        <!--<EditText
+            android:imeOptions="actionSend"
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="MaxSpeed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
+
+        <EditText
+            android:imeOptions="actionSend"
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="Magnets"
+            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <EditText
+            android:imeOptions="actionSend"
+            android:id="@+id/editText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="92dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="FinalDrive"
+            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <EditText
+            android:imeOptions="actionSend"
+            android:id="@+id/editText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="164dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="SpeedometerRatio"
+            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <EditText
+            android:imeOptions="actionSend"
+            android:id="@+id/editText5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="240dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="WheelCircumference"
+            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <ToggleButton
+            android:textOff="KPH"
+            android:textOn="MPH"
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:text="ToggleButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
+    </LinearLayout>
+
+<!--</ScrollView>-->
 </android.support.constraint.ConstraintLayout>
+<!--</RelativeLayout>-->

@@ -8,5 +8,22 @@
 
     <string name="bluetooth">bluetooth</string>
     <string name="button">Button</string>
-    <string name="pair_button">Paired Devices</string>
+    <string name="find_button">Find Devices</string>
+    <string name="paired_devices">Paired Devices</string>
+    <string name="calibrate">Calibration</string>
+
+    <string-array name="settings_array">
+        <item>Units</item>
+        <item>Max Speed</item>
+        <item>Magnets</item>
+        <item>Final Drive</item>
+        <item>Speedometer Ratio</item>
+        <item>Wheel Size</item>
+    </string-array>
+
+    <string-array name="units_array">
+        <item>Kilometers per hour (kph)</item>
+        <item>Miles per hour (mph)</item>
+    </string-array>
+
 </resources>

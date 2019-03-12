@@ -55,6 +55,10 @@ public class ledControl extends AppCompatActivity {
         Intent newint = getIntent();
         address = newint.getStringExtra(MainActivity.EXTRA_ADDRESS); //receive the address of the bluetooth device
 
+        // backbutton on title
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         //view of the ledControl
         setContentView(R.layout.activity_led_control);
 
