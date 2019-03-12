@@ -83,3 +83,33 @@ void setup() {
   // Operating Range ~180 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
 }
+
+ISR(TIMER0_COMPA_vect) { 
+  static unsigned long current_time = 0;
+  static unsigned long last_time = 0;
+ 
+  current_time = micros2();
+
+  if(last_time > current_time) {
+    last_time = current_time;
+    return;
+  }
+
+  elapsed = current_time - last_time;
+  last_time = current_time;
+}
+
+void loop() {
+  OCR1A = 200;
+
+  /* Math is revolutions*10 to match targetRPM format, divided by elapsed to get
+   * revs per microsecond, times one million micros/sec to get revs per second,
+   * times 60 to get rpm. But a different order is used to save division for the end.
+   */
+  currentRPM = (1*10*1000000*60)/elapsed;
+  /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
+   * are larger by a factor of 100 to avoid floats. These may require additional tuning.
+   */
+  Serial.print(currentRPM/10);
+  Serial.println(" RPM");
+}
