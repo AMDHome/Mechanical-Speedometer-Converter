@@ -37,7 +37,7 @@ void setup() {
   float temp;
 
   // change clock to timer 2
-  intit2();
+  init2();
   Serial.begin(9600);
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
@@ -88,10 +88,10 @@ ISR(TIMER0_COMPA_vect) {
   /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
    * are larger by a factor of 100 to avoid floats. These may require additional tuning.
    */
-  Serial.print(currentRPM/10); 
+  Serial.print(currentRPM/10);
   Serial.println(" RPM");
   revolutions = 0;
-  last_time = current_time; 
+  last_time = current_time;
 }
 
 void loop() {
@@ -103,7 +103,7 @@ void loop() {
     delay(100);
   }
 
-  // Rev Motor Down 
+  // Rev Motor Down
   for(short j = 1000; j > 150; j-=5) {
     OCR1A = j; // Range 0 - 1023
     Serial.println(j);

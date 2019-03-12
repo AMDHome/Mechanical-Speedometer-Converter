@@ -49,7 +49,7 @@ void setup() {
   float temp;
 
   // change clock to timer 2
-  intit2();
+  init2();
   Serial.begin(9600);
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
