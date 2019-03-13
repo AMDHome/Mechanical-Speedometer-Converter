@@ -116,7 +116,7 @@ void loop() {
   duration = present - past;
   // Every ten seconds change targetRPM and see how pid handles it
   if(duration >= 10000000) {
-    targetRPM = random(4000, 40000) //random rpm between 400.0 and 4000.0
+    targetRPM = random(4000, 40000); //random rpm between 400.0 and 4000.0
     past = present;
   }
 
