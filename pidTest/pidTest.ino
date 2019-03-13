@@ -9,26 +9,26 @@
 
 #include <EEPROM.h>
 #include "wiring2.h"
-#define MAX 1023
-#define MIN 0
+#define MAX 320
+#define MIN 100
 
 volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
-volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
+volatile unsigned short targetRPM = 50000;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
-const unsigned long kp = 31; // Proportional constant
-const unsigned long ki = 18;  // Integral constant
-const unsigned long kd = 22; // Derivative constant
-const unsigned long kff = 90; // Feed Forward constant
-const unsigned long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
-volatile unsigned long oldErr = 0; // Previous error
-volatile unsigned long pid_p; // Proportional term
-volatile unsigned long pid_i = 0; // Integral term
-volatile unsigned long pid_d; // Derivative term
-volatile unsigned long pid_ff; // Feed Forward term
-volatile unsigned long currentRPM = 0; // Feedback from slotted wheel on motor shaft
-volatile unsigned long revolutions = 0; // Number of 360 degree rotations
-volatile unsigned long pTime = 0;
-volatile unsigned long elapsed;
+const long kp = 36; // Proportional constant
+const long ki = 1;  // Integral constant
+const long kd = 0; // Derivative constant
+const long kff = 90; // Feed Forward constant
+const long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
+volatile long oldErr = 0; // Previous error
+volatile long pid_p; // Proportional term
+volatile long pid_i = 0; // Integral term
+volatile long pid_d; // Derivative term
+volatile long pid_ff; // Feed Forward term
+volatile long currentRPM = 0; // Feedback from slotted wheel on motor shaft
+volatile long revolutions = 0; // Number of 360 degree rotations
+volatile long pTime = 0;
+volatile long elapsed;
 unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
@@ -81,7 +81,7 @@ void setup() {
   // No Load Operating Values
   // Start-Up Min 205, Absolute Min: 0
   // Operating Range ~180 - 1023 (Lowest operating value may be lower)
-  OCR1A = 250;
+  OCR1A = 200;
 }
 
 ISR(TIMER0_COMPA_vect) {
@@ -100,11 +100,11 @@ ISR(TIMER0_COMPA_vect) {
 }
 
 void loop() {
-  unsigned long error;
-  unsigned long newPWM;
-  unsigned long duration;
-  static unsigned long present = 0;
-  static unsigned long past = 0;
+  long error;
+  long newPWM;
+  long duration;
+  static long present = 0;
+  static long past = 0;
 
   present = micros2();
 
@@ -116,7 +116,7 @@ void loop() {
   duration = present - past;
   // Every ten seconds change targetRPM and see how pid handles it
   if(duration >= 10000000) {
-    targetRPM = random(4000, 40000) //random rpm between 400.0 and 4000.0
+    targetRPM = random(10000, 70000); //random rpm between 1000.0 and 10,000.0
     past = present;
   }
 
@@ -127,17 +127,19 @@ void loop() {
   currentRPM = (1*10*1000000*60)/elapsed;
   Serial.print("Current: ");
   Serial.print(currentRPM/10);
-  Serial.print("Target: ");
+  Serial.print(" w/ PWM: ");
+  Serial.print(OCR1A);
+  Serial.print("  Target: ");
   Serial.println(targetRPM/10);
   /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
    * are larger by a factor of 100 to avoid floats. These may require additional tuning.
    */
    error = targetRPM - currentRPM;
-   pid_ff = kff*targetRPM/100;
+   //pid_ff = kff*targetRPM/100;
    pid_p = kp*error/100;
    pid_i += ki*error/100;
    pid_d = kd*(error - oldErr)/100;
-   newPWM = (pid_p + pid_i + pid_d + pid_ff)/rpmToPwm;
+   newPWM = (pid_p + pid_i + pid_d)/rpmToPwm;
    if (newPWM > MAX)
      OCR1A = MAX;
    else if (newPWM < MIN)
