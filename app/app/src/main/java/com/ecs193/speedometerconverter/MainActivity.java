@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Add a TextView here for the "Title" label, as noted in the comments
                     final EditText wheelCirc = new EditText(MainActivity.this);
-                    wheelCirc.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    wheelCirc.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     wheelCirc.setHint("Wheel circumference");
                     layout.addView(wheelCirc); // Notice this is an add method
 
@@ -396,7 +396,26 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                } else {
+                } else if (itemNum == 1 || itemNum == 3) { // max speed or final drive
+                    final EditText input = new EditText(MainActivity.this);
+                    input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (itemNum == 1) {
+                                maxSpeedText.setText(input.getText().toString());
+                                sendInfo(maxSpeedText, "M:");
+                            } else { // 3
+                                finalDriveText.setText(input.getText().toString());
+                                sendCalc(finalDriveText, "F:");
+                            }
+                        }
+                    });
+
+
+                        } else {
                     // Set up the input
                     final EditText input = new EditText(MainActivity.this);
                     // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
@@ -415,16 +434,16 @@ public class MainActivity extends AppCompatActivity {
                                 case 0: // units
                                     break;
                                 case 1: // max speed
-                                    maxSpeedText.setText(input.getText().toString());
-                                    sendInfo(maxSpeedText, "M:");
+                                    //maxSpeedText.setText(input.getText().toString());
+                                    //sendInfo(maxSpeedText, "M:");
                                     break;
                                 case 2: // magnets
                                     magnetsText.setText(input.getText().toString());
                                     sendInfo(magnetsText, "N:");
                                     break;
                                 case 3: // final drive
-                                    finalDriveText.setText(input.getText().toString());
-                                    sendCalc(finalDriveText, "F:");
+                                    //finalDriveText.setText(input.getText().toString());
+                                    //sendCalc(finalDriveText, "F:");
                                     break;
                                 case 4: // meter ratio
                                     meterRatioText.setText(input.getText().toString());
@@ -615,12 +634,12 @@ public class MainActivity extends AppCompatActivity {
                     if (btSocket!=null) {
                         try
                         {
-                            String str = tv.getText().toString();
+                            String str = v.getText().toString();
                             str=extraStr + str + '\0';
                             //System.out.println(str);
                             msg(str);
 
-                            btSocket.getOutputStream().write(str.toString().getBytes());
+                            btSocket.getOutputStream().write(str.getBytes());
                         }
                         catch (IOException e)
                         {
@@ -646,13 +665,13 @@ public class MainActivity extends AppCompatActivity {
                         try
                         {
                             //String str = getText();
-                            String str = tv.getText().toString();
+                            String str = v.getText().toString();
                             int result = Integer.parseInt(str);
                             result=result*1000000;
                             str=new Integer(result).toString();
                             str=extraStr + str + '\0';
                             msg(str);
-                            btSocket.getOutputStream().write(str.toString().getBytes());
+                            btSocket.getOutputStream().write(str.getBytes());
                         }
                         catch (IOException e)
                         {
@@ -667,7 +686,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //todo: get calc
     void sendWheelSizeCalc(final TextView tv, final String size1, final String size2,
                            final String size3, final String unit) {
 
@@ -723,7 +741,7 @@ public class MainActivity extends AppCompatActivity {
                     if (btSocket != null) {
                         try {
                             //String str = getText();
-                            String str = tv.getText().toString();
+                            String str = v.getText().toString();
                             int result = Integer.parseInt(str);
 
                             if (wheelUnit == "inch") {
