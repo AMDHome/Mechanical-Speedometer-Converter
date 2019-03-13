@@ -18,6 +18,7 @@ unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
 volatile unsigned long pTime = 0;
+volatile unsigned long eTime = 0;
 
 /*
  * Calculate inRatio via stored values.
@@ -69,6 +70,11 @@ void setup() {
   // Start-Up Min 205, Absolute Min: 0
   // Operating Range ~180 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
+
+  Serial.print("inRatio: ");
+  Serial.println(inRatio);
+  Serial.print("outRatio: ");
+  Serial.println(outRatio);
 }
 
 ISR(ANALOG_COMP_vect) {
@@ -102,8 +108,7 @@ ISR(ANALOG_COMP_vect) {
     } else {
       elapsedTime += currTime - prevTime;
       pTime = currTime;
-      SPHr = (unsigned long) inRatio / elapsedTime;
-      targetRPM = (unsigned long) SPHr * outRatio / 1000000;
+      eTime = elapsedTime;
     }
 
     prevTime = currTime;
@@ -117,10 +122,18 @@ ISR(TIMER0_COMPA_vect) {
 
 void loop() {
 
-  checkBT();
+  if(checkBT()){
+    delay2(150);
+  }
 
-  delay2(150);
-
+  SPHr = (unsigned long) inRatio / eTime;
+  targetRPM = (unsigned long) SPHr * outRatio / 1000000;
+/*
+  Serial.print("SPHr: ");
+  Serial.println(SPHr);
+  Serial.print("targetRPM: ");
+  Serial.println(targetRPM);
+*/
   if(micros2() - pTime > inRatio) {
     SPHr = 0;
     targetRPM = 0;
@@ -128,7 +141,7 @@ void loop() {
   }
 }
 
-void checkBT() {
+bool checkBT() {
   static char data[13];
   bool updated = false;
   float temp;
@@ -174,14 +187,14 @@ void checkBT() {
     default:
       break;
   }
-
+/*
   if(updated) {
     digitalWrite(LED_BUILTIN, HIGH);
     for(byte i = 0; data[i] != '\0' && i < 13; i++) {
       Serial.print(data[i]);
     }
     Serial.println("");
-  }
+  }*/
 }
 
 char recvData(char* data) {
