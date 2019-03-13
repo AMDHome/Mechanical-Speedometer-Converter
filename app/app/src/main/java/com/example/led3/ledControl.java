@@ -179,9 +179,10 @@ public class ledControl extends AppCompatActivity {
                         {
                             //String str = getText();
                             String str = txtField3.getText().toString();
-                            int result = Integer.parseInt(str);
+                            float result = Float.parseFloat(str);
                             result=result*1000000;
-                            str=new Integer(result).toString();
+                            int x=(int) result;
+                            str= Integer.toString(x);
                             str="F:" + str + '\0';
                             System.out.println(str);
                             btSocket.getOutputStream().write(str.toString().getBytes());
@@ -210,9 +211,15 @@ public class ledControl extends AppCompatActivity {
                             //String str = getText();
                             //String str = txtField.getText().toString();
                             String str = txtField4.getText().toString();
-                            int result = Integer.parseInt(str);
+
+                            float result = Float.parseFloat(str);
                             result=result*1000000;
-                            str=new Integer(result).toString();
+                            int x=(int) result;
+                            str= Integer.toString(x);
+
+                            //int result = Integer.parseInt(str);
+                            //result=result*1000000;
+                            //str=new Integer(result).toString();
                             str="S:" + str + '\0';
                             System.out.println(str);
 
@@ -242,10 +249,17 @@ public class ledControl extends AppCompatActivity {
                         {
                             //String str = getText();
                             String str = txtField5.getText().toString();
-                            int result = Integer.parseInt(str);
-                            result=result*100000000;
-                            result=result / 63360;
-                            str=new Integer(result).toString();
+
+                            float result = Float.parseFloat(str);
+                            result=result*1000000000;
+                            result=result/63360;
+                            int x=(int) result;
+                            str= Integer.toString(x);
+
+                            //int result = Integer.parseInt(str);
+                            //result=result*100000000;
+                            //result=result / 63360;
+                            //str=new Integer(result).toString();
                             str="W:" + str + '\0';
                             System.out.println(str);
 
