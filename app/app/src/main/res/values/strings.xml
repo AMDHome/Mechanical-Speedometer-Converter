@@ -19,6 +19,7 @@
         <item>Final Drive</item>
         <item>Speedometer Ratio</item>
         <item>Wheel Size</item>
+        <item>Wheel Circumference</item>
     </string-array>
 
     <string-array name="units_array">
