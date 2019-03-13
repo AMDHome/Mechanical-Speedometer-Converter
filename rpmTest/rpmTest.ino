@@ -84,6 +84,7 @@ void setup() {
   OCR1A = 0;
 }
 
+
 ISR(TIMER0_COMPA_vect) { 
   static unsigned long current_time = 0;
   static unsigned long last_time = 0;
@@ -111,5 +112,5 @@ void loop() {
    * are larger by a factor of 100 to avoid floats. These may require additional tuning.
    */
   Serial.print(currentRPM/10);
-  Serial.println(" RPM");
+  Serial.println(" RPM");  
 }
