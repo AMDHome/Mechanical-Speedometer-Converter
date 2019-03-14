@@ -1,13 +1,11 @@
 /*
   wiring2.c - modified implementation of the original wiring.c Wiring API for 
   the ATmega328P. Part of Arduino - http://www.arduino.cc/
-
   *** Important! ***
   This file will change the clock to be on Timer 2. It will break any function
   uses millis(), delay(), micros(), and the like. You must modify your
   functions to use the functions defined in this page millis2(), delay2(),
   micros2(), etc.
-
   Note: Assumes ATmega328P running at 16 MHz
 */
 
