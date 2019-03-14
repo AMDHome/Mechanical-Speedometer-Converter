@@ -19,6 +19,7 @@ unsigned short maxSpeed;  // max speed our speedometer can show
 
 volatile unsigned long pTime = 0;
 volatile unsigned long eTime = 0;
+volatile bool updated = true;
 
 /*
  * Calculate inRatio via stored values.
@@ -41,6 +42,9 @@ void setup() {
   Serial.begin(9600);
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+
+  pTime = micros2();
+  eTime = -1;
 
   // read numbers in from EEPROM
   updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
@@ -109,6 +113,9 @@ ISR(ANALOG_COMP_vect) {
       elapsedTime += currTime - prevTime;
       pTime = currTime;
       eTime = elapsedTime;
+      updated = true;
+      //Serial.println(elapsedTime);
+      
     }
 
     prevTime = currTime;
@@ -139,6 +146,21 @@ void loop() {
     targetRPM = 0;
     OCR1A = 0;
   }
+
+  if(updated){
+    SPHr = (unsigned long) inRatio / eTime;
+    targetRPM = (unsigned long) SPHr * outRatio / 1000000;
+    Serial.print(SPHr/10);
+    Serial.print("\t");
+    Serial.println(targetRPM/10);
+    updated = false;
+  }
+
+  /*Serial.print("SPHr: ");
+  Serial.println(SPHr/10);
+  Serial.print("targetRPM: ");
+  Serial.println(targetRPM/10);*/
+  //delay2(500);
 }
 
 bool checkBT() {
