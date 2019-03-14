@@ -13,7 +13,7 @@
 #define MIN 100
 
 volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
-volatile unsigned short targetRPM = 50000;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
+volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
 const long kp = 36; // Proportional constant
 const long ki = 1;  // Integral constant
@@ -27,12 +27,12 @@ volatile long pid_d; // Derivative term
 volatile long pid_ff; // Feed Forward term
 volatile long currentRPM = 0; // Feedback from slotted wheel on motor shaft
 volatile long revolutions = 0; // Number of 360 degree rotations
-volatile long pTime = 0;
 volatile long elapsed;
 unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
+volatile unsigned long pTime = 0;
 volatile unsigned long eTime = 0;
 volatile bool updated = true;
 
@@ -103,12 +103,6 @@ ISR(ANALOG_COMP_vect) {
   static unsigned long elapsedTime = -1;
   static byte cycle = 1;
   static bool skipNext = false;
-<<<<<<<
-  
-  currTime = micros2();
-=======
-
->>>>>>>
 
   currTime = micros2();
 
@@ -188,11 +182,6 @@ void loop() {
     updated = false;
   }
 
-  /*Serial.print("SPHr: ");
-  Serial.println(SPHr/10);
-  Serial.print("targetRPM: ");
-  Serial.println(targetRPM/10);*/
-  //delay2(500);
   if(SPHr != 0 && currentRPM == 0) {
     OCR1A = 250;
   }
