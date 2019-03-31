@@ -1,0 +1,196 @@
+
+(EDIF
+  (rename &1N5817 "1N5817")
+  (EDIFVersion 2 0 0)
+  (EDIFLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timestamp 2018 07 23 18 13 36)
+      (dataOrigin "SnapEDA snapeda.comCopyright - This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0")
+      (program "SnapEDA Converter")
+    )
+  )
+  (library
+    (rename &1N5817 "1N5817")
+    (EDIFLevel 0)
+    (technology
+      (numberDefinition
+        (scale 1 (e 254 -9) (unit DISTANCE))
+        (gridMap 1 1)
+      )
+      (figureGroup PINNAME
+        (cornerType TRUNCATE)
+        (endType TRUNCATE)
+        (pathWidth 0)
+        (textHeight 4811)
+      )
+      (figureGroup PINNUMBER
+        (cornerType TRUNCATE)
+        (endType TRUNCATE)
+        (textHeight 9000)
+        (pathWidth 0)
+      )
+      (figureGroup PORT
+        (pathWidth 1000)
+        (textHeight 9000)
+      )
+      (figureGroup PARTBODY
+        (pathWidth 1000)
+        (borderWidth 1000)
+        (textHeight 6000)
+      )
+    )
+    (cell
+      (rename SCHOTTKY "SCHOTTKY")
+      (cellType GENERIC)
+      (view
+        (rename NORMAL "Normal")
+        (viewType SCHEMATIC)
+        (interface
+          (designator "D")
+          (property (rename VALUE "Value") (string "SCHOTTKY"))
+          (port
+            (rename A "A")
+            (designator "A")
+            (property
+              (rename TYPE "Type")
+              (string "PAS")
+            )
+            (property
+              (rename ORDER "Order")
+              (integer 0)
+              (owner "OrCAD")
+            )
+          )
+          (port
+            (rename C "C")
+            (designator "C")
+            (property
+              (rename TYPE "Type")
+              (string "PAS")
+            )
+            (property
+              (rename ORDER "Order")
+              (integer 1)
+              (owner "OrCAD")
+            )
+          )
+          (symbol
+            (boundingBox (rectangle (pt -10000 -5000) (pt 20000 5000)))
+            (portImplementation
+              (name A)
+              (connectLocation
+                (figure PORT
+                  (dot
+                    (pt -10000 0)
+                  )
+                )
+              )
+              (figure PARTBODY
+                (path
+                  (pointList
+                    (pt -10000 0)
+                    (pt 0 0)
+                  )
+                )
+              )
+            )
+            (portImplementation
+              (name C)
+              (connectLocation
+                (figure PORT
+                  (dot
+                    (pt 20000 0)
+                  )
+                )
+              )
+              (figure PARTBODY
+                (path
+                  (pointList
+                    (pt 20000 0)
+                    (pt 10000 0)
+                  )
+                )
+              )
+            )
+            (figure PARTBODY
+              (path (pointList (pt 0 -5000) (pt 10000 0)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 0) (pt 0 5000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 5000) (pt 10000 0)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 0 5000) (pt 0 -5000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 0) (pt 10000 -5000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 -5000) (pt 7500 -5000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 5000) (pt 12248 5000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 12500 5000) (pt 12500 3500)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 7500 -5000) (pt 7500 -3500)))
+            )
+            (keywordDisplay DESIGNATOR
+              (display PARTBODY
+                (justify LOWERLEFT)
+                (orientation R0)
+                (origin (pt -7023 7527))
+              )
+            )
+            (propertyDisplay VALUE
+              (display PARTBODY
+                (justify LOWERLEFT)
+                (orientation R0)
+                (origin (pt -7007 -13519))
+              )
+            )
+            (property (rename PCB_Footprint "PCB Footprint") (string "DO41-1"))
+            (property
+              (rename Availability "Availability")
+              (string
+              (stringDisplay "Unavailable"))
+            )
+            (property
+              (rename MP "MP")
+              (string
+              (stringDisplay "1N5817"))
+            )
+            (property
+              (rename Price "Price")
+              (string
+              (stringDisplay "0.08 USD"))
+            )
+            (property
+              (rename MF "MF")
+              (string
+              (stringDisplay "ON Semiconductor"))
+            )
+            (property
+              (rename Package "Package")
+              (string
+              (stringDisplay "DO-41 Motorola"))
+            )
+            (property
+              (rename Description "Description")
+              (string
+              (stringDisplay "
+Schottky Rec 1a 20v Do-41
+"))
+            )
+          )
+        )
+      )
+    )
+  )
+)
