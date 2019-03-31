@@ -9,8 +9,8 @@
 
 #include <EEPROM.h>
 #include "wiring2.h"
-#define MAX 320
-#define MIN 100
+#define MAX 1023
+#define MIN 0
 
 volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
 volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
@@ -33,8 +33,12 @@ unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
 volatile unsigned long pTime = 0;
-volatile unsigned long eTime = 0;
-volatile bool updated = true;
+volatile unsigned long eTime[4] = {0};
+volatile bool updated = false;
+volatile byte count = 0;
+volatile bool fromStop = true;
+byte numMag;
+byte shift;
 
 /*
  * Calculate inRatio via stored values.
@@ -61,10 +65,11 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   pTime = micros2();
-  eTime = -1;
 
   // read numbers in from EEPROM
-  updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+  numMag = EEPROM.read(3);
+  shift = numMag / 2;
+  updateInputRatio(numMag, EEPROM.get(12, temp), EEPROM.get(4, temp));
   outRatio = EEPROM.get(8, outRatio);
 
   // Calculate maxRPM for our speedometer
@@ -76,7 +81,7 @@ void setup() {
 
   // Enable Analog Comparator
   ADCSRB = 0;
-  ACSR = _BV(ACI) | _BV(ACIE);
+  ACSR = _BV(ACI) | _BV(ACIE)| _BV(ACIS1);
 
   // Enable T0 External Clock Counter (Count Rising Edge)
   TCCR0A = _BV(WGM01);
@@ -91,6 +96,7 @@ void setup() {
   // Operating Range ~180 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
 
+  Serial.println("~~~Starting~~~");
   Serial.print("inRatio: ");
   Serial.println(inRatio);
   Serial.print("outRatio: ");
@@ -98,45 +104,28 @@ void setup() {
 }
 
 ISR(ANALOG_COMP_vect) {
-  static unsigned long prevTime = 0;
   static unsigned long currTime = 0;
-  static unsigned long elapsedTime = -1;
-  static byte cycle = 1;
-  static bool skipNext = false;
 
   currTime = micros2();
 
   // if counter overflow then just ignore, happens once every 70-ish minutes
-  if(currTime < prevTime || skipNext) {
-    if(cycle % 2)
-      skipNext = true;
-
-    else if(skipNext)
-      skipNext = false;
-
-    cycle += 1;
+  if(currTime < pTime) {
     pTime = currTime;
     return;
   }
 
-  // There are two pulses of time we need to add to get total time between magnets.
-  // Do math on second pulse
-  if(currTime - prevTime > 2000) {
-    if(cycle % 2) {
-      elapsedTime = currTime - prevTime;
+  // update time
+  eTime[count] = currTime - pTime;
+  pTime = currTime;
 
-    } else {
-      elapsedTime += currTime - prevTime;
-      pTime = currTime;
-      eTime = elapsedTime;
-      updated = true;
-      //Serial.println(elapsedTime);
-      
+  if(numMag > 1) {
+    if(fromStop && count + 1 == numMag) {
+      fromStop = false;
     }
-
-    prevTime = currTime;
-    cycle += 1;
+    count = (count + 1) % numMag;
   }
+  
+  updated = true;
 }
 
 /* Every 100ms (can be changed), a measurement of current motor RPM is taken. At this time, the error
@@ -171,10 +160,13 @@ void loop() {
     targetRPM = 0;
     OCR1A = 0;
     currentRPM = 0;
+    fromStop = true;
+    count = 0;
   }
 
   if(updated){
-    SPHr = (unsigned long) inRatio / eTime;
+    
+    SPHr = (unsigned long) inRatio / calcTime();
     targetRPM = (unsigned long) SPHr * outRatio / 1000000;
     Serial.print(SPHr/10);
     Serial.print("\t");
@@ -195,7 +187,12 @@ void loop() {
   Serial.print(" w/ PWM: ");
   Serial.print(OCR1A);
   Serial.print("  Target: ");
-  Serial.println(targetRPM/10);
+  Serial.print(targetRPM/10);
+  Serial.print("  eTime: ");
+  Serial.print(calcTime());
+  Serial.print("  SPHr: ");
+  Serial.println(SPHr/10);
+  
   /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
    * are larger by a factor of 100 to avoid floats. These may require additional tuning.
    */
@@ -212,6 +209,26 @@ void loop() {
    else
      OCR1A = newPWM;
    oldErr = error;
+}
+
+unsigned long calcTime() {
+  unsigned long avgTime = 0;
+
+  if(numMag == 1) {
+    return eTime[0];
+  
+  } else if(fromStop) {
+    for(byte i = 0; i < count; i++){
+      avgTime += eTime[i] / count;
+    }
+    
+  } else {
+    for(byte i = 0; i < numMag; i++){
+      avgTime += (eTime[i] >> shift);
+    }
+  }
+  
+  return avgTime;
 }
 
 bool checkBT() {
@@ -291,6 +308,7 @@ char recvData(char* data) {
 
     for(; itr < 13 && (Serial.available() > 0); itr++) {
       data[itr] = Serial.read();
+      delay(1);
     }
 
     if(itr == 13 && data[10] != '\0') {
