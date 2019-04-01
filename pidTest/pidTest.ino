@@ -10,14 +10,14 @@
 #include <EEPROM.h>
 #include "wiring2.h"
 #define MAX 320
-#define MIN 100
+#define MIN 50
 
 volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
-volatile unsigned short targetRPM = 50000;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
+volatile unsigned short targetRPM = 20000;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
-const long kp = 36; // Proportional constant
+const long kp = 41; // Proportional constant
 const long ki = 1;  // Integral constant
-const long kd = 0; // Derivative constant
+const long kd = 6; // Derivative constant
 const long kff = 90; // Feed Forward constant
 const long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
 volatile long oldErr = 0; // Previous error
@@ -115,8 +115,9 @@ void loop() {
 
   duration = present - past;
   // Every ten seconds change targetRPM and see how pid handles it
-  if(duration >= 10000000) {
-    targetRPM = random(10000, 70000); //random rpm between 1000.0 and 10,000.0
+  if(duration >= 5000000 && targetRPM >= 3800) {
+    //targetRPM = random(10000, 70000); //random rpm between 1000.0 and 10,000.0
+    targetRPM -= 1800;
     past = present;
   }
 
@@ -127,8 +128,8 @@ void loop() {
   currentRPM = (1*10*1000000*60)/elapsed;
   Serial.print("Current: ");
   Serial.print(currentRPM/10);
-  Serial.print(" w/ PWM: ");
-  Serial.print(OCR1A);
+  Serial.print(" w/ PWM: "); 
+  Serial.print(OCR1A); 
   Serial.print("  Target: ");
   Serial.println(targetRPM/10);
   /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
@@ -141,8 +142,7 @@ void loop() {
    pid_d = kd*(error - oldErr)/100;
    newPWM = (pid_p + pid_i + pid_d)/rpmToPwm;
    if (newPWM > MAX)
-     OCR1A = MAX;
-   else if (newPWM < MIN)
+     OCR1A = MAX   else if (newPWM < MIN)
      OCR1A = MIN;
    else
      OCR1A = newPWM;
