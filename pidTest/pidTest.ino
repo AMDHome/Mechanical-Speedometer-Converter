@@ -142,7 +142,8 @@ void loop() {
    pid_d = kd*(error - oldErr)/100;
    newPWM = (pid_p + pid_i + pid_d)/rpmToPwm;
    if (newPWM > MAX)
-     OCR1A = MAX   else if (newPWM < MIN)
+     OCR1A = MAX;   
+   else if (newPWM < MIN)
      OCR1A = MIN;
    else
      OCR1A = newPWM;
