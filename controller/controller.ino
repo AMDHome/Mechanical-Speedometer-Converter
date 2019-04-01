@@ -15,9 +15,9 @@
 volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
 volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
-const long kp = 36; // Proportional constant
+const long kp = 41; // Proportional constant
 const long ki = 1;  // Integral constant
-const long kd = 0; // Derivative constant
+const long kd = 6; // Derivative constant
 const long kff = 90; // Feed Forward constant
 const long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
 volatile long oldErr = 0; // Previous error
