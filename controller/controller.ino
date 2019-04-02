@@ -10,14 +10,15 @@
 #include <EEPROM.h>
 #include "wiring2.h"
 #define MAX 1023
+#define CUT 100
 #define MIN 0
 
 volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
 volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
-const long kp = 41; // Proportional constant
-const long ki = 1;  // Integral constant
-const long kd = 6; // Derivative constant
+const long kp = 120; // Proportional constant
+const long ki = 8;  // Integral constant
+const long kd = 17; // Derivative constant
 const long kff = 90; // Feed Forward constant
 const long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
 volatile long oldErr = 0; // Previous error
@@ -32,7 +33,8 @@ unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt 
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
-volatile unsigned long pTime = 0;
+volatile unsigned long pTimeENC = 0;
+volatile unsigned long pTimeSS = 0;
 volatile unsigned long eTime[4] = {0};
 volatile bool updated = false;
 volatile byte count = 0;
@@ -45,7 +47,7 @@ byte shift;
  * finalDrive should be 1 if not being used
  * wheelCirc will have units of meter or milliMiles (miles * 1000) [odd units but necessary for easy calcs]
  */
-void updateInputRatio(char numMag, float wheelCirc, float finalDrive) {
+void updateInputRatio(byte numMag, float wheelCirc, float finalDrive) {
   // Hard coded number = 3,600,000,000 [microseconds/hr] / 1000 [compensate for milliMiles/meters]
   //                     * 10 [compensate for SPHr/and targetRPM units]
   // Complicated I know, but floats on arduino are very Very VERY slow
@@ -64,7 +66,7 @@ void setup() {
   pinMode(9, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
 
-  pTime = micros2();
+  pTimeSS = micros2();
 
   // read numbers in from EEPROM
   numMag = EEPROM.read(3);
@@ -109,14 +111,14 @@ ISR(ANALOG_COMP_vect) {
   currTime = micros2();
 
   // if counter overflow then just ignore, happens once every 70-ish minutes
-  if(currTime < pTime) {
-    pTime = currTime;
+  if(currTime < pTimeSS) {
+    pTimeSS = currTime;
     return;
   }
 
   // update time
-  eTime[count] = currTime - pTime;
-  pTime = currTime;
+  eTime[count] = currTime - pTimeSS;
+  pTimeSS = currTime;
 
   if(numMag > 1) {
     if(fromStop && count + 1 == numMag) {
@@ -134,17 +136,16 @@ ISR(ANALOG_COMP_vect) {
  */
  ISR(TIMER0_COMPA_vect) {
    static unsigned long current_time = 0;
-   static unsigned long last_time = 0;
 
    current_time = micros2();
 
-   if(last_time > current_time) {
-     last_time = current_time;
+   if(pTimeENC > current_time) {
+     pTimeENC = current_time;
      return;
    }
 
-   elapsed = current_time - last_time;
-   last_time = current_time;
+   elapsed = current_time - pTimeENC;
+   pTimeENC = current_time;
  }
 
 void loop() {
@@ -155,7 +156,7 @@ void loop() {
     delay2(150);
   }
 
-  if(micros2() - pTime > inRatio) { //We have come to rest; stop the motor
+  if(micros2() - pTimeSS > inRatio/22) { //We have come to rest; stop the motor
     SPHr = 0;
     targetRPM = 0;
     OCR1A = 0;
@@ -165,50 +166,61 @@ void loop() {
   }
 
   if(updated){
-    
     SPHr = (unsigned long) inRatio / calcTime();
-    targetRPM = (unsigned long) SPHr * outRatio / 1000000;
-    Serial.print(SPHr/10);
-    Serial.print("\t");
-    Serial.println(targetRPM/10);
+    targetRPM = (unsigned long) (((long) SPHr) * (outRatio / 1000)) / 1000;
+    //Serial.print(SPHr/10);
+    //Serial.print("\t");
+    //Serial.println(targetRPM/10);
     updated = false;
   }
 
-  if(SPHr != 0 && currentRPM == 0) {
-    OCR1A = 250;
-  }
   /* Math is one revolution*10 to match targetRPM format, divided by elapsed to get
    * revs per microsecond, times one million micros/sec to get revs per second,
    * times 60 to get rpm. But a different order is used to save division for the end.
    */
-  currentRPM = (1*10*1000000*60)/elapsed;
+  if(elapsed == 0) {
+    currentRPM = 0;
+  } else {
+    currentRPM = (1*10*1000000*60)/elapsed;
+  }
+
+  if(SPHr > 0 && currentRPM <= 0) {
+    OCR1A = 400;
+  } else if(SPHr < 1 && (micros2() - pTimeENC) > 100000) {
+    //Serial.println("2");
+    OCR1A = 0;
+    currentRPM = 0;
+    elapsed = 0;
+  } else {
+
+  
+    /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
+     * are larger by a factor of 100 to avoid floats. These may require additional tuning.
+     */
+     error = targetRPM - currentRPM;
+     //pid_ff = kff*targetRPM/100;
+     pid_p = kp*error/100;
+     pid_i += ki*error/100;
+     pid_d = kd*(error - oldErr)/100;
+     newPWM = (pid_p + pid_i + pid_d)/rpmToPwm;
+     if (newPWM > MAX)
+       OCR1A = MAX;
+     else if (newPWM < MIN)
+       OCR1A = MIN;
+     else 
+       OCR1A = newPWM;
+     oldErr = error;
+  }
+  
+  
   Serial.print("Current: ");
   Serial.print(currentRPM/10);
-  Serial.print(" w/ PWM: ");
+  Serial.print("\tw/ PWM: ");
   Serial.print(OCR1A);
-  Serial.print("  Target: ");
+  Serial.print("\tTarget: ");
   Serial.print(targetRPM/10);
-  Serial.print("  eTime: ");
-  Serial.print(calcTime());
-  Serial.print("  SPHr: ");
+  Serial.print("\tSPHr: ");
   Serial.println(SPHr/10);
-  
-  /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
-   * are larger by a factor of 100 to avoid floats. These may require additional tuning.
-   */
-   error = targetRPM - currentRPM;
-   //pid_ff = kff*targetRPM/100;
-   pid_p = kp*error/100;
-   pid_i += ki*error/100;
-   pid_d = kd*(error - oldErr)/100;
-   newPWM = (pid_p + pid_i + pid_d)/rpmToPwm;
-   if (newPWM > MAX)
-     OCR1A = MAX;
-   else if (newPWM < MIN)
-     OCR1A = MIN;
-   else
-     OCR1A = newPWM;
-   oldErr = error;
 }
 
 unsigned long calcTime() {
