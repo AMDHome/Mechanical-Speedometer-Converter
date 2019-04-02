@@ -14,7 +14,7 @@ long offset = 20;
 
 void setup(){
   float temp;
-  long ltemp
+  long ltemp;
   short sh;
 
   
