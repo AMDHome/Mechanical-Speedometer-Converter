@@ -1,5 +1,21 @@
 #include <EEPROM.h>
 
+unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
+unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
+unsigned short maxSpeed;  // max speed our speedometer can show
+
+/*
+ * Calculate inRatio via stored values.
+ * finalDrive should be 1 if not being used
+ * wheelCirc will have units of meter or milliMiles (miles * 1000) [odd units but necessary for easy calcs]
+ */
+void updateInputRatio(char numMag, float wheelCirc, float finalDrive) {
+  // Hard coded number = 3,600,000,000 [microseconds/hr] / 1000 [compensate for milliMiles/meters]
+  //                     * 10 [compensate for SPHr/and targetRPM units]
+  // Complicated I know, but floats on arduino are very Very VERY slow
+  inRatio = (long) (finalDrive * wheelCirc * 36000000 / (float) numMag);
+}
+
 void setup() {
   
   Serial.begin(9600);
@@ -8,7 +24,7 @@ void setup() {
 void loop() {
 
   if(checkBT()){
-    delay2(150);
+    delay(150);
   }
 }
 
@@ -19,6 +35,7 @@ bool checkBT() {
 
   // check and recieve data
   switch(recvData(data)) {
+    Serial.print(recvData(data));
     case 'U': // Store Units
       EEPROM.update(0, data[0] - '0');
       updated = true;

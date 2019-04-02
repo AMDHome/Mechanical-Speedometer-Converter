@@ -55,7 +55,6 @@ import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.util.Scanner;
 import android.widget.LinearLayout;
-
 public class MainActivity extends AppCompatActivity {
 
     public TextView mTextMessage;
@@ -74,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListVal;
 
+
+    //FIXME: add broadcast library
+    BroadcastReceiver mReceiver;
+
     // led
     String address = null;
     private ProgressDialog progress;
@@ -87,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
     TextView magnetsText;
     TextView finalDriveText;
     TextView meterRatioText;
-    TextView wheelSizeText;
-    TextView wheelCircText;
+    RadioButton wheelSizeText;
+    RadioButton wheelCircText;
     Button btnOn, btnOff, btnDis;
     String wheelUnit;
 
@@ -129,6 +132,22 @@ public class MainActivity extends AppCompatActivity {
         // change opacity of calibration layout
         findViewById(R.id.meterSettings).setAlpha((float)0.3);
 
+        // Define widgets
+        btnPaired = findViewById(R.id.findButton);
+        devicelist = findViewById(R.id.listBluetooth);
+        myBluetooth = BluetoothAdapter.getDefaultAdapter();
+        mListView = findViewById(R.id.listSettings);
+        maxSpeedText = findViewById(R.id.maxSpeedText);
+        magnetsText = findViewById(R.id.magnetsText);
+        finalDriveText = findViewById(R.id.finalDriveText);
+        meterRatioText = findViewById(R.id.meterRatioText);
+        wheelSizeText = findViewById(R.id.wheelSizeText);
+        wheelCircText = findViewById(R.id.wheelCircText);
+        unitsText = findViewById(R.id.unitsText);
+        //btnOn = findViewById(R.id.button2);
+        //btnOff = findViewById(R.id.button3);
+        //btnDis = findViewById(R.id.button4);
+
         BluetoothActivity();
         meterSettings();
 
@@ -142,11 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Get layout of bluetooth tab
         findViewById(R.id.searchDevices).setVisibility(View.VISIBLE);
-
-        btnPaired = findViewById(R.id.findButton);
-        devicelist = findViewById(R.id.listBluetooth);
-        myBluetooth = BluetoothAdapter.getDefaultAdapter();
-
 
         if (myBluetooth == null) {
             //Show a message that the device has no bluetooth adapter
@@ -175,6 +189,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pairedDevicesList() {
+
+        // Register for broadcasts when a device is discovered.
+        //IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        //registerReceiver(mReceiver, filter);
+
+
         pairedDevices = myBluetooth.getBondedDevices();
         ArrayList list = new ArrayList();
 
@@ -194,6 +214,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Create a BroadcastReceiver for ACTION_FOUND.
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Discovery has found a device. Get the BluetoothDevice
+                // object and its info from the Intent.
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+            }
+        }
+    };
+
+
     private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Get the device MAC address, the last 17 chars in the View
@@ -208,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
             tv.setTextColor(Color.WHITE);
 
             new ConnectBT().execute(); //Call the class to connect
-
             // Make an intent to start next activity.
             //Intent i = new Intent(MainActivity.this, ledControl.class);
 
@@ -219,7 +253,11 @@ public class MainActivity extends AppCompatActivity {
     };
 
     void meterSettings() {
+
+        // Get layout for meter settings
         findViewById(R.id.meterSettings).setVisibility(View.VISIBLE);
+
+
         /*try {
             // Read user settings
             FileInputStream fin = openFileInput("SpeedometerSettings");
@@ -237,30 +275,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }*/
 
-        // Get layout of meter settings
-        findViewById(R.id.calibrationTitle).setVisibility(View.VISIBLE);
-        findViewById(R.id.listSettings).setVisibility(View.VISIBLE);
-
-        mListView = findViewById(R.id.listSettings);
-        maxSpeedText = findViewById(R.id.maxSpeedText);
-        magnetsText = findViewById(R.id.magnetsText);
-        finalDriveText = findViewById(R.id.finalDriveText);
-        meterRatioText = findViewById(R.id.meterRatioText);
-        wheelSizeText = findViewById(R.id.wheelSizeText);
-        wheelCircText = findViewById(R.id.wheelCircText);
-        unitsText = findViewById(R.id.unitsText);
-        btnOn = (Button)findViewById(R.id.button2);
-        btnOff = (Button)findViewById(R.id.button3);
-        btnDis = (Button)findViewById(R.id.button4);
-
         final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.settings_array));
-
-        String output;
-        //final ArrayAdapter mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, myResArrayList);
-
-        //mListView.setAdapter(lviewAdapter);
-        //lviewAdapter = new ListViewAdapter(this, getResources().getStringArray(R.array.settings_array), getResources().getStringArray(R.array.settings_array));
 
         mListView.setAdapter(mAdapter);
 
@@ -270,207 +286,243 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView adapterView, final View view, int i, long l) {
 
                 final int itemNum = i;
+
+                // Set up alert dialog with title
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(getResources().getStringArray(R.array.settings_array)[i]);
 
-
-                if (i == 0) {
-                    // set default unit
-                    unitsText.setText(getResources().getStringArray(R.array.units_array)[0]
-                            .replaceAll(".* ", "")
-                            .replaceAll("\\(","")
-                            .replaceAll("\\)",""));
+                if (itemNum == 0) { // units
 
                     builder.setSingleChoiceItems(getResources().getStringArray(R.array.units_array),
-                            i, new DialogInterface.OnClickListener() {
+                            -1, new DialogInterface.OnClickListener() {
+
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int selectedIndex) {
+
+                                    unitsText.setText(getResources()
+                                            .getStringArray(R.array.units_array)[selectedIndex]
+                                            .replaceAll(".* ", "")
+                                            .replaceAll("\\(", "")
+                                            .replaceAll("\\)", ""));
+                                }
+                            });
+
+                    builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int selectedIndex) {
-                            switch (itemNum) {
-                                case 0: // units
-                                    unitsText.setText(getResources().getStringArray(R.array.units_array)[selectedIndex]
-                                            .replaceAll(".* ", "")
-                                            .replaceAll("\\(","")
-                                            .replaceAll("\\)",""));
-                            }
-                            sendUnits(selectedIndex);
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            sendUnits(unitsText.getText().toString());
                         }
                     });
-                    builder.setPositiveButton("Confirm", null);
+
                     builder.setNegativeButton("Cancel", null);
 
 
-                } else if (i == 5) { // wheel size
+                } else if (itemNum == 1) { // max speed
 
-                    LinearLayout layout = new LinearLayout(MainActivity.this);
-                    layout.setOrientation(LinearLayout.VERTICAL);
-
-                    // Add a TextView here for the "Title" label, as noted in the comments
-                    final EditText tireSize1 = new EditText(MainActivity.this);
-                    tireSize1.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    tireSize1.setHint("Wheel size 1");
-                    layout.addView(tireSize1); // Notice this is an add method
-
-                    // Add another TextView here for the "Description" label
-                    final EditText tireSize2 = new EditText(MainActivity.this);
-                    tireSize2.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    tireSize2.setHint("Wheel size 2");
-                    layout.addView(tireSize2); // Another add method
-
-                    // Add another TextView here for the "Description" label
-                    final EditText tireSize3 = new EditText(MainActivity.this);
-                    tireSize3.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    tireSize3.setHint("Wheel size 3");
-                    layout.addView(tireSize3); // Another add method
-
-                    builder.setView(layout); // Again this is a set method, not add
-
-                    // Set up the buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (itemNum) {
-                                case 5: // wheel size
-                                    if ((tireSize1.getText() != null) &&
-                                            (tireSize2.getText() != null) &&
-                                            (tireSize3.getText() != null)) {
-                                        wheelSizeText.setText(tireSize1.getText().toString() + ", " +
-                                                tireSize2.getText().toString() + ", " +
-                                                tireSize3.getText().toString());
-                                    }
-                                    sendWheelSizeCalc(wheelSizeText, tireSize1.getText().toString(),
-                                            tireSize2.getText().toString(),
-                                            tireSize3.getText().toString(),
-                                            unitsText.getText().toString());
-                                    break;
-                            }
-                        }
-                    });
-
-                } else if (i == 6) { // wheel circumference
-
-                    LinearLayout layout = new LinearLayout(MainActivity.this);
-                    layout.setOrientation(LinearLayout.VERTICAL);
-
-                    // Add a TextView here for the "Title" label, as noted in the comments
-                    final EditText wheelCirc = new EditText(MainActivity.this);
-                    wheelCirc.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                    wheelCirc.setHint("Wheel circumference");
-                    layout.addView(wheelCirc); // Notice this is an add method
-
-                    //final RadioGroup circUnits = new RadioGroup(MainActivity.this);
-                    // Add another TextView here for the "Description" label
-
-                    final RadioButton circInch = new RadioButton(MainActivity.this);
-                    circInch.setText("Inch (in)");
-                    layout.addView(circInch); // Another add method
-
-                    final RadioButton circCM = new RadioButton(MainActivity.this);
-                    circCM.setText("Centimeter (cm)");
-                    layout.addView(circCM); // Another add method
-
-                    builder.setView(layout); // Again this is a set method, not add
-
-                    // Set up the buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            switch (itemNum) {
-                                case 6: // wheel circ
-
-                                    // Check which radio button was clicked
-                                    if (circInch.isChecked()) {
-                                        wheelUnit = "inch";
-                                        circCM.setChecked(false);
-                                    } else {
-                                        wheelUnit = "cm";
-                                        circInch.setChecked(false);
-                                    }
-
-                                    wheelCircText.setText(wheelCirc.getText().toString() + " " +
-                                            wheelUnit);
-                                    sendWheelCircCalc(wheelCircText, wheelUnit);
-                                    break;
-                            }
-                        }
-                    });
-
-                } else if (itemNum == 1 || itemNum == 3) { // max speed or final drive
+                    // Set text box input as int only
                     final EditText input = new EditText(MainActivity.this);
-                    input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                    builder.setView(input);
-
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (itemNum == 1) {
-                                maxSpeedText.setText(input.getText().toString());
-                                sendInfo(maxSpeedText, "M:");
-                            } else { // 3
-                                finalDriveText.setText(input.getText().toString());
-                                sendCalc(finalDriveText, "F:");
-                            }
-                        }
-                    });
-
-
-                        } else {
-                    // Set up the input
-                    final EditText input = new EditText(MainActivity.this);
-                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    //input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    //input.setInputType(InputType.TYPE_CLASS_TEXT);
                     input.setInputType(InputType.TYPE_CLASS_NUMBER);
                     builder.setView(input);
 
-
                     // Set up the buttons
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                        boolean result = false;
+
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            switch (itemNum) {
-                                case 0: // units
-                                    break;
-                                case 1: // max speed
-                                    //maxSpeedText.setText(input.getText().toString());
-                                    //sendInfo(maxSpeedText, "M:");
-                                    break;
-                                case 2: // magnets
-                                    magnetsText.setText(input.getText().toString());
-                                    sendInfo(magnetsText, "N:");
-                                    break;
-                                case 3: // final drive
-                                    //finalDriveText.setText(input.getText().toString());
-                                    //sendCalc(finalDriveText, "F:");
-                                    break;
-                                case 4: // meter ratio
-                                    meterRatioText.setText(input.getText().toString());
-                                    sendCalc(meterRatioText, "S:");
-                                    break;
-                                case 5: // wheel size
-                                    //wheelSizeText.setText(input.getText().toString());
-                                    //sendWheelSizeCalc(wheelSizeText, );
-                                    break;
-                                case 6: // wheel circumference
-                                    //wheelSizeText.setText(input.getText().toString());
-                                    //sendWheelCircCalc(wheelSizeText);
-                                    break;
+                            maxSpeedText.setText(input.getText().toString());
+
+                            if (input.getText().toString().length() != 0) {
+                                result = sendInfo(input.getText().toString(), "M:");
                             }
 
+                            if (result == false) {
+                                msg("error");
+                            }
                         }
                     });
+
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
                     });
+                } else if (itemNum == 2) { // magnets
+
+                    builder.setSingleChoiceItems(getResources().getStringArray(R.array.magnet_array),
+                            -1, new DialogInterface.OnClickListener() {
+
+
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int selectedIndex) {
+
+                            magnetsText.setText(getResources()
+                                    .getStringArray(R.array.magnet_array)[selectedIndex]);
+                        }
+                    });
+
+                    builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+
+                         boolean result = false;
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            result = sendInfo(magnetsText.getText().toString(), "N:");
+                        }
+
+                    });
+                    builder.setNegativeButton("Cancel", null);
+                } else if (itemNum == 3 || itemNum == 4) { // max speed or final drive
+
+                    // Set text box input as decimal only
+                    final EditText input = new EditText(MainActivity.this);
+                    input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                        boolean result = false;
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            if (itemNum == 3) {
+
+                                finalDriveText.setText(input.getText().toString());
+
+                                if (input.getText().toString().length() != 0) {
+                                    result = sendCalc(input.getText().toString(), "F:");
+                                }
+
+                            } else if (itemNum == 4) { // 4
+
+                                meterRatioText.setText(input.getText().toString());
+
+                                if (input.getText().toString().length() != 0) {
+                                    result = sendCalc(input.getText().toString(), "S:");
+                                }
+                            }
+
+                            if (result == false) {
+                                msg("error");
+                            }
+                        }
+                    });
+
+                } else if (itemNum == 5) { // wheel size
+
+                    // Set up layout for alert dialog
+                    LinearLayout layout = new LinearLayout(MainActivity.this);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+
+                    // Set text box input as int only
+                    final EditText tireSize1 = new EditText(MainActivity.this);
+                    tireSize1.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                    tireSize1.setHint("Wheel size 1");
+                    layout.addView(tireSize1); // Notice this is an add method
+
+                    final EditText tireSize2 = new EditText(MainActivity.this);
+                    tireSize2.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                    tireSize2.setHint("Wheel size 2");
+                    layout.addView(tireSize2);
+
+                    final EditText tireSize3 = new EditText(MainActivity.this);
+                    tireSize3.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                    tireSize3.setHint("Wheel size 3");
+                    layout.addView(tireSize3); // Another add method
+
+                    // Set layout for alert dialog
+                    builder.setView(layout);
+
+                    // Set up the buttons
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            boolean result = false;
+
+                            wheelSizeText.setText(tireSize1.getText().toString() + ", " +
+                                    tireSize2.getText().toString() + ", " +
+                                    tireSize3.getText().toString());
+
+                            if ((tireSize1.getText().toString().length() != 0) &&
+                            (tireSize2.getText().toString().length() != 0)  &&
+                                    (tireSize3.getText().toString().length() != 0)) {
+
+                                result = sendWheelSizeCalc(tireSize1.getText().toString(),
+                                        tireSize2.getText().toString(),
+                                        tireSize3.getText().toString(),
+                                        unitsText.getText().toString());
+                            }
+
+                            if (result == false) {
+                                msg("error");
+                            }
+                        }
+                    });
+
+                } else if (itemNum == 6) { // wheel circumference
+
+                    // Set up layout for alert dialog
+                    LinearLayout layout = new LinearLayout(MainActivity.this);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+
+                    // Set text box input as decimal only
+                    final EditText wheelCirc = new EditText(MainActivity.this);
+                    wheelCirc.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                    wheelCirc.setHint("Wheel circumference");
+                    layout.addView(wheelCirc); // Notice this is an add method
+
+                    // Set up radio button for units
+                    final RadioButton circInch = new RadioButton(MainActivity.this);
+                    circInch.setText("Inch (in)");
+                    layout.addView(circInch);
+
+                    final RadioButton circCM = new RadioButton(MainActivity.this);
+                    circCM.setText("Centimeter (cm)");
+                    layout.addView(circCM);
+
+                    // Set layout for alert dialog
+                    builder.setView(layout);
+
+                    // Set up the buttons
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            boolean result = false;
+
+                            // Check which radio button was clicked
+                            if (circInch.isChecked()) {
+                                wheelUnit = "inch";
+                                circCM.setChecked(false); // Make sure the other option is unchecked
+                            } else {
+                                wheelUnit = "cm";
+                                circInch.setChecked(false);
+                            }
+
+                            wheelCircText.setText(wheelCirc.getText().toString() + " " + wheelUnit);
+
+                            if (wheelCirc.getText().toString().length() != 0) {
+                                result = sendWheelCircCalc(wheelCirc.getText().toString(), wheelUnit);
+                            }
+
+                            if (result == false) {
+                                msg("error");
+                            }
+                        }
+                    });
+
                 }
                 builder.show();
 
-                //Toast.makeText(MainActivity.this, adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
                 // Initialize a TextView for ListView each Item
                 tv = view.findViewById(android.R.id.text1);
 
@@ -501,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
 
-        btnOn.setOnClickListener(new View.OnClickListener()
+        /*btnOn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -525,7 +577,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 Disconnect(); //close connection
             }
-        });
+        });*/
     }
 
     private void msg(String s)
@@ -541,14 +593,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(MainActivity.this, "Connecting...", "Please wait!!!");  //show a progress dialog
-            /*progress.show();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    progress.dismiss();
-                }
-            }, 1500);  // 1500 milliseconds*/
+            progress = ProgressDialog.show(MainActivity.this, "Connecting...",
+                    "Please wait!!!");  //show a progress dialog
         }
 
         @Override
@@ -572,6 +618,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Void result) //after the doInBackground, it checks if everything went fine
         {
@@ -593,179 +640,113 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void sendUnits(int index) {
+    void sendUnits(String indexStr) {
 
-        if (index == 0) { // kph
-            if (btSocket != null) {
-                try {
-                    String str = "U:";
-                    str = str + "0" + '\0';
+        if (btSocket != null) {
+            try {
+                String str = "U:";
+                str = str + indexStr + '\0';
 
-                    System.out.println(str);
 
-                    btSocket.getOutputStream().write(str.getBytes());
-                } catch (IOException e) {
-                    msg("Error");
-                }
-            }
-        } else { // mph
-            if (btSocket != null) {
-                try {
-                    String str = "U:";
-                    str = str + "1" + '\0';
-                    System.out.println(str);
 
-                    btSocket.getOutputStream().write(str.getBytes());
-                } catch (IOException e) {
-                    msg("Error");
-                }
+                btSocket.getOutputStream().write(str.getBytes());
+                msg(str);
+            } catch (IOException e) {
+                msg("Error");
             }
         }
+
     }
 
-    void sendInfo(final TextView tv, final String extraStr) {
+    boolean sendInfo(String textStr, String extraStr) {
 
-        tv.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-
-                    if (btSocket!=null) {
-                        try
-                        {
-                            String str = v.getText().toString();
-                            str=extraStr + str + '\0';
-                            //System.out.println(str);
-                            msg(str);
-
-                            btSocket.getOutputStream().write(str.getBytes());
-                        }
-                        catch (IOException e)
-                        {
-                            msg("Error");
-                        }
-                    }
-
-                    handled = true;
-                }
-                return handled;
+        if (btSocket!=null) {
+            try {
+                String str = extraStr + textStr + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
+                msg(str);
+                return true;
+            } catch (IOException e) {
+                msg("Error");
             }
-        });
+        }
+        return false;
     }
 
-    void sendCalc(final TextView tv, final String extraStr) {
-        tv.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD 3
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
+    boolean sendCalc(String textStr, String extraStr) {
 
-                    if (btSocket!=null) {
-                        try
-                        {
-                            //String str = getText();
-                            String str = v.getText().toString();
-                            int result = Integer.parseInt(str);
-                            result=result*1000000;
-                            str=new Integer(result).toString();
-                            str=extraStr + str + '\0';
-                            msg(str);
-                            btSocket.getOutputStream().write(str.getBytes());
-                        }
-                        catch (IOException e)
-                        {
-                            msg("Error");
-                        }
-                    }
-
-                    handled = true;
-                }
-                return handled;
+        if (btSocket!=null) {
+            try {
+                String str = textStr;
+                float result = Float.parseFloat(str);
+                result=result*1000000;
+                str = extraStr + Integer.toString((int) result) + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
+                msg(str);
+                return true;
+            } catch (IOException e) {
+                msg("Error");
             }
-        });
+        }
+        return false;
     }
 
-    void sendWheelSizeCalc(final TextView tv, final String size1, final String size2,
-                           final String size3, final String unit) {
+    boolean sendWheelSizeCalc(String size1, String size2, String size3, String unit) {
 
-        tv.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD 5
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
+        if (btSocket != null) {
+            try {
 
-                    if (btSocket != null) {
-                        try {
+                int result1 = Integer.parseInt(size1);
+                int result2 = Integer.parseInt(size2);
+                int result3 = Integer.parseInt(size3);
 
-                            int result1 = Integer.parseInt(size1);
-                            int result2 = Integer.parseInt(size2);
-                            int result3 = Integer.parseInt(size3);
+                double diameter;
+                double result;
 
-                            double diameter;
-                            double result;
-
-                            if (unit == "kph") {
-                                diameter = (result1 * result2 / 500) + (result3 * 2.54);
-                                result = (diameter / 100) * Math.PI;
-                            } else { // mph
-                                diameter = (result1 * result2 / 1270) + result3;
-                                result = (diameter * 1000 / 63360) * Math.PI;
-                            }
-                            result = result * 100000000;
-                            String str = new Integer((int)Math.floor(result + 0.5d)).toString();
-                            str = "W:" + str + '\0';
-                            msg(str);
-
-                            btSocket.getOutputStream().write(str.getBytes());
-                        } catch (IOException e) {
-                            msg("Error");
-                        }
-                    }
-
-                    handled = true;
+                if (unit == "kph") {
+                    diameter = (result1 * result2 / 500) + (result3 * 2.54);
+                    result = (diameter / 100) * Math.PI;
+                } else { // mph
+                    diameter = (result1 * result2 / 1270) + result3;
+                    result = (diameter * 1000 / 63360) * Math.PI;
                 }
-                return handled;
+                result = result * 100000000;
+
+                String str = "W:" + Integer.toString((int) result) + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
+                msg(str);
+                return true;
+            } catch (IOException e) {
+                msg("Error");
             }
-        });
+        }
+        return false;
     }
 
-    void sendWheelCircCalc(final TextView tv, final String wheelUnit) {
+    boolean sendWheelCircCalc(String textStr, String wheelUnit) {
 
-        tv.setOnEditorActionListener(new TextView.OnEditorActionListener() { //TXTFIELD 5
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
+        if (btSocket != null) {
+            try {
 
-                    if (btSocket != null) {
-                        try {
-                            //String str = getText();
-                            String str = v.getText().toString();
-                            int result = Integer.parseInt(str);
+                String str = textStr;
+                float result = Float.parseFloat(str);
 
-                            if (wheelUnit == "inch") {
-                                result = result * 100000000;
-                                result = result / 63360;
-                            } else {
-                                result = result * 10000;
-                            }
-
-                            str = new Integer(result).toString();
-                            str = "W:" + str + '\0';
-                            msg(str);
-
-                            btSocket.getOutputStream().write(str.getBytes());
-                        } catch (IOException e) {
-                            msg("Error");
-                        }
-                    }
-
-                    handled = true;
+                if (wheelUnit == "inch") {
+                    result = result * 1000000000;
+                    result = result / 63360;
+                } else { // cm
+                    result = result * 10000;
                 }
-                return handled;
+
+                str = "W:" + Integer.toString((int) result) + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
+                msg(str);
+                return true;
+            } catch (IOException e) {
+                msg("Error");
             }
-        });
+        }
+        return false;
     }
 
     public  void setListViewHeightBasedOnChildren(final ListView listView, final View largeLinear, double weight) {
