@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.RadioGroup;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //FIXME: add broadcast library
-    BroadcastReceiver mReceiver;
+    //BroadcastReceiver mReceiver;
 
     // led
     String address = null;
@@ -641,16 +642,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void sendUnits(String indexStr) {
+        //System.out.println(indexStr);
+        //System.out.println("string length is: "+indexStr.length());
 
         if (btSocket != null) {
             try {
                 String str = "U:";
-                str = str + indexStr + '\0';
+                //System.out.println(indexStr);
+                if (indexStr.equals("kph")) {
+                    //System.out.println("1");
+                    String value="1";
+                    str = str + value + '\0';
+                    btSocket.getOutputStream().write(str.getBytes());
+                    msg(str);
+                }
+                if (indexStr.equals("mph")) {
+                    //System.out.println("2");
+                    String value="0";
+                    str = str + value + '\0';
+                    btSocket.getOutputStream().write(str.getBytes());
+                    msg(str);
+                }
 
-
-
-                btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                //System.out.println("3");
             } catch (IOException e) {
                 msg("Error");
             }
