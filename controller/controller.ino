@@ -9,28 +9,35 @@
 
 #include <EEPROM.h>
 #include "wiring2.h"
+
+// define PWM limits
 #define MAX 1023
 #define MIN 0
 
-volatile unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
-volatile unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
+// define PID constants
+#define KP 125          // Proportional constant
+#define KI 10            // Integral constant
+#define KD 10           // Derivative constant
+#define KFF 90          // Feed Forward constant
+#define RPM_TO_PWM 100  // Rough conversion ratio of rpm numbers to pwm numbers
 
-const long kp = 41; // Proportional constant
-const long ki = 1;  // Integral constant
-const long kd = 6; // Derivative constant
-const long kff = 90; // Feed Forward constant
-const long rpmToPwm = 100; // Rough conversion ratio of rpm numbers to pwm numbers
-volatile long oldErr = 0; // Previous error
-volatile long pid_p; // Proportional term
-volatile long pid_i = 0; // Integral term
-volatile long pid_d; // Derivative term
-volatile long pid_ff; // Feed Forward term
-volatile long currentRPM = 0; // Feedback from slotted wheel on motor shaft
-volatile long revolutions = 0; // Number of 360 degree rotations
-volatile long elapsed;
+unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
+unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
+
+long oldErr = 0; // Previous error
+long pid_p; // Proportional term
+long pid_i = 0; // Integral term
+long pid_d; // Derivative term
+//long pid_ff; // Feed Forward term
+
 unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
+
+volatile unsigned long tickCounter[2] = {0};  // number of ticks every ~0.13 seconds
+volatile byte calcCycle = 0;                  // timer goes to 1024, use this to get to 2048
+volatile byte countENC = 0;                   // flag to tell which tickCounter to put new data into
+volatile unsigned long currentRPM  = 0;
 
 volatile unsigned long pTime = 0;
 volatile unsigned long eTime[4] = {0};
@@ -45,7 +52,7 @@ byte shift;
  * finalDrive should be 1 if not being used
  * wheelCirc will have units of meter or milliMiles (miles * 1000) [odd units but necessary for easy calcs]
  */
-void updateInputRatio(char numMag, float wheelCirc, float finalDrive) {
+void updateInputRatio(byte numMag, float wheelCirc, float finalDrive) {
   // Hard coded number = 3,600,000,000 [microseconds/hr] / 1000 [compensate for milliMiles/meters]
   //                     * 10 [compensate for SPHr/and targetRPM units]
   // Complicated I know, but floats on arduino are very Very VERY slow
@@ -75,9 +82,11 @@ void setup() {
   // Calculate maxRPM for our speedometer
   EEPROM.get(1, maxSpeed);
 
-  // Configure PWM (Count Up, Fast PWM 10-bit, CLK/64)
+  // Configure PWM (Count Up, Fast PWM 10-bit, CLK/1024)
+  // Trigger OVF INT on T1
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
-  TCCR1B = _BV(WGM12) | _BV(CS11) | _BV(CS10);
+  TCCR1B = _BV(WGM12) | _BV(CS12);// | _BV(CS10);
+  TIMSK1 = _BV(TOIE1);
 
   // Enable Analog Comparator
   ADCSRB = 0;
@@ -86,14 +95,12 @@ void setup() {
   // Enable T0 External Clock Counter (Count Rising Edge)
   TCCR0A = _BV(WGM01);
   TCCR0B = _BV(CS02) | _BV(CS01) | _BV(CS00);   // remove CS00 for Falling Edge
-  TIMSK0 = _BV(OCIE0A);
 
   TCNT0 = 0;  // Reset Counter 0
-  OCR0A = 20;  // Set compare value (number of holes that pass before interrupt is triggered
 
   // No Load Operating Values
   // Start-Up Min 205, Absolute Min: 0
-  // Operating Range ~180 - 1023 (Lowest operating value may be lower)
+  // Operating Range ~100 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
 
   Serial.println("~~~Starting~~~");
@@ -128,87 +135,84 @@ ISR(ANALOG_COMP_vect) {
   updated = true;
 }
 
-/* Every 100ms (can be changed), a measurement of current motor RPM is taken. At this time, the error
- * between targetRPM and currentRPM is used to make a change to OCR1A via PID. This process is repsonsible
- * for all PWM control except entering and exiting rest, since at rest this interrupt will not run.
- */
- ISR(TIMER0_COMPA_vect) {
-   static unsigned long current_time = 0;
-   static unsigned long last_time = 0;
 
-   current_time = micros2();
+ISR(TIMER1_OVF_vect) {
+  if(calcCycle == 0) {
+    tickCounter[countENC % 2] = TCNT0;
+    TCNT0 = 0;
+    countENC++;
+  }
 
-   if(last_time > current_time) {
-     last_time = current_time;
-     return;
-   }
-
-   elapsed = current_time - last_time;
-   last_time = current_time;
- }
+  calcCycle = (calcCycle + 1) % 4;
+}
 
 void loop() {
   long error;
   long newPWM;
+  long currentRPM = 0; // Feedback from slotted wheel on motor shaft
+  //long revolutions = 0; // Number of 360 degree rotations
 
   if(checkBT()){
     delay2(150);
   }
 
-  if(micros2() - pTime > inRatio) { //We have come to rest; stop the motor
+  if(micros2() - pTime > inRatio/20) { //We have come to rest; stop the motor
     SPHr = 0;
     targetRPM = 0;
     OCR1A = 0;
-    currentRPM = 0;
+    tickCounter[0] = tickCounter[1] = 0;
     fromStop = true;
     count = 0;
-  }
+  } else {
 
-  if(updated){
+    if(updated){
+      SPHr = (unsigned long) inRatio / calcTime();
+      targetRPM = (unsigned long) (((long) SPHr) * (outRatio / 1000)) / 1000;
+      //Serial.print(SPHr/10);
+      //Serial.print("\t");
+      //Serial.println(targetRPM/10);
+      updated = false;
+    }
+  
+    currentRPM = ((46875 * (tickCounter[0] + tickCounter[1]) / 2) / 1024) * 10;
+  
+    /* Math is one revolution*10 to match targetRPM format, divided by elapsed to get
+     * revs per microsecond, times one million micros/sec to get revs per second,
+     * times 60 to get rpm. But a different order is used to save division for the end.
+     */
+    if(SPHr > 0 && currentRPM <= 10) {
+      OCR1A = 400;
+    } 
     
-    SPHr = (unsigned long) inRatio / calcTime();
-    targetRPM = (unsigned long) SPHr * outRatio / 1000000;
-    Serial.print(SPHr/10);
-    Serial.print("\t");
-    Serial.println(targetRPM/10);
-    updated = false;
+    /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
+     * are larger by a factor of 100 to avoid floats. These may require additional tuning.
+     */
+  
+     error = targetRPM - currentRPM;
+     //pid_ff = KFF * targetRPM / 100;
+     pid_p = KP * error / 100;
+     pid_i += KI * error / 100;
+     pid_d = KD * (error - oldErr) / 100;
+     newPWM = (pid_p + pid_i + pid_d) / RPM_TO_PWM;
+  
+     if (newPWM > MAX)
+       OCR1A = MAX;
+     else if (newPWM < MIN)
+       OCR1A = MIN;
+     else 
+       OCR1A = newPWM;
+     oldErr = error;
   }
-
-  if(SPHr != 0 && currentRPM == 0) {
-    OCR1A = 250;
-  }
-  /* Math is one revolution*10 to match targetRPM format, divided by elapsed to get
-   * revs per microsecond, times one million micros/sec to get revs per second,
-   * times 60 to get rpm. But a different order is used to save division for the end.
-   */
-  currentRPM = (1*10*1000000*60)/elapsed;
+  
+  
   Serial.print("Current: ");
   Serial.print(currentRPM/10);
-  Serial.print(" w/ PWM: ");
+  Serial.print("\tw/ PWM: ");
   Serial.print(OCR1A);
-  Serial.print("  Target: ");
+  Serial.print("\tTarget: ");
   Serial.print(targetRPM/10);
-  Serial.print("  eTime: ");
-  Serial.print(calcTime());
-  Serial.print("  SPHr: ");
+  Serial.print("\tSPHr: ");
   Serial.println(SPHr/10);
-  
-  /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
-   * are larger by a factor of 100 to avoid floats. These may require additional tuning.
-   */
-   error = targetRPM - currentRPM;
-   //pid_ff = kff*targetRPM/100;
-   pid_p = kp*error/100;
-   pid_i += ki*error/100;
-   pid_d = kd*(error - oldErr)/100;
-   newPWM = (pid_p + pid_i + pid_d)/rpmToPwm;
-   if (newPWM > MAX)
-     OCR1A = MAX;
-   else if (newPWM < MIN)
-     OCR1A = MIN;
-   else
-     OCR1A = newPWM;
-   oldErr = error;
 }
 
 unsigned long calcTime() {
