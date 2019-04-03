@@ -17,7 +17,7 @@ void setup(){
   long ltemp;
   short sh;
 
-  
+  Serial.begin(9600);
   // assumes 1 = MPH
   //         0 = KMH
   Serial.print("Units: ");

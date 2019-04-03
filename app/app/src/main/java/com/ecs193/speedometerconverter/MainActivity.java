@@ -315,6 +315,12 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
 
                             sendUnits(unitsText.getText().toString());
+                            if (unitsText.getText().toString() == "mph") {
+                                sendUnits(Integer.toString(0));
+                            } else if (unitsText.getText().toString() == "kph") {
+                                sendUnits(Integer.toString(1));
+                            }
+
                         }
                     });
 
@@ -649,20 +655,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String str = "U:";
                 //System.out.println(indexStr);
-                if (indexStr.equals("kph")) {
-                    //System.out.println("1");
-                    String value="1";
-                    str = str + value + '\0';
-                    btSocket.getOutputStream().write(str.getBytes());
-                    msg(str);
-                }
-                if (indexStr.equals("mph")) {
-                    //System.out.println("2");
-                    String value="0";
-                    str = str + value + '\0';
-                    btSocket.getOutputStream().write(str.getBytes());
-                    msg(str);
-                }
+                str = str + indexStr + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
+                //msg(str);
 
                 //System.out.println("3");
             } catch (IOException e) {
@@ -678,7 +673,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String str = extraStr + textStr + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                //msg(str);
                 return true;
             } catch (IOException e) {
                 msg("Error");
@@ -696,7 +691,7 @@ public class MainActivity extends AppCompatActivity {
                 result=result*1000000;
                 str = extraStr + Integer.toString((int) result) + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                //msg(str);
                 return true;
             } catch (IOException e) {
                 msg("Error");

@@ -23,8 +23,8 @@
     </string-array>
 
     <string-array name="units_array">
-        <item>Kilometers per hour (kph)</item>
         <item>Miles per hour (mph)</item>
+        <item>Kilometers per hour (kph)</item>
     </string-array>
 
     <string-array name="magnet_array">
