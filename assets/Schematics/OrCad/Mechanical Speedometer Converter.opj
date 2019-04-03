@@ -28,11 +28,12 @@
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 2 3 -1 -1 -8 -31 52 2227 52 751")
-        (Scroll "-559 -9")
-        (Zoom "137")
+        (Placement "44 2 3 -1 -1 -8 -31 52 1294 52 467")
+        (Scroll "-211 70")
+        (Zoom "100")
         (Occurrence "/"))
-      (Path "C:\USERS\STEVE\DESKTOP\ORCAD\MECHANICAL SPEEDOMETER CONVERTER.DSN")
+      (Path
+         "C:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\MECHANICAL SPEEDOMETER CONVERTER.DSN")
       (Schematic "SCHEMATIC1")
       (Page "PAGE1")))
   (PartMRUSelector
