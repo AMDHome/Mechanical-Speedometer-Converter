@@ -24,7 +24,7 @@ void setup() {
 void loop() {
 
   if(checkBT()){
-    delay(150);
+    delay(10);
   }
 }
 
@@ -38,36 +38,53 @@ bool checkBT() {
     Serial.print(recvData(data));
     case 'U': // Store Units
       EEPROM.update(0, data[0] - '0');
+      if(EEPROM.read(0) == 0){
+        Serial.println("MPH");
+      } else if (EEPROM.read(0) == 1)  {
+        Serial.println("KPH");
+      }
       updated = true;
       break;
 
     case 'M': // Store Max Speed
-      maxSpeed = (short) atoi(data);
+      maxSpeed = (short) atol(data);
       EEPROM.put(1, maxSpeed);
+      Serial.print(EEPROM.get(1, maxSpeed));
       updated = true;
       break;
       
     case 'N': // Store Number of Magnets
       EEPROM.update(3, data[0] - '0');
+      //Serial.print(EEPROM.get(3, data[0] - '0'));
       updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      if(EEPROM.read(3) == 1){
+        Serial.println("1");
+      } else if(EEPROM.read(3) == 2){
+        Serial.println("2");
+      } else if(EEPROM.read(3) == 4) {
+        Serial.println("4");
+      }
       updated = true;
       break;
 
     case 'F': // Store Final Drive Ratio
-      EEPROM.put(4, ((float) atoi(data)) / 1000000);
+      EEPROM.put(4, ((float) atol(data)) / 1000000);
       updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      Serial.print(EEPROM.get(4, temp), 9);
       updated = true;
       break;
 
     case 'S': // Store Speedometer Ratio
-      outRatio = atoi(data);
+      outRatio = atol(data);
       EEPROM.put(8, outRatio);
+      Serial.print(EEPROM.get(8, outRatio));
       updated = true;
       break;
 
     case 'W': // Store Wheel Circumference
-      EEPROM.put(12, ((float) atoi(data)) / 1000000);
+      EEPROM.put(12, ((float) atol(data)) / 1000000);
       updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      Serial.print(EEPROM.get(12, temp), 9);
       updated = true;
       break;
 
@@ -75,21 +92,27 @@ bool checkBT() {
     default:
       break;
   }
-/*
+
   if(updated) {
     digitalWrite(LED_BUILTIN, HIGH);
     for(byte i = 0; data[i] != '\0' && i < 13; i++) {
       Serial.print(data[i]);
     }
     Serial.println("");
-  }*/
+  }
 }
 
 char recvData(char* data) {
   char type = '\0';
-  byte itr = 0;
+  byte itr;
 
-  if(Serial.available() > 5) {
+  byte aval = Serial.available();
+
+/*if(aval != 0){
+  Serial.print("numData: ");
+  Serial.println(aval);
+}*/
+  if(Serial.available() > 1) {
     type = Serial.read();
 
     if(!isupper(type)) {
@@ -104,8 +127,9 @@ char recvData(char* data) {
       return '\0';
     }
 
-    for(; itr < 13 && (Serial.available() > 0); itr++) {
+    for(itr = 0; itr < 13 && (Serial.available() > 0); itr++) {
       data[itr] = Serial.read();
+      delay(1);
     }
 
     if(itr == 13 && data[10] != '\0') {

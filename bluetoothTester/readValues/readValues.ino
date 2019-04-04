@@ -16,15 +16,14 @@ void setup(){
   float temp;
   long ltemp;
   short sh;
-
   Serial.begin(9600);
   // assumes 1 = MPH
   //         0 = KMH
   Serial.print("Units: ");
   if(EEPROM.read(0)){
-    Serial.println("MPH");
+    Serial.println("KPH");
   } else {
-    Serial.println("KMH");
+    Serial.println("MPH");
   }
   
 
@@ -37,7 +36,7 @@ void setup(){
   Serial.println("   [2]");
 
   Serial.print("finalDrive Ratio: ");
-  Serial.print(EEPROM.get(4, temp));
+  Serial.print(EEPROM.get(4, temp), 9);
   Serial.println("   [1.00]");
 
   Serial.print("speedoRatio: ");

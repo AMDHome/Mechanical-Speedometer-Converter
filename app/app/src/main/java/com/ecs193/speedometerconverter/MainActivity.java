@@ -314,10 +314,11 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            sendUnits(unitsText.getText().toString());
-                            if (unitsText.getText().toString() == "mph") {
+                            //sendUnits(Integer.toString(which));
+                            //msg(unitsText.getText().toString());
+                            if (unitsText.getText().toString().equalsIgnoreCase("mph")) {
                                 sendUnits(Integer.toString(0));
-                            } else if (unitsText.getText().toString() == "kph") {
+                            } else if (unitsText.getText().toString().equalsIgnoreCase("kph")) {
                                 sendUnits(Integer.toString(1));
                             }
 
@@ -377,11 +378,22 @@ public class MainActivity extends AppCompatActivity {
 
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
-                         boolean result = false;
+                        private DialogInterface mDialog;
+                        boolean result = false;
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            result = sendInfo(magnetsText.getText().toString(), "N:");
+                            //result = sendInfo(Integer.toString(which), "N:");
+                            //msg(magnetsText.getText().toString());
+                            if (magnetsText.getText().toString().equalsIgnoreCase("1")) {
+                                result = sendInfo(Integer.toString(1), "N:");
+                            } else if (magnetsText.getText().toString().equalsIgnoreCase("2")) {
+                                result = sendInfo(Integer.toString(2), "N:");
+                            } else if (magnetsText.getText().toString().equalsIgnoreCase("4")) {
+                                result = sendInfo(Integer.toString(4), "N:");
+                            }
+                            //result = sendInfo(magnetsText.getText().toString(), "N:");
+                            //msg(Boolean.toString(result));
                         }
 
                     });
@@ -657,7 +669,7 @@ public class MainActivity extends AppCompatActivity {
                 //System.out.println(indexStr);
                 str = str + indexStr + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                //msg(str);
+                msg(str);
 
                 //System.out.println("3");
             } catch (IOException e) {
@@ -669,11 +681,11 @@ public class MainActivity extends AppCompatActivity {
 
     boolean sendInfo(String textStr, String extraStr) {
 
-        if (btSocket!=null) {
+        if (btSocket != null) {
             try {
                 String str = extraStr + textStr + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                //msg(str);
+                msg(str);
                 return true;
             } catch (IOException e) {
                 msg("Error");
@@ -691,7 +703,7 @@ public class MainActivity extends AppCompatActivity {
                 result=result*1000000;
                 str = extraStr + Integer.toString((int) result) + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                //msg(str);
+                msg(str);
                 return true;
             } catch (IOException e) {
                 msg("Error");
