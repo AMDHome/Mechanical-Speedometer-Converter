@@ -9,8 +9,10 @@
     <string name="bluetooth">bluetooth</string>
     <string name="button">Button</string>
     <string name="find_button">Find Devices</string>
+    <string name="str_devices">Devices</string>
     <string name="paired_devices">Paired Devices</string>
     <string name="calibrate">Calibration</string>
+    <string name="str_cancel">Cancel</string>
 
     <string-array name="settings_array">
         <item>Units</item>

@@ -15,6 +15,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     app:layout_constraintGuide_percent="0.33"
     tools:context=".MainActivity">
 
@@ -23,40 +24,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
+        android:visibility="visible"
         app:itemBackground="?attr/colorPrimary"
         app:itemIconTint="@drawable/selector_bottombar_item"
         app:itemTextColor="@drawable/selector_bottombar_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/bottombar_menu"
-        />
-
-    <LinearLayout
-        android:id="@+id/searchDevices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/round_rect_bkgrd"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/meterSettings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navigation"
-        android:visibility="invisible">
+        app:menu="@menu/bottombar_menu"/>
 
         <LinearLayout
             android:id="@+id/searchDevicesTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/round_rect_bkgrd"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/navigation">
 
             <TextView
                 android:id="@+id/pairedDeviceTitle"
@@ -68,54 +59,43 @@
                 android:text="@string/paired_devices"
                 android:textColor="?attr/colorAccent"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toStartOf="@+id/findButton"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/deviceArrow"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="parent"/>
 
             <Button
-                android:id="@+id/findButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/deviceArrow"
+                android:layout_width="36dp"
+                android:layout_height="29dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:text="@string/find_button"
+                android:layout_weight="0.05"
+                android:text="@string/str_devices"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/pairedDeviceTitle"
-                />
+                app:layout_constraintStart_toEndOf="@+id/pairedDeviceTitle"/>
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/listBluetooth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:baselineAligned="false"
-            android:divider="@color/colorPrimary"
-            android:footerDividersEnabled="true"
-            android:headerDividersEnabled="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/findButton"/>
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
+
 
     <LinearLayout
         android:id="@+id/meterSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="10dp"
         android:background="@drawable/round_rect_bkgrd"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/searchDevices"
-        android:visibility="invisible">
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/searchDevicesTitle"
+        tools:layout_editor_absoluteX="15dp">
 
 
         <TextView
@@ -256,6 +236,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/wheelCircText"
                     app:layout_constraintTop_toBottomOf="@+id/meterRatioText"
                     />
+
                 <RadioButton
                     android:id="@+id/wheelCircText"
                     android:layout_width="match_parent"
