@@ -56,6 +56,8 @@ import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.util.Scanner;
 import android.widget.LinearLayout;
+import java.util.concurrent.TimeUnit;
+import java.io.StringReader;
 public class MainActivity extends AppCompatActivity {
 
     public TextView mTextMessage;
@@ -105,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.bottombar_bluetooth:
                     BluetoothActivity();
-                    meterSettings();
+                    getMeterSettings();
+                    putMeterSettings();
                     return true;
                 case R.id.bottombar_settings:
                     findViewById(R.id.searchDevices).setVisibility(View.GONE);
@@ -150,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
         //btnDis = findViewById(R.id.button4);
 
         BluetoothActivity();
-        meterSettings();
+        getMeterSettings();
+        putMeterSettings();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         //Integer btID = getResources().getIdentifier("@string/menu_bluetooth","layout", getPackageName());
@@ -253,7 +257,53 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    void meterSettings() {
+    void getMeterSettings() {
+        if (btSocket != null) {
+            try {
+
+                byte[] rtnBuff;
+                String rtnStr;
+                String[] splitArr;
+
+                btSocket.getOutputStream().write("L:1\0".getBytes());
+                //TimeUnit.SECONDS.sleep(1); // add delay
+                btSocket.getInputStream().read(rtnBuff, 0, 50);
+                rtnStr = new String(rtnBuff);
+
+                if (!rtnStr.startsWith("D:")) {
+                    msg("error reading in values");
+                    return;
+                } else {
+
+                    splitArr = rtnStr.split(":");
+                    if (Integer.getInteger(splitArr[1]) == 0) { // units = MPH
+                        unitsText.setText("mph");
+                    } else if (Integer.getInteger(splitArr[1]) == 1) { // units = KPH
+                        unitsText.setText("kph");
+                    } else {
+                        msg("error reading units");
+                        return;
+                    }
+
+                    maxSpeedText.setText(Integer.getInteger(splitArr[2]);
+
+                    magnetsText.setText(Integer.getInteger(splitArr[3]));
+
+                    finalDriveText.setText(Integer.getInteger(splitArr[4]));
+
+                    meterRatioText.setText(Integer.getInteger(splitArr[5]));
+
+                    wheelCircText.setText(Integer.getInteger(splitArr[6]));
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    void putMeterSettings() {
 
         // Get layout for meter settings
         findViewById(R.id.meterSettings).setVisibility(View.VISIBLE);

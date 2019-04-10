@@ -108,10 +108,10 @@ char recvData(char* data) {
 
   byte aval = Serial.available();
 
-/*if(aval != 0){
+if(aval != 0){
   Serial.print("numData: ");
   Serial.println(aval);
-}*/
+}
   if(Serial.available() > 1) {
     type = Serial.read();
 
