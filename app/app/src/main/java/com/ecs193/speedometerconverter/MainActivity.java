@@ -18,10 +18,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 import android.graphics.Color;
 import java.io.IOException;
+import java.io.DataInputStream;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.widget.LinearLayout;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     RadioButton wheelSizeText;
     RadioButton wheelCircText;
     String wheelUnit;
-
-    public final static String EXTRA_ADDRESS = "com.example.myfirstapp.MESSAGE";
+    final static int BT_INTENT_FLAG = 0;
+    //public final static String EXTRA_ADDRESS = "com.example.myfirstapp.MESSAGE";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -79,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         // change opacity of calibration layout
         //findViewById(R.id.meterSettings).setAlpha((float)0.3);
-
+        findViewById(R.id.meterSettings).setVisibility(View.VISIBLE);
+        findViewById(R.id.meterSettings).setAlpha((float)0.3);
         // Define widgets
         btnPaired = findViewById(R.id.deviceArrow);
         mListView = findViewById(R.id.listSettings);
@@ -94,10 +97,6 @@ public class MainActivity extends AppCompatActivity {
         //btnOff = findViewById(R.id.button3);
         //btnDis = findViewById(R.id.button4);
 
-
-
-
-
         BottomNavigationView navigation = findViewById(R.id.navigation);
         //Integer btID = getResources().getIdentifier("@string/menu_bluetooth","layout", getPackageName());
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -106,23 +105,59 @@ public class MainActivity extends AppCompatActivity {
             //@Override
             public void onClick(View view) {
                 Intent btIntent = new Intent(MainActivity.this, BtConnection.class);
-                startActivity(btIntent);
+                startActivityForResult(btIntent, BT_INTENT_FLAG);
+
             }
         });
+
+
+        //putMeterSettings();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Check which request we're responding to
+        if (requestCode == BT_INTENT_FLAG) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                btSocket = BtConnection.getBtConnection();
+                //putMeterSettings();
+                findViewById(R.id.meterSettings).setAlpha((float)1);
+                getMeterSettings();
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
+    }
+
+
     void getMeterSettings() {
+        findViewById(R.id.meterSettings).setVisibility(View.VISIBLE);
         if (btSocket != null) {
             try {
 
-                byte[] rtnBuff = null;
-                String rtnStr;
+
+                String rtnStr = null;
                 String[] splitArr;
 
                 btSocket.getOutputStream().write("L:1\0".getBytes());
                 //TimeUnit.SECONDS.sleep(1); // add delay
-                btSocket.getInputStream().read(rtnBuff, 0, 50);
-                rtnStr = new String(rtnBuff);
+
+                //btSocket.getInputStream().read(rtnBuff);
+                for (int rtnBuff = 0; ((rtnBuff = btSocket.getInputStream().read()) >= 0) && rtnBuff != 13;) { // 13 == '\0'
+                    //Log.d("Test", b + " " + (char) b);
+                    if (rtnStr == null) {
+                        rtnStr = Character.toString((char) rtnBuff);
+                    } else {
+                        rtnStr += Character.toString((char) rtnBuff);
+                    }
+                }
+                //rtnStr = new String(rtnBuff);
+                //rtnStr = new String(rtnBuff, 0, new DataInputStream(btSocket.getInputStream()).read());
+                msg(rtnStr);
 
                 if (!rtnStr.startsWith("D:")) {
                     msg("error reading in values");
@@ -130,30 +165,29 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     splitArr = rtnStr.split(":");
-                    if (Integer.getInteger(splitArr[1]) == 0) { // units = MPH
+
+                    if (Integer.valueOf(splitArr[1]) == 0) { // units = MPH
                         unitsText.setText("mph");
-                    } else if (Integer.getInteger(splitArr[1]) == 1) { // units = KPH
+                    } else if (Integer.valueOf(splitArr[1]) == 1) { // units = KPH
                         unitsText.setText("kph");
                     } else {
                         msg("error reading units");
                         return;
                     }
 
-                    maxSpeedText.setText(Integer.getInteger(splitArr[2]));
-
-                    magnetsText.setText(Integer.getInteger(splitArr[3]));
-
-                    finalDriveText.setText(Integer.getInteger(splitArr[4]));
-
-                    meterRatioText.setText(Integer.getInteger(splitArr[5]));
-
-                    wheelCircText.setText(Integer.getInteger(splitArr[6]));
+                    maxSpeedText.setText(splitArr[2]);
+                    magnetsText.setText(splitArr[3]);
+                    finalDriveText.setText(splitArr[4]); // TODO: change calculation
+                    meterRatioText.setText(splitArr[5]); // TODO: change calculation
+                    wheelCircText.setText(splitArr[6]);  // TODO: change calculation
                 }
 
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            msg("no bt");
         }
     }
 

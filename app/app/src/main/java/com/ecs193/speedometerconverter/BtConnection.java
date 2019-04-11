@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
+import android.app.Activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class BtConnection extends AppCompatActivity {
 
     private Set<BluetoothDevice> pairedDevices;
+    Intent rtnIntent;
     TextView tv;
     ListView devicelist;
     Button findButton;
@@ -32,15 +34,16 @@ public class BtConnection extends AppCompatActivity {
     String address = null;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
-    BluetoothSocket btSocket = null;
+    static BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
     //SPP UUID. Look for it
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
-
+    public static String EXTRA_ADDRESS;
+    public static final String BT_INTENT_FLAG = "BT_INTENT_FLAG";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rtnIntent = new Intent();
         setContentView(R.layout.activity_bt_connection);
 
         devicelist = findViewById(R.id.listBluetooth);
@@ -175,8 +178,14 @@ public class BtConnection extends AppCompatActivity {
             }
             progress.dismiss();
 
+            setResult(Activity.RESULT_OK);
             finish();
         }
+    }
+
+    static public BluetoothSocket getBtConnection()
+    {
+        return btSocket;
     }
 
     private void msg(String s)
