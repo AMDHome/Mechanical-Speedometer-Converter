@@ -35,9 +35,9 @@ unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
 volatile unsigned long tickCounter[2] = {0};  // # of ticks every ~0.13 seconds
-volatile byte calcCycle = 0;                  // timer goes to 1024, use this to get to 2048
 volatile byte countENC = 0;                   // flag to tell which tickCounter to put new data into
 volatile unsigned long currentRPM  = 0;
+const byte encoderIntCount = 64;
 
 volatile unsigned long pTime = 0;
 volatile unsigned long eTime[4] = {0};
@@ -69,9 +69,10 @@ void setup() {
   
   Serial.begin(9600);
   Serial.println("~~~Starting Motor~~~");
-  pinMode(4, INPUT_PULLUP);
-  pinMode(9, OUTPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
+
+  pinMode(4, INPUT_PULLUP);       // encoder input
+  pinMode(9, OUTPUT);             // motor PWM output
+  pinMode(LED_BUILTIN, OUTPUT);   // onboard LED output
 
   pTime = micros2();
 
@@ -85,10 +86,8 @@ void setup() {
   EEPROM.get(1, maxSpeed);
 
   // Configure PWM (Count Up, Fast PWM 10-bit, CLK/1024)
-  // Trigger OVF INT on T1
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
-  TCCR1B = _BV(WGM12) | _BV(CS12);// | _BV(CS10);
-  TIMSK1 = _BV(TOIE1);
+  TCCR1B = _BV(WGM12) | _BV(CS11) | _BV(CS10);
 
   // Enable Analog Comparator
   ADCSRB = 0;
@@ -137,17 +136,6 @@ ISR(ANALOG_COMP_vect) {
   updated = true;
 }
 
-
-ISR(TIMER1_OVF_vect) {
-  if(calcCycle == 0) {
-    tickCounter[countENC % 2] = TCNT0;
-    TCNT0 = 0;
-    countENC++;
-  }
-
-  calcCycle = (calcCycle + 1) % 4;
-}
-
 void loop() {
   long error;
   long newPWM;
@@ -173,14 +161,10 @@ void loop() {
       updated = false;
     }
   
+    // RPM based on number of ticks passed
+    // see Technical Manual pg. 16 for explanation of numbers
     currentRPM = ((46875 * (tickCounter[0] + tickCounter[1]) / 2) / 1024) * 10;
-  
-    /*
-     * Math is one revolution * 10 to match targetRPM format, divided by elapsed
-     * to get revs per microsecond, times one million micros/sec to get revs per
-     * second, times 60 to get rpm. But a different order is used to save 
-     * division for the end.
-     */
+
     if(SPHr > 0 && currentRPM <= 10) {
       OCR1A = 400;
     } 

@@ -29,6 +29,7 @@
 
 volatile unsigned long timer2_overflow_count = 0;
 volatile unsigned long timer2_millis = 0;
+volatile byte rpmTimer = 0;
 static unsigned char timer2_fract = 0;
 
 ISR(TIMER2_OVF_vect) {
@@ -36,6 +37,7 @@ ISR(TIMER2_OVF_vect) {
   // (volatile variables must be read from memory on every access)
   unsigned long m = timer2_millis;
   unsigned char f = timer2_fract;
+  byte r = rpmTimer;
 
   m += MILLIS_INC;
   f += FRACT_INC;
@@ -47,6 +49,17 @@ ISR(TIMER2_OVF_vect) {
   timer2_fract = f;
   timer2_millis = m;
   timer2_overflow_count++;
+  r++;
+
+  if(r == encoderIntCount) {
+    tickCounter[countENC % 2] = TCNT0;
+    TCNT0 = 0;
+    countENC++;
+    rpmTimer = 0;
+
+  } else {
+    rpmTimer = r;
+  }
 }
 
 unsigned long millis2() {
