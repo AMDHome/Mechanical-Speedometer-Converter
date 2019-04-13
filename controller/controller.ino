@@ -21,7 +21,7 @@
 #define KFF 90          // Feed Forward constant
 #define RPM_TO_PWM 100  // Rough conversion ratio of rpm numbers to pwm numbers
 
-unsigned short SPHr = 0;       // Speed Per Hour * 10 (Unit friendly, can use both mph and kph)
+unsigned short SPHr = 0;       // Speed/Hour * 10 (Unit friendly, for mph & kph)
 unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
 long oldErr = 0; // Previous error
@@ -30,14 +30,14 @@ long pid_i = 0; // Integral term
 long pid_d; // Derivative term
 //long pid_ff; // Feed Forward term
 
-unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt > inRatio => SPHr = 0]
+unsigned long inRatio;    // Also == dt for 0.1 SPH [dt > inRatio => SPHr > 0.1]
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
-volatile unsigned long tickCounter[2] = {0};  // number of ticks every ~0.13 seconds
-volatile byte calcCycle = 0;                  // timer goes to 1024, use this to get to 2048
+volatile unsigned long tickCounter[2] = {0};  // # of ticks every ~0.13 seconds
 volatile byte countENC = 0;                   // flag to tell which tickCounter to put new data into
 volatile unsigned long currentRPM  = 0;
+const byte encoderIntCount = 64;
 
 volatile unsigned long pTime = 0;
 volatile unsigned long eTime[4] = {0};
@@ -50,10 +50,12 @@ byte shift;
 /*
  * Calculate inRatio via stored values.
  * finalDrive should be 1 if not being used
- * wheelCirc will have units of meter or milliMiles (miles * 1000) [odd units but necessary for easy calcs]
+ * wheelCirc will have units of meter or milliMiles (miles * 1000)
+ *           [odd units but necessary for easy calcs]
  */
-void updateInputRatio(byte numMag, float wheelCirc, float finalDrive) {
-  // Hard coded number = 3,600,000,000 [microseconds/hr] / 1000 [compensate for milliMiles/meters]
+void updateInRatio(byte numMag, float wheelCirc, float finalDrive) {
+  // Hard coded number = 3,600,000,000 [microseconds/hr]
+  //                     / 1000 [compensate for milliMiles & meters fom mi & km]
   //                     * 10 [compensate for SPHr/and targetRPM units]
   // Complicated I know, but floats on arduino are very Very VERY slow
   inRatio = (long) (finalDrive * wheelCirc * 36000000 / (float) numMag);
@@ -67,26 +69,25 @@ void setup() {
   
   Serial.begin(9600);
   Serial.println("~~~Starting Motor~~~");
-  pinMode(4, INPUT_PULLUP);
-  pinMode(9, OUTPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
+
+  pinMode(4, INPUT_PULLUP);       // encoder input
+  pinMode(9, OUTPUT);             // motor PWM output
+  pinMode(LED_BUILTIN, OUTPUT);   // onboard LED output
 
   pTime = micros2();
 
   // read numbers in from EEPROM
   numMag = EEPROM.read(3);
   shift = numMag / 2;
-  updateInputRatio(numMag, EEPROM.get(12, temp), EEPROM.get(4, temp));
+  updateInRatio(numMag, EEPROM.get(12, temp), EEPROM.get(4, temp));
   outRatio = EEPROM.get(8, outRatio);
 
   // Calculate maxRPM for our speedometer
   EEPROM.get(1, maxSpeed);
 
   // Configure PWM (Count Up, Fast PWM 10-bit, CLK/1024)
-  // Trigger OVF INT on T1
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
-  TCCR1B = _BV(WGM12) | _BV(CS12);// | _BV(CS10);
-  TIMSK1 = _BV(TOIE1);
+  TCCR1B = _BV(WGM12) | _BV(CS11) | _BV(CS10);
 
   // Enable Analog Comparator
   ADCSRB = 0;
@@ -135,17 +136,6 @@ ISR(ANALOG_COMP_vect) {
   updated = true;
 }
 
-
-ISR(TIMER1_OVF_vect) {
-  if(calcCycle == 0) {
-    tickCounter[countENC % 2] = TCNT0;
-    TCNT0 = 0;
-    countENC++;
-  }
-
-  calcCycle = (calcCycle + 1) % 4;
-}
-
 void loop() {
   long error;
   long newPWM;
@@ -153,10 +143,10 @@ void loop() {
   //long revolutions = 0; // Number of 360 degree rotations
 
   if(checkBT()){
-    delay2(150);
+    delay2(10);
   }
 
-  if(micros2() - pTime > inRatio/20) { //We have come to rest; stop the motor
+  if(micros2() - pTime > inRatio / 20) { // We have come to rest; stop the motor
     SPHr = 0;
     targetRPM = 0;
     OCR1A = 0;
@@ -168,23 +158,19 @@ void loop() {
     if(updated){
       SPHr = (unsigned long) inRatio / calcTime();
       targetRPM = (unsigned long) (((long) SPHr) * (outRatio / 1000)) / 1000;
-      //Serial.print(SPHr/10);
-      //Serial.print("\t");
-      //Serial.println(targetRPM/10);
       updated = false;
     }
   
+    // RPM based on number of ticks passed
+    // see Technical Manual pg. 16 for explanation of numbers
     currentRPM = ((46875 * (tickCounter[0] + tickCounter[1]) / 2) / 1024) * 10;
-  
-    /* Math is one revolution*10 to match targetRPM format, divided by elapsed to get
-     * revs per microsecond, times one million micros/sec to get revs per second,
-     * times 60 to get rpm. But a different order is used to save division for the end.
-     */
+
     if(SPHr > 0 && currentRPM <= 10) {
       OCR1A = 400;
     } 
     
-    /* PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
+    /*
+     * PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
      * are larger by a factor of 100 to avoid floats. These may require additional tuning.
      */
   
@@ -248,32 +234,32 @@ bool checkBT() {
       break;
 
     case 'M': // Store Max Speed
-      maxSpeed = (short) atoi(data);
+      maxSpeed = (short) atol(data);
       EEPROM.put(1, maxSpeed);
       updated = true;
       break;
 
     case 'N': // Store Number of Magnets
       EEPROM.update(3, data[0] - '0');
-      updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      updateInRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
       updated = true;
       break;
 
     case 'F': // Store Final Drive Ratio
-      EEPROM.put(4, ((float) atoi(data)) / 1000000);
-      updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      EEPROM.put(4, ((float) atol(data)) / 1000000);
+      updateInRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
       updated = true;
       break;
 
     case 'S': // Store Speedometer Ratio
-      outRatio = atoi(data);
+      outRatio = atol(data);
       EEPROM.put(8, outRatio);
       updated = true;
       break;
 
     case 'W': // Store Wheel Circumference
-      EEPROM.put(12, ((float) atoi(data)) / 1000000);
-      updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      EEPROM.put(12, ((float) atol(data)) / 1000000);
+      updateInRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
       updated = true;
       break;
 
@@ -293,9 +279,9 @@ bool checkBT() {
 
 char recvData(char* data) {
   char type = '\0';
-  byte itr = 0;
+  byte itr;
 
-  if(Serial.available() > 5) {
+  if(Serial.available() > 1) {
     type = Serial.read();
 
     if(!isupper(type)) {
@@ -310,7 +296,7 @@ char recvData(char* data) {
       return '\0';
     }
 
-    for(; itr < 13 && (Serial.available() > 0); itr++) {
+    for(itr = 0; itr < 13 && (Serial.available() > 0); itr++) {
       data[itr] = Serial.read();
       delay(1);
     }
