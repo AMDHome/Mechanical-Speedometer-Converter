@@ -14,6 +14,13 @@
     <string name="calibrate">Calibration</string>
     <string name="str_cancel">Cancel</string>
 
+    <string name="str_units">Units</string>
+    <string name="str_maxSpeed">Max Speed</string>
+    <string name="str_magnets">Magnets</string>
+    <string name="str_finalDrive">Final Drive</string>
+    <string name="str_ratio">Speedometer Ratio</string>
+    <string name="str_size">Wheel Size</string>
+
     <string-array name="settings_array">
         <item>Units</item>
         <item>Max Speed</item>
