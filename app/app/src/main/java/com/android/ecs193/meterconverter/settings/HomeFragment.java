@@ -221,6 +221,9 @@ public class HomeFragment extends Fragment {
             if (resultCode == getActivity().RESULT_OK) {
                 btSocket = com.android.ecs193.meterconverter.BtConnection.getBtConnection();
                 getView().findViewById(R.id.meterSettings).setAlpha((float)1);
+                
+                TextView deviceText = getView().findViewById(R.id.device_text);
+                deviceText.setText(com.android.ecs193.meterconverter.BtConnection.getBtName());
                 getMeterSettings();
             }
         }

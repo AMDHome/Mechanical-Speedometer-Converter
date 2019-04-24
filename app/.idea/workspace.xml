@@ -75,7 +75,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="2" />
+          <entry key="java" value="4" />
           <entry key="png" value="2" />
           <entry key="xml" value="7" />
         </counts>
@@ -83,39 +83,67 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Image" value="2" />
-          <entry key="JAVA" value="2" />
+          <entry key="JAVA" value="4" />
           <entry key="XML" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="xml" value="379" />
+          <entry key="java" value="317" />
+          <entry key="xml" value="428" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="XML" value="379" />
+          <entry key="JAVA" value="317" />
+          <entry key="XML" value="428" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml">
-          <provider selected="true" editor-type-id="android-designer2" />
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="347" column="37" selection-start-line="347" selection-start-column="37" selection-end-line="347" selection-end-column="37" />
+          <provider editor-type-id="android-designer2" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="36" column="55" lean-forward="true" selection-start-line="36" selection-start-column="55" selection-end-line="36" selection-end-column="55" />
               <folding>
-                <element signature="e#2642#2665#0" expanded="true" />
-                <element signature="e#5778#5796#0" expanded="true" />
-                <element signature="e#7268#7292#0" expanded="true" />
-                <element signature="e#8699#8722#0" expanded="true" />
-                <element signature="e#10000#10025#0" expanded="true" />
-                <element signature="e#14456#14479#0" expanded="true" />
-                <element signature="e#15709#15735#0" expanded="true" />
-                <element signature="e#17183#17204#0" expanded="true" />
+                <element signature="e#3147#3170#0" expanded="true" />
+                <element signature="e#6283#6301#0" expanded="true" />
+                <element signature="e#7773#7797#0" expanded="true" />
+                <element signature="e#9204#9227#0" expanded="true" />
+                <element signature="e#10505#10530#0" expanded="true" />
+                <element signature="e#14961#14984#0" expanded="true" />
+                <element signature="e#16215#16241#0" expanded="true" />
+                <element signature="e#17689#17710#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/settings/HomeFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="223" column="16" selection-start-line="223" selection-start-column="16" selection-end-line="223" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/BtConnection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="403">
+              <caret line="115" column="41" selection-start-line="115" selection-start-column="41" selection-end-line="115" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3791#4410#0" expanded="true" />
+                <element signature="e#4409#4410#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -181,16 +209,6 @@
               <folding>
                 <element signature="e#500#518#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
-          <provider selected="true" editor-type-id="android-designer2" />
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="5160">
-              <caret line="344" column="4" selection-start-line="344" selection-start-column="4" selection-end-line="344" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -2525,14 +2543,15 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_bt_connection.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/homeFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/settings/HomeFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/SplashScreenSleep.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/BtConnection.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/settings/HomeFragment.java" />
       </list>
     </option>
   </component>
@@ -2565,6 +2584,13 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="meterconverter" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MeterConverter" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="meterconverter" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="settings" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MeterConverter" type="1abcf292:AndroidViewProjectNode" />
@@ -2945,17 +2971,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/BtConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/SettingsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6404">
           <caret line="98" column="72" selection-start-line="98" selection-start-column="60" selection-end-line="98" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2977,40 +2999,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/settings/HomeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10319">
-          <caret line="607" column="5" selection-start-line="607" selection-start-column="5" selection-end-line="607" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2129#2400#0" expanded="true" />
-            <element signature="e#2399#2400#0" expanded="true" />
-            <element signature="e#2539#2739#0" expanded="true" />
-            <element signature="e#2738#2739#0" expanded="true" />
-            <element signature="e#2892#3084#0" expanded="true" />
-            <element signature="e#3083#3084#0" expanded="true" />
-            <element signature="e#3232#3447#0" expanded="true" />
-            <element signature="e#3446#3447#0" expanded="true" />
-            <element signature="e#3610#3806#0" expanded="true" />
-            <element signature="e#3805#3806#0" expanded="true" />
-            <element signature="e#3954#4156#0" expanded="true" />
-            <element signature="e#4155#4156#0" expanded="true" />
-            <element signature="e#4299#7143#0" expanded="true" />
-            <element signature="e#5043#6071#0" expanded="true" />
-            <element signature="e#6070#6071#0" expanded="true" />
-            <element signature="e#7142#7143#0" expanded="true" />
-            <element signature="e#9035#10401#0" expanded="true" />
-            <element signature="e#10400#10401#0" expanded="true" />
-            <element signature="e#10449#11645#0" expanded="true" />
-            <element signature="e#11644#11645#0" expanded="true" />
-            <element signature="e#17572#18262#0" expanded="true" />
-            <element signature="e#18261#18262#0" expanded="true" />
-            <element signature="e#19529#20423#0" expanded="true" />
-            <element signature="e#20422#20423#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3120,20 +3108,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="347" column="37" selection-start-line="347" selection-start-column="37" selection-end-line="347" selection-end-column="37" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/BtConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="115" column="41" selection-start-line="115" selection-start-column="41" selection-end-line="115" selection-end-column="41" />
           <folding>
-            <element signature="e#2642#2665#0" expanded="true" />
-            <element signature="e#5778#5796#0" expanded="true" />
-            <element signature="e#7268#7292#0" expanded="true" />
-            <element signature="e#8699#8722#0" expanded="true" />
-            <element signature="e#10000#10025#0" expanded="true" />
-            <element signature="e#14456#14479#0" expanded="true" />
-            <element signature="e#15709#15735#0" expanded="true" />
-            <element signature="e#17183#17204#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3791#4410#0" expanded="true" />
+            <element signature="e#4409#4410#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="36" column="55" lean-forward="true" selection-start-line="36" selection-start-column="55" selection-end-line="36" selection-end-column="55" />
+          <folding>
+            <element signature="e#3147#3170#0" expanded="true" />
+            <element signature="e#6283#6301#0" expanded="true" />
+            <element signature="e#7773#7797#0" expanded="true" />
+            <element signature="e#9204#9227#0" expanded="true" />
+            <element signature="e#10505#10530#0" expanded="true" />
+            <element signature="e#14961#14984#0" expanded="true" />
+            <element signature="e#16215#16241#0" expanded="true" />
+            <element signature="e#17689#17710#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/settings/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="223" column="16" selection-start-line="223" selection-start-column="16" selection-end-line="223" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

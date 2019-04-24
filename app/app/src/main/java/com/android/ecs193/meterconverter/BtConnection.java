@@ -39,6 +39,7 @@ public class BtConnection extends AppCompatActivity {
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     public static String EXTRA_ADDRESS;
     public static final String BT_INTENT_FLAG = "BT_INTENT_FLAG";
+    static String btName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +113,7 @@ public class BtConnection extends AppCompatActivity {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Get the device MAC address, the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
+            btName = info.substring(0, 15);
             address = info.substring(info.length() - 17);
 
 
@@ -187,6 +189,7 @@ public class BtConnection extends AppCompatActivity {
         return btSocket;
     }
 
+    static public String getBtName() { return btName; }
     private void msg(String s)
     {
         Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();

@@ -1149,6 +1149,7 @@ id design_menu_item_action_area_stub
 id design_menu_item_text
 id design_navigation_view
 id deviceArrow
+id device_text
 id dimensions
 id direct
 id disableHome
