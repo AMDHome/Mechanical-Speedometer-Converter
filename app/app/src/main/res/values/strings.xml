@@ -40,6 +40,11 @@
     <string name="str_devices">Devices</string>
     <string name="paired_devices">Paired Devices</string>
     <string name="calibrate">Calibration</string>
+    <string name="str_title_car">My Car</string>
+    <string name="str_title_meter">Speedometer</string>
+    <string name="str_title_sensor">Speed Sensor</string>
+    <string name="str_idk_drive">"Find my car's final drive"</string>
+    <string name="str_idk_ratio">"Find my speedometer ratio"</string>
     <string name="str_cancel">Cancel</string>
 
 

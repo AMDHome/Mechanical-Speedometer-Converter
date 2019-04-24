@@ -1484,10 +1484,15 @@ string status_bar_notification_info_overflow
 string str_cancel
 string str_devices
 string str_finalDrive
+string str_idk_drive
+string str_idk_ratio
 string str_magnets
 string str_maxSpeed
 string str_ratio
 string str_size
+string str_title_car
+string str_title_meter
+string str_title_sensor
 string str_units
 string title_calibration
 string title_data

@@ -5259,14 +5259,19 @@ public final class R {
     public static final int str_cancel=0x7f100042;
     public static final int str_devices=0x7f100043;
     public static final int str_finalDrive=0x7f100044;
-    public static final int str_magnets=0x7f100045;
-    public static final int str_maxSpeed=0x7f100046;
-    public static final int str_ratio=0x7f100047;
-    public static final int str_size=0x7f100048;
-    public static final int str_units=0x7f100049;
-    public static final int title_calibration=0x7f10004a;
-    public static final int title_data=0x7f10004b;
-    public static final int title_settings=0x7f10004c;
+    public static final int str_idk_drive=0x7f100045;
+    public static final int str_idk_ratio=0x7f100046;
+    public static final int str_magnets=0x7f100047;
+    public static final int str_maxSpeed=0x7f100048;
+    public static final int str_ratio=0x7f100049;
+    public static final int str_size=0x7f10004a;
+    public static final int str_title_car=0x7f10004b;
+    public static final int str_title_meter=0x7f10004c;
+    public static final int str_title_sensor=0x7f10004d;
+    public static final int str_units=0x7f10004e;
+    public static final int title_calibration=0x7f10004f;
+    public static final int title_data=0x7f100050;
+    public static final int title_settings=0x7f100051;
   }
   public static final class style {
     public static final int AlertDialog_AppCompat=0x7f110000;
