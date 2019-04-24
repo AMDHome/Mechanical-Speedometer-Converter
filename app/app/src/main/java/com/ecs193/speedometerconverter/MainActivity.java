@@ -31,6 +31,7 @@ import android.util.Log;
 public class MainActivity extends AppCompatActivity {
 
     Button pairDevice;
+    Button wizard;
     //TextView butUnits;
     Button butUnits;
     Button butMaxSpeed;
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     String wheelUnit;
     final static int BT_INTENT_FLAG = 0;
-    //public final static String EXTRA_ADDRESS = "com.example.myfirstapp.MESSAGE";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -115,6 +115,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        wizard = findViewById(R.id.but_ratio_1);
+        wizard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent wizIntent = new Intent(MainActivity.this, Wizard.class);
+                //startActivityForResult(wizIntent, 0);
+                startActivity(wizIntent);
+
+            }
+        });
+
+
+
 
         butUnits = findViewById(R.id.but_units);
         unitsText = findViewById(R.id.unitsText);

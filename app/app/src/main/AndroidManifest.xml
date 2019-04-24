@@ -29,6 +29,10 @@
             android:label="@string/app_name"/>
 
         <activity android:name=".BtConnection"></activity>
+        <activity android:name=".Wizard"></activity>
+        <activity android:name=".Wizard2"></activity>
+
+
 
     </application>
 
