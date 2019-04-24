@@ -47,6 +47,8 @@
         <activity
             android:name="com.android.ecs193.meterconverter.SettingsActivity"
             android:label="Settings" />
+        <activity android:name="com.android.ecs193.meterconverter.WizardRatio" />
+        <activity android:name="com.android.ecs193.meterconverter.WizardRPM" />
     </application>
 
 </manifest>

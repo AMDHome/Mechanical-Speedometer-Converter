@@ -31,6 +31,7 @@ import com.android.ecs193.meterconverter.R;
 
 public class HomeFragment extends Fragment {
 
+    Button butWizardRatio;
     Button pairDevice;
     //TextView butUnits;
     Button butUnits;
@@ -71,6 +72,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_settings, container, false);
 
         view.findViewById(R.id.meterSettings).setAlpha((float)0.3);
+
+
         pairDevice = view.findViewById(R.id.deviceArrow);
         pairDevice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +126,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getTextBoxDialog("Enter Speedometer Ratio", meterRatioText, "S:");
+            }
+        });
+
+        butWizardRatio = view.findViewById(R.id.find_ratio);
+        butWizardRatio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent wizIntent = new Intent(getActivity(), com.android.ecs193.meterconverter.WizardRatio.class);
+                startActivity(wizIntent);
             }
         });
 
@@ -221,7 +233,7 @@ public class HomeFragment extends Fragment {
             if (resultCode == getActivity().RESULT_OK) {
                 btSocket = com.android.ecs193.meterconverter.BtConnection.getBtConnection();
                 getView().findViewById(R.id.meterSettings).setAlpha((float)1);
-                
+
                 TextView deviceText = getView().findViewById(R.id.device_text);
                 deviceText.setText(com.android.ecs193.meterconverter.BtConnection.getBtName());
                 getMeterSettings();
@@ -316,6 +328,7 @@ public class HomeFragment extends Fragment {
                         if (input.getText().toString().length() != 0) {
                             if (arduinoStr == "M:") {
                                 sendInfo(input.getText().toString(), arduinoStr);
+                                ((com.android.ecs193.meterconverter.SplashScreenSleep) getActivity().getApplication()).setspeedometerHalf(Integer.parseInt(input.getText().toString()));
                             } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
                                 sendCalc(input.getText().toString(), arduinoStr);
                             }
@@ -472,11 +485,12 @@ public class HomeFragment extends Fragment {
                     }
 
                     maxSpeedText.setText(splitArr[2]);
+                    ((com.android.ecs193.meterconverter.SplashScreenSleep) getActivity().getApplication()).setspeedometerHalf(Integer.parseInt(splitArr[2]));
                     magnetsText.setText(splitArr[3]);
 
                     getOrigData(splitArr[4], finalDriveText, 1000000, false);
                     getOrigData(splitArr[5], meterRatioText, 1000000, false);
-                    getOrigData(splitArr[6], wheelCircText, 100000000, true);
+                    getOrigData(splitArr[6], wheelCircText, 1000000000, true);
 
                 }
             } catch (IOException e) {
@@ -490,13 +504,13 @@ public class HomeFragment extends Fragment {
         if (src != null) {
 
             if (wheelSize) {
-                double val = Double.valueOf(src) / divider / Math.PI;
-                if (unitsText.getText().toString().equalsIgnoreCase("mph")) {
-                    dest.setText(String.valueOf(val * 63360 / 1000 / 3)); // divided by 3
-                } else if (unitsText.getText().toString().equalsIgnoreCase("kph")) {
+                //double val = Double.valueOf(src) / divider / Math.PI;
+                //if (unitsText.getText().toString().equalsIgnoreCase("mph")) {
+                    dest.setText(String.valueOf(Double.valueOf(src) * 63360 / divider));
+                //} else if (unitsText.getText().toString().equalsIgnoreCase("kph")) { // cm
 
-                    dest.setText(String.valueOf(val * 100));
-                }
+                 //   dest.setText(String.valueOf(val * 100));
+                //}
             } else {
                 dest.setText(String.valueOf((Double.valueOf(src)) / divider));
             }

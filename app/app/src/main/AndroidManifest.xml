@@ -39,6 +39,9 @@
 
         <activity android:name=".SettingsActivity"
                   android:label="Settings"></activity>
+
+        <activity android:name=".WizardRatio"></activity>
+        <activity android:name=".WizardRPM"></activity>
     </application>
 
 

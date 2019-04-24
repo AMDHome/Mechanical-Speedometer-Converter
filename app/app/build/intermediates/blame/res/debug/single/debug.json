@@ -1144,6 +1144,10 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/drawable-hdpi-v4/abc_ic_star_half_black_48dp.png"
     },
     {
+        "merged": "/Users/tyuen/Desktop/MeterConverter/app/build/intermediates/res/merged/debug/layout_activity_wizard_ratio.xml.flat",
+        "source": "/Users/tyuen/Desktop/MeterConverter/app/src/main/res/layout/activity_wizard_ratio.xml"
+    },
+    {
         "merged": "/Users/tyuen/Desktop/MeterConverter/app/build/intermediates/res/merged/debug/color_switch_thumb_material_light.xml.flat",
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/color/switch_thumb_material_light.xml"
     },
@@ -1542,6 +1546,10 @@
     {
         "merged": "/Users/tyuen/Desktop/MeterConverter/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/drawable-mdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/tyuen/Desktop/MeterConverter/app/build/intermediates/res/merged/debug/layout_activity_wizard_rpm.xml.flat",
+        "source": "/Users/tyuen/Desktop/MeterConverter/app/src/main/res/layout/activity_wizard_rpm.xml"
     },
     {
         "merged": "/Users/tyuen/Desktop/MeterConverter/app/build/intermediates/res/merged/debug/layout_notification_template_media.xml.flat",
