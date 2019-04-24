@@ -17,6 +17,7 @@ public class SplashScreenSleep extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        setspeedometerHalf(10);
         SystemClock.sleep(3000);
     }
 }

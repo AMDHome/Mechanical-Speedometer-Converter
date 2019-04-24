@@ -27,34 +27,43 @@ public class Wizard extends AppCompatActivity {
 
     private Set<BluetoothDevice> pairedDevices;
     Intent rtnIntent;
-    TextView tv;
-    ListView devicelist;
+    TextView speedometerMax;
+    TextView wizardStep;
     Button incrementButton;
     Button cancelButton;
-    Button nextButton;
-    Button wizard;
-    String address = null;
-    private ProgressDialog progress;
-    BluetoothAdapter myBluetooth = null;
-    static BluetoothSocket btSocket = null;
-    private boolean isBtConnected = false;
-    //SPP UUID. Look for it
-    static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    public static String EXTRA_ADDRESS;
-    public static final String BT_INTENT_FLAG = "BT_INTENT_FLAG";
+    Button wizard; //next
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        ((SplashScreenSleep) this.getApplication()).setspeedometerHalf(10);
-        int s = ((SplashScreenSleep) this.getApplication()).getspeedometerHalf();
+        //((SplashScreenSleep) this.getApplication()).setspeedometerHalf(10);
+         int s = ((SplashScreenSleep) this.getApplication()).getspeedometerHalf(); //final
+        System.out.println(s);
+
 
 
         super.onCreate(savedInstanceState);
         rtnIntent = new Intent();
         setContentView(R.layout.activity_wizard);
+
+        wizardStep=findViewById(R.id.WizardStep);
+
+        String text=wizardStep.getText().toString();
+        text=text+" "+s;
+        wizardStep.setText(text);
+
+        speedometerMax= findViewById(R.id.speedometerMax);
+        speedometerMax.setText(String.valueOf(s));
+        speedometerMax.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int s = ((SplashScreenSleep) getApplication()).getspeedometerHalf();
+
+                msg("speedometer Max is __"+Integer.toString(s));
+            }
+        });
 
         cancelButton = findViewById(R.id.but_cancel2);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -80,12 +89,25 @@ public class Wizard extends AppCompatActivity {
                 int s = ((SplashScreenSleep) getApplication()).getspeedometerHalf();
                 s = s+1;
                 ((SplashScreenSleep) getApplication()).setspeedometerHalf(s);
-
-
-
+                speedometerMax.setText(String.valueOf(s));
             }
         });
-
+        incrementButton=findViewById(R.id.decrement);
+        incrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int s = ((SplashScreenSleep) getApplication()).getspeedometerHalf();
+                s = s-1;
+                ((SplashScreenSleep) getApplication()).setspeedometerHalf(s);
+                speedometerMax.setText(String.valueOf(s));
+            }
+        });
+/*
+        while (1==1) {
+            speedometerMax.setText(s, TextView.BufferType.EDITABLE);
+            msg("updating EditText");
+        }
+*/
     }
 
 

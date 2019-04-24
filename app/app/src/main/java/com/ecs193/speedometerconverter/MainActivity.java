@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.DataInputStream;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.InputType;
@@ -340,6 +342,9 @@ public class MainActivity extends AppCompatActivity {
                     if (input.getText().toString().length() != 0) {
                         if (arduinoStr == "M:") {
                             sendInfo(input.getText().toString(), arduinoStr);
+                            String s=input.getText().toString();
+                            System.out.println("HELLO"+s);
+                            ((SplashScreenSleep) getApplication()).setspeedometerHalf(Integer.parseInt(s));
                         } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
                             sendCalc(input.getText().toString(), arduinoStr);
                         }
@@ -496,6 +501,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     maxSpeedText.setText(splitArr[2]);
+                    ((SplashScreenSleep) getApplication()).setspeedometerHalf(Integer.parseInt(splitArr[2]));
+                    System.out.println("HELLO"+splitArr[2]);
+
                     magnetsText.setText(splitArr[3]);
 
                     getOrigData(splitArr[4], finalDriveText, 1000000, false);
