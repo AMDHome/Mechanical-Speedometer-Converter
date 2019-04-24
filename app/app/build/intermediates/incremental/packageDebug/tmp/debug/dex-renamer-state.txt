@@ -1,4 +1,4 @@
-#Tue Apr 23 19:42:11 PDT 2019
-base.0=/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/MeterConverter/app/build/intermediates/dex/debug/mergeDexDebug/out
+#Tue Apr 23 20:18:01 PDT 2019
+base.0=/Users/tyuen/Desktop/MeterConverter/app/build/intermediates/dex/debug/mergeDexDebug/out
 path.0=classes.dex
 renamed.0=classes.dex

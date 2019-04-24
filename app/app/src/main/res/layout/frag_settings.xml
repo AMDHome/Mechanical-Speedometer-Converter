@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".SettingsFragment">
+
+    <FrameLayout
+        android:id="@+id/searchDevicesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/round_rect_bkgrd"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_gravity="top"
+        app:layout_constraintTop_toBottomOf="@+id/navigation">
+
+        <Button
+            android:id="@+id/deviceArrow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:text="@string/str_devices"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:gravity="start"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+    android:id="@+id/meterSettings"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="70dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/round_rect_bkgrd"
+    android:orientation="vertical"
+    android:visibility="visible"
+    android:layout_gravity="top"
+    app:layout_constraintTop_toBottomOf="@+id/searchDevicesTitle"
+    app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/calibrationTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/calibrate"
+            android:textColor="?attr/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/linLay_options"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            />
+
+        <LinearLayout
+            android:id="@+id/linLay_options"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/calibrationTitle"
+            >
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal"
+                android:textSize="20sp"
+                android:text="@string/str_units"
+                android:textColor="@color/colorWhite">
+
+                <Button
+                    android:id="@+id/but_units"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/str_units"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorWhite"/>
+                <TextView
+                    android:id="@+id/unitsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="end"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/maxSpeedText"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_maxSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/str_maxSpeed"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:id="@+id/maxSpeedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="end"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/magnetsText"
+                    app:layout_constraintTop_toBottomOf="@+id/unitsText"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_magnets"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/str_magnets"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:id="@+id/magnetsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="end"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/finalDriveText"
+                    app:layout_constraintTop_toBottomOf="@+id/maxSpeedText"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_finalDrive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/str_finalDrive"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:id="@+id/finalDriveText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="end"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/meterRatioText"
+                    app:layout_constraintTop_toBottomOf="@+id/magnetsText"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_ratio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/str_ratio"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:id="@+id/meterRatioText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="end"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/wheelSizeText"
+                    app:layout_constraintTop_toBottomOf="@+id/finalDriveText"
+                    />
+            </FrameLayout>
+
+    <!--<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/but_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:text="Wheel Size"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorWhite"/>
+
+        <TextView
+            android:id="@+id/wheelSizeText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/text_boarder"
+            android:gravity="end"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/meterRatioText"
+            />
+    </FrameLayout>-->
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/str_size"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:id="@+id/wheelCircText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/text_boarder"
+                    android:gravity="end"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

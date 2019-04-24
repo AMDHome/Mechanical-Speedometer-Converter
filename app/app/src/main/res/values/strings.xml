@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">Meter Converter</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_data">Data</string>
+    <string name="title_calibration">Calibration</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="settings">Settings</string>
+
+    <string name="long_Text">
+
+        This This This This This This This This This This This This This This This This This This This
+        This This This This This This This This This This This This This This This This This This This
+
+        IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS
+        IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS IS
+
+        The The The The The The The The The The The The The The The The The The The The The The The The
+        The The The The The The The The The The The The The The The The The The The The The The The The
+
+        Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last
+        Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last Last
+
+        Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment
+        Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment Fragment
+
+
+    </string>
+
+    <string name="menu_bluetooth">Bluetooth</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_data">Live Data</string>
+
+
+    <string name="bluetooth">bluetooth</string>
+    <string name="button">Button</string>
+    <string name="find_button">Find Devices</string>
+    <string name="str_devices">Devices</string>
+    <string name="paired_devices">Paired Devices</string>
+    <string name="calibrate">Calibration</string>
+    <string name="str_cancel">Cancel</string>
+
+
+    <string name="str_units">Units</string>
+    <string name="str_maxSpeed">Max Speed</string>
+    <string name="str_magnets">Magnets</string>
+    <string name="str_finalDrive">Final Drive</string>
+    <string name="str_ratio">Speedometer Ratio</string>
+    <string name="str_size">Wheel Size</string>
+
+    <string-array name="settings_array">
+        <item>Units</item>
+        <item>Max Speed</item>
+        <item>Magnets</item>
+        <item>Final Drive</item>
+        <item>Speedometer Ratio</item>
+        <item>Wheel Size</item>
+        <item>Wheel Circumference</item>
+    </string-array>
+
+    <string-array name="units_array">
+        <item>Miles per hour (mph)</item>
+        <item>Kilometers per hour (kph)</item>
+    </string-array>
+
+    <string-array name="magnet_array">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+    </string-array>
+
+
+</resources>

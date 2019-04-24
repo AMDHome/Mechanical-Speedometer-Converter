@@ -1069,6 +1069,7 @@ drawable notify_panel_notification_icon_bg
 drawable round_rect_bkgrd
 drawable selector_bottombar_item
 drawable selector_bottombar_text
+drawable splash_screen
 drawable text_boarder
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -1411,6 +1412,7 @@ layout support_simple_spinner_dropdown_item
 menu main_menu
 menu navigation
 mipmap ic_launcher
+mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 navigation nav_graph
 string abc_action_bar_home_description
