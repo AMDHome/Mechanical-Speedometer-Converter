@@ -1,0 +1,245 @@
+
+(EDIF
+  (rename WL_45_TMRC "WL-TMRC")
+  (EDIFVersion 2 0 0)
+  (EDIFLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timestamp 2018 04 16 16 05 43)
+      (dataOrigin "SnapEDA snapeda.comCopyright - This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0")
+      (program "SnapEDA Converter")
+    )
+  )
+  (library
+    (rename WL_45_TMRC "WL-TMRC")
+    (EDIFLevel 0)
+    (technology
+      (numberDefinition
+        (scale 1 (e 254 -9) (unit DISTANCE))
+        (gridMap 1 1)
+      )
+      (figureGroup PINNAME
+        (cornerType TRUNCATE)
+        (endType TRUNCATE)
+        (pathWidth 0)
+        (textHeight 4811)
+      )
+      (figureGroup PINNUMBER
+        (cornerType TRUNCATE)
+        (endType TRUNCATE)
+        (textHeight 9000)
+        (pathWidth 0)
+      )
+      (figureGroup PORT
+        (pathWidth 1000)
+        (textHeight 9000)
+      )
+      (figureGroup PARTBODY
+        (pathWidth 1000)
+        (borderWidth 1000)
+        (textHeight 6000)
+      )
+    )
+    (cell
+      (rename LED "LED")
+      (cellType GENERIC)
+      (view
+        (rename NORMAL "Normal")
+        (viewType SCHEMATIC)
+        (interface
+          (designator "D")
+          (property (rename VALUE "Value") (string "LED"))
+          (port
+            (rename &_45_ "-")
+            (designator "1")
+            (direction INOUT)
+            (property
+              (rename TYPE "Type")
+              (string "IO")
+            )
+            (property
+              (rename ORDER "Order")
+              (integer 0)
+              (owner "OrCAD")
+            )
+          )
+          (port
+            (rename &_43_ "+")
+            (designator "2")
+            (direction INOUT)
+            (property
+              (rename TYPE "Type")
+              (string "IO")
+            )
+            (property
+              (rename ORDER "Order")
+              (integer 1)
+              (owner "OrCAD")
+            )
+          )
+          (symbol
+            (boundingBox (rectangle (pt -20000 -10000) (pt 20000 16732)))
+            (portImplementation
+              (name &_45_)
+              (keywordDisplay DESIGNATOR
+                (display PINNUMBER
+                  (justify CENTERRIGHT)
+                  (orientation R0)
+                  (origin (pt -16062 0))
+                )
+              )
+              (connectLocation
+                (figure PORT
+                  (dot
+                    (pt -20000 0)
+                  )
+                )
+              )
+              (figure PARTBODY
+                (path
+                  (pointList
+                    (pt -20000 0)
+                    (pt -10000 0)
+                  )
+                )
+              )
+            )
+            (portImplementation
+              (name &_43_)
+              (keywordDisplay DESIGNATOR
+                (display PINNUMBER
+                  (justify CENTERLEFT)
+                  (orientation R0)
+                  (origin (pt 16062 0))
+                )
+              )
+              (connectLocation
+                (figure PORT
+                  (dot
+                    (pt 20000 0)
+                  )
+                )
+              )
+              (figure PARTBODY
+                (path
+                  (pointList
+                    (pt 20000 0)
+                    (pt 10000 0)
+                  )
+                )
+              )
+            )
+            (figure PARTBODY
+              (path (pointList (pt -10000 0) (pt 10000 10000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 10000) (pt 10000 0)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 0) (pt 10000 -10000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 10000 -10000) (pt -10000 0)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -10000 0) (pt 10000 0)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -10000 10000) (pt -10000 -10000)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -6889 12795) (pt -6889 9842)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -6889 9842) (pt -3937 12795)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -3937 12795) (pt -6889 12795)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -2952 16732) (pt -4834 13779)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -4834 13779) (pt 0 16732)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt 0 16732) (pt -2952 16732)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -1968 7874) (pt -6889 12795)))
+            )
+            (figure PARTBODY
+              (path (pointList (pt -2952 16732) (pt 1968 11811)))
+            )
+            (keywordDisplay DESIGNATOR
+              (display PARTBODY
+                (justify LOWERLEFT)
+                (orientation R0)
+                (origin (pt -5077 20388))
+              )
+            )
+            (propertyDisplay VALUE
+              (display PARTBODY
+                (justify LOWERLEFT)
+                (orientation R0)
+                (origin (pt -4841 -21796))
+              )
+            )
+            (annotate
+              (stringDisplay "-"
+                (display PARTBODY
+                  (justify LOWERLEFT)
+                  (orientation R0)
+                  (origin (pt -20022 -10011))
+                )
+              )
+            )
+            (annotate
+              (stringDisplay "+"
+                (display PARTBODY
+                  (justify LOWERLEFT)
+                  (orientation R0)
+                  (origin (pt 20015 -10007))
+                )
+              )
+            )
+            (property (rename PCB_Footprint "PCB Footprint") (string "LED-3MM-ROUND"))
+            (property
+              (rename MF "MF")
+              (string
+              (stringDisplay "Wurth Electronics"))
+            )
+            (property
+              (rename Package "Package")
+              (string
+              (stringDisplay "Radial Würth Elektronik"))
+            )
+            (property
+              (rename MP "MP")
+              (string
+              (stringDisplay "151031SS04000"))
+            )
+            (property
+              (rename Description "Description")
+              (string
+              (stringDisplay "
+LED wired Super red Circular 3 mm 160 mcd 40 ° 30 mA 2 V Wuerth Elektronik
+"))
+            )
+            (property
+              (rename Availability "Availability")
+              (string
+              (stringDisplay "Good"))
+            )
+            (property
+              (rename Price "Price")
+              (string
+              (stringDisplay "0.14 USD"))
+            )
+          )
+        )
+      )
+    )
+  )
+)

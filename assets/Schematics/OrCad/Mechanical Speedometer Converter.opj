@@ -17,8 +17,7 @@
       (Path "Design Resources" ".\mechanical speedometer converter.dsn")
       (Path "Design Resources" ".\mechanical speedometer converter.dsn"
          "SCHEMATIC1")
-      (Select "Design Resources" ".\mechanical speedometer converter.dsn"
-         "SCHEMATIC1" "PAGE1"))
+      (Select "Design Resources"))
     (HierarchyView)
     (Doc
       (Type "COrCapturePMDoc")
@@ -29,7 +28,7 @@
       (Type "COrSchematicDoc")
       (Frame
         (Placement "44 2 3 -1 -1 -8 -31 52 1655 52 521")
-        (Scroll "-559 -9")
+        (Scroll "-413 -9")
         (Zoom "137")
         (Occurrence "/"))
       (Path
@@ -37,16 +36,36 @@
       (Schematic "SCHEMATIC1")
       (Page "PAGE1")))
   (PartMRUSelector
+    (LED
+      (FullPartName "LED.Normal")
+      (LibraryName
+         "D:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\SYMBOL\LED\WL-TMRC.OLB")
+      (DeviceIndex "0"))
+    (TS1
+      (FullPartName "TS1.Normal")
+      (LibraryName
+         "D:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\SYMBOL\BUTTON\434113025826.OLB")
+      (DeviceIndex "0"))
     (0
       (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
       (DeviceIndex "0"))
-    ("4 HEADER"
-      (FullPartName "4 HEADER.Normal")
-      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
+    (VCC_ARROW
+      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
       (DeviceIndex "0"))
-    ("HEADER 2"
-      (FullPartName "HEADER 2.Normal")
-      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
+    (VCC_CIRCLE
+      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (GND
+      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (TL072
+      (FullPartName "TL072.Normal")
+      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\OPAMP.OLB")
+      (DeviceIndex "1"))
+    (L7805CV
+      (FullPartName "L7805CV.Normal")
+      (LibraryName
+         "D:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\SYMBOL\L7805CV\L7805CV.OLB")
       (DeviceIndex "0"))
     (VDC
       (FullPartName "VDC.Normal")
@@ -57,6 +76,24 @@
       (FullPartName "R.Normal")
       (LibraryName
          "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\PSPICE\ANALOG.OLB")
+      (DeviceIndex "0"))
+    ("HEADER 2"
+      (FullPartName "HEADER 2.Normal")
+      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
+      (DeviceIndex "0"))
+    (LFXTAL003237
+      (FullPartName "LFXTAL003237.Normal")
+      (LibraryName
+         "D:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\SYMBOL\XTAL\LFXTAL003237.OLB")
+      (DeviceIndex "0"))
+    (ATMEGA328P-PU
+      (FullPartName "ATMEGA328P-PU.Normal")
+      (LibraryName
+         "D:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\SYMBOL\ATMEGA328P\ATMEGA328P-PU.OLB")
+      (DeviceIndex "0"))
+    ("4 HEADER"
+      (FullPartName "4 HEADER.Normal")
+      (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
       (DeviceIndex "0"))
     ("HEADER 4"
       (FullPartName "HEADER 4.Normal")
@@ -87,4 +124,5 @@
       (FullPartName "HEADER 6/SM.Normal")
       (LibraryName "C:\CADENCE\SPB_17.2\TOOLS\CAPTURE\LIBRARY\CONNECTOR.OLB")
       (DeviceIndex "0")))
-  (LastUsedLibraryBrowseDirectory "C:\Users\Steve\Desktop\OrCad\Symbol\Diode"))
+  (LastUsedLibraryBrowseDirectory
+     "D:\Users\Steve\OneDrive\UC Davis\Current Classes\Senior Design\assets\Schematics\OrCad\Symbol\LED"))
