@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-    // Radius of the Earth in meters
+    // Radius of the Earth in meters, used in calcHaversineDist
     public static final int EARTH_RADIUS = 6371071;
-    // Create reference to the system Location Manager
+    // Creates a reference to the system Location Manager
     LocationManager locationManager;
-    // And a listener that responds to location updates
+    // Creates a listener that responds to location updates
     LocationListener locationListener;
-    // To hold old location
+    // To hold previous location
     public static Location oldLocation = null;
 
     @Override
@@ -23,12 +23,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new speedCalc();
-        // Register the listener with the Location Manager to receive updates
-
+        
+        // This line should "register" the listener with the Location Manager to receive updates according to 
+        // the online documentation, but is giving me some kind of permission problem. 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
     }
 
     public void useNewLocation(Location location) {
+        // If on first call, set oldLocation and return 
         if (oldLocation == null) {
             oldLocation = location;
             return;
@@ -37,12 +39,12 @@ public class MainActivity extends Activity {
         double newLon = location.getLongitude(); // In degrees
         long currTime = location.getTime(); // Milliseconds since 1/1/70
         long distance = calcHaversineDist(oldLocation.getLatitude(), oldLocation.getLongitude(), newLat, newLon);
-        int mph = (int)((distance/1609)/((currTime - oldLocation.getTime())/(3600000)));
+        int mph = (int)((distance/1609)/((currTime - oldLocation.getTime())/(3600000))); // Convert meters to miles and ms to hours
         TextView textView = findViewById(R.id.txtCurrentSpeed);
         textView.setText(mph + " miles/hour");
         oldLocation = location;
     }
-
+    // Haversine Formula for distance b/t pts on sphere given lat. & lon.; see https://en.wikipedia.org/wiki/Haversine_formula
     public static long calcHaversineDist(double lat1, double lon1, double lat2, double lon2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
@@ -55,7 +57,7 @@ public class MainActivity extends Activity {
         return distInMeters;
     }
 
-    // Define a listener that responds to location updates
+    // Defines a listener that responds to location updates
     class speedCalc implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
