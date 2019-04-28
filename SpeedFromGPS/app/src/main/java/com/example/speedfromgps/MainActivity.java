@@ -1,22 +1,25 @@
-/* 
-*  This program uses the android location API to determine the GPS-based speed of the mobile device it runs on. Specifically, 
-*  it makes time, latitude, and longitude requests from android.location. The latter two are used in the haversine formula
-*  to calculate distance between two locations. In turn, this distance is divided by the time difference of the locations to 
-*  derive speed. While the API also features a getSpeed() function, the consensus seems to be that this function is fairly 
-*  unreliable: if it cannot determine the speed, it simply returns 0, a value that must be ignored to avoid bad output. 
-*  Requesting time, latitude, and longitude and then calculating the speed manually seems to be the better choice. The 
-*  primary documentation I used can be found here: https://developer.android.com/guide/topics/location/strategies.html. 
-*/ 
+/*
+ *  This program uses the android location API to determine the GPS-based speed of the mobile device it runs on. Specifically,
+ *  it makes time, latitude, and longitude requests from android.location. The latter two are used in the haversine formula
+ *  to calculate distance between two locations. In turn, this distance is divided by the time difference of the locations to
+ *  derive speed. While the API also features a getSpeed() function, the consensus seems to be that this function is fairly
+ *  unreliable: if it cannot determine the speed, it simply returns 0, a value that must be ignored to avoid bad output.
+ *  Requesting time, latitude, and longitude and then calculating the speed manually seems to be the better choice. The
+ *  primary documentation I used can be found here: https://developer.android.com/guide/topics/location/strategies.html.
+ */
 
 package com.example.speedfromgps;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends Activity {
     // Radius of the Earth in meters, used in calcHaversineDist
@@ -27,20 +30,26 @@ public class MainActivity extends Activity {
     LocationListener locationListener;
     // To hold previous location
     public static Location oldLocation = null;
+    // Constant for fine location, ACCESS_FINE_LOCATION is for GPS_Provider 
+    private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new speedCalc();
-        
-        // This line should "register" the listener with the Location Manager to receive updates according to 
-        // the online documentation, but is giving me some kind of permission problem. 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        // This part should "register" the listener with the Location Manager to receive updates after checking permissions
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_ACCESS_FINE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
     }
 
     public void useNewLocation(Location location) {
-        // If on first call, set oldLocation and return 
+        // If on first call, set oldLocation and return
         if (oldLocation == null) {
             oldLocation = location;
             return;
