@@ -1,3 +1,12 @@
+/* 
+*  This program uses the android location API to determine the GPS-based speed of the mobile device it runs on. Specifically, 
+*  it makes time, latitude, and longitude requests from android.location. The latter two are used in the haversine formula
+*  to calculate distance between two locations. In turn, this distance is divided by the time difference of the locations to 
+*  derive speed. While the API also features a getSpeed() function, the consensus seems to be that this function is fairly 
+*  unreliable: if it cannot determine the speed, it simply returns 0, a value that must be ignored to avoid bad output. 
+*  Requesting time, latitude, and longitude and then calculating the speed manually seems to be the better choice.  
+*/ 
+
 package com.example.speedfromgps;
 
 import android.app.Activity;
