@@ -18,8 +18,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
 
 public class MainActivity extends Activity {
     // Radius of the Earth in meters, used in calcHaversineDist
@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new speedCalc();
 
@@ -58,7 +59,7 @@ public class MainActivity extends Activity {
         double newLon = location.getLongitude(); // In degrees
         long currTime = location.getTime(); // Milliseconds since 1/1/70
         long distance = calcHaversineDist(oldLocation.getLatitude(), oldLocation.getLongitude(), newLat, newLon);
-        int mph = (int)((distance/1609)/((currTime - oldLocation.getTime())/(3600000))); // Convert meters to miles and ms to hours
+        int mph = (int) (((distance/1609)/(currTime - oldLocation.getTime())) / 3600000); // Convert meters to miles and ms to hours
         TextView textView = findViewById(R.id.txtCurrentSpeed);
         textView.setText(mph + " miles/hour");
         oldLocation = location;
