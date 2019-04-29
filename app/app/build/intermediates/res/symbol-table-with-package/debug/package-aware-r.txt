@@ -1042,6 +1042,7 @@ drawable ic_calibration_black_24dp
 drawable ic_dashboard
 drawable ic_data_black_24dp
 drawable ic_image
+drawable ic_image2vector
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable ic_mtrl_chip_checked_black
@@ -1187,6 +1188,7 @@ id icon
 id icon_group
 id ifRoom
 id image
+id img_meter
 id increment
 id info
 id invisible
@@ -1201,6 +1203,8 @@ id linLay_buttons
 id linLay_options
 id line1
 id line3
+id linlay_adjButtons
+id linlay_findRatio
 id listBluetooth
 id listMode
 id listSettings

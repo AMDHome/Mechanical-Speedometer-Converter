@@ -1,7 +1,7 @@
 #Internal package file, do not edit.
-#Tue Apr 23 21:14:55 PDT 2019
+#Wed Apr 24 16:39:07 PDT 2019
 0.baseType=DIRECTORY
-0.base=/Users/tyuen/Desktop/MeterConverter/app/build/intermediates/dex/debug/mergeDexDebug/out
+0.base=/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/dex/debug/mergeDexDebug/out
 0.path=classes.dex
 0.set=DEX
 count=1
