@@ -1,17 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="500" height="500" version="1.1" viewBox="0 0 500.00001 500.00001" xmlns="http://www.w3.org/2000/svg">
- <g transform="translate(0 -552.36)">
-  <circle cx="250" cy="802.36" r="197.57" fill="none" stroke="#555" stroke-width="25"/>
-  <rect transform="matrix(.86603 .5 -.5 .86603 0 0)" x="420.13" y="563.55" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect transform="matrix(-.5 -.86603 .86603 -.5 0 0)" x="-682.17" y="-195.36" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect transform="rotate(90)" x="604.81" y="-255.74" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect x="387.71" y="794.92" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect x="52.435" y="794.92" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect transform="matrix(.86603 -.5 .5 .86603 0 0)" x="-382.24" y="811.1" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect transform="matrix(-.86603 .5 .5 .86603 0 0)" x="-10.765" y="809.87" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect transform="matrix(.5 -.86603 -.86603 -.5 0 0)" x="-432.16" y="-624.13" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <rect transform="matrix(-.86603 -.5 -.5 .86603 0 0)" x="-811" y="561.09" width="59.852" height="16.38" ry="0" fill="#555"/>
-  <circle cx="247.55" cy="826.64" r="15.625" fill="#555"/>
-  <path d="m248.74 834.6 166.64 11.281-164.73-28.325c-11.591-3.4984-13.731 15.63-1.9069 17.044z" color="#000000" color-rendering="auto" fill="#555" fill-rule="evenodd" image-rendering="auto" shape-rendering="auto" solid-color="#000000" style="block-progression:tb;isolation:auto;mix-blend-mode:normal;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-transform:none;white-space:normal"/>
- </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#555555;stroke-width:25;}
+	.st1{fill:none;stroke:#484848;stroke-width:25;}
+	.st2{fill:#484848;}
+	.st3{fill:#484848;stroke:#484848;stroke-width:3.5;}
+</style>
+<g transform="translate(0 -552.36)">
+	<path class="st0" d="M105.7,937.3"/>
+	<path class="st0" d="M250,999.9"/>
+	<path class="st0" d="M394.2,937.4"/>
+	<path class="st1" d="M105.7,937.3c-33-35.3-53.2-82.8-53.2-134.9c0-109.1,88.5-197.6,197.6-197.6s197.6,88.5,197.6,197.6
+		c0,52.2-20.3,99.7-53.3,135"/>
+	<rect x="95.7" y="690.2" transform="matrix(0.5 -0.866 0.866 0.5 -571.7418 450.0606)" class="st2" width="16.4" height="59.9"/>
+	<rect x="155.8" y="628.5" transform="matrix(0.866 -0.5 0.5 0.866 -307.2473 170.2278)" class="st2" width="16.4" height="59.9"/>
+	<rect x="239.4" y="604.8" class="st2" width="16.4" height="59.9"/>
+	<rect x="387.7" y="794.9" class="st2" width="59.9" height="16.4"/>
+	<rect x="52.4" y="794.9" class="st2" width="59.9" height="16.4"/>
+	<rect x="74.6" y="877.5" transform="matrix(0.866 -0.5 0.5 0.866 -428.8373 170.9236)" class="st2" width="59.9" height="16.4"/>
+	<rect x="362.5" y="709.9" transform="matrix(0.866 -0.5 0.5 0.866 -306.4451 292.4162)" class="st2" width="59.9" height="16.4"/>
+	<rect x="302.4" y="648.1" transform="matrix(0.5 -0.866 0.866 0.5 -402.2343 615.9451)" class="st2" width="59.9" height="16.4"/>
+	<rect x="383.6" y="853.6" transform="matrix(0.5 -0.866 0.866 0.5 -569.2808 781.0806)" class="st2" width="16.4" height="59.9"/>
+	<circle class="st2" cx="249.8" cy="803.4" r="15.6"/>
+	<path color-rendering="auto" shape-rendering="auto" image-rendering="auto" class="st2" d="M257.7,806.5l96.7-136.2L244.1,795.9
+		C235.1,804,250.3,815.8,257.7,806.5L257.7,806.5z"/>
+</g>
+<path class="st3" d="M308.2,365.9H191.5c0,0,0,0,0,0v-18.3c0,0,0,0,0,0h116.8c0,0,0,0,0,0L308.2,365.9
+	C308.3,365.9,308.2,365.9,308.2,365.9z"/>
 </svg>
