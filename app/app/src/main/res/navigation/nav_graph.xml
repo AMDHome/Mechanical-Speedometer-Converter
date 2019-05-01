@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.android.ecs193.meterconverter.SettingsFragment"
+        android:name="com.android.ecs193.meterconverter.HomeFragment"
         android:label="frag_settings"
         tools:layout="@layout/frag_settings"/>
     <fragment

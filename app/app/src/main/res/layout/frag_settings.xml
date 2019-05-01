@@ -4,7 +4,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".SettingsFragment">
+             tools:context=".HomeFragment">
 
     <FrameLayout
         android:id="@+id/searchDevicesTitle"
@@ -52,20 +52,20 @@
     </FrameLayout>
 
     <LinearLayout
-    android:id="@+id/meterSettings"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginLeft="15dp"
-    android:layout_marginTop="70dp"
-    android:layout_marginEnd="15dp"
-    android:layout_marginRight="15dp"
-    android:background="@drawable/round_rect_bkgrd"
-    android:orientation="vertical"
-    android:visibility="visible"
-    android:layout_gravity="top"
-    app:layout_constraintTop_toBottomOf="@+id/searchDevicesTitle"
-    app:layout_constraintEnd_toEndOf="parent">
+        android:id="@+id/myCarSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/round_rect_bkgrd"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:layout_gravity="top"
+        app:layout_constraintTop_toBottomOf="@+id/searchDevicesTitle"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:layout_width="match_parent"
@@ -221,6 +221,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/meterSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -353,6 +354,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/sensorSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"

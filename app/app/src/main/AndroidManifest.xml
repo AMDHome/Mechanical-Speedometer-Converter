@@ -40,8 +40,9 @@
         <activity android:name=".SettingsActivity"
                   android:label="Settings"></activity>
 
-        <activity android:name=".WizardRatio"></activity>
-        <activity android:name=".WizardRPM"></activity>
+        <activity android:name=".MeterWizard.MeterWizardUnit"></activity>
+        <activity android:name=".MeterWizard.MeterWizardRatio"></activity>
+        <activity android:name=".MeterWizard.MeterWizardRPM"></activity>
     </application>
 
 
