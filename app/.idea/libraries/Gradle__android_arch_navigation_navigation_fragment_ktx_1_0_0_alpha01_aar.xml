@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha01@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/gradle-5.2/caches/transforms-1/files-1.1/navigation-fragment-ktx-1.0.0-alpha01.aar/932eee88216e770204b2de67b625271f/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/gradle-5.2/caches/transforms-1/files-1.1/navigation-fragment-ktx-1.0.0-alpha01.aar/932eee88216e770204b2de67b625271f/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/navigation-fragment-ktx-1.0.0-alpha01.aar/ad0d696d81dae33f96dcc9907c88ae3c/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/navigation-fragment-ktx-1.0.0-alpha01.aar/ad0d696d81dae33f96dcc9907c88ae3c/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/gradle-5.2/caches/modules-2/files-2.1/android.arch.navigation/navigation-fragment-ktx/1.0.0-alpha01/f9da826cf0287090e87f809e92bb008730135ffd/navigation-fragment-ktx-1.0.0-alpha01-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/android.arch.navigation/navigation-fragment-ktx/1.0.0-alpha01/f9da826cf0287090e87f809e92bb008730135ffd/navigation-fragment-ktx-1.0.0-alpha01-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
