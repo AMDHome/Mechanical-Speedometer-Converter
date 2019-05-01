@@ -19,6 +19,10 @@ anim nav_default_enter_anim
 anim nav_default_exit_anim
 anim nav_default_pop_enter_anim
 anim nav_default_pop_exit_anim
+anim slide_in_left
+anim slide_in_right
+anim slide_out_left
+anim slide_out_right
 animator design_appbar_state_list_animator
 animator design_fab_hide_motion_spec
 animator design_fab_show_motion_spec
@@ -1735,6 +1739,7 @@ style Base_Widget_MaterialComponents_TextInputLayout
 style CardView
 style CardView_Dark
 style CardView_Light
+style CustomActivityAnimation
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_MaterialComponents

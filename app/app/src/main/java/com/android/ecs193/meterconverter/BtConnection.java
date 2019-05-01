@@ -62,6 +62,7 @@ public class BtConnection extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
     }
@@ -74,6 +75,7 @@ public class BtConnection extends AppCompatActivity {
 
             //finish apk
             finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         } else if (!myBluetooth.isEnabled()) {
             //Ask to the user turn the bluetooth on
             Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -169,6 +171,7 @@ public class BtConnection extends AppCompatActivity {
             {
                 msg("Connection Failed. Is it a SPP Bluetooth? Try again.");
                 finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
             else
             {

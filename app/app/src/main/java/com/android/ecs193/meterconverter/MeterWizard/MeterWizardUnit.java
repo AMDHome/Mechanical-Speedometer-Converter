@@ -60,6 +60,7 @@ public class MeterWizardUnit extends AppCompatActivity {
                 if (but_mph.isChecked() || but_kph.isChecked()) {
                     Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
                     finish();
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     startActivity(wizIntent);
                 } else {
                     new AlertDialog.Builder(MeterWizardUnit.this)
@@ -77,6 +78,8 @@ public class MeterWizardUnit extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                //slide from right to left
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 

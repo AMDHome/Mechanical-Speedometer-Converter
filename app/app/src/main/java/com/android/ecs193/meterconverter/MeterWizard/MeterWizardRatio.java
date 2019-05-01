@@ -153,8 +153,14 @@ public class MeterWizardRatio extends AppCompatActivity {
         but_cancel = findViewById(R.id.but_cancel);
         but_cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
                 Intent wizIntent = new Intent(MeterWizardRatio.this, MeterWizardUnit.class);
+                finish();
+                // Slide from right to left
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 startActivity(wizIntent);
+
+
             }
         });
 

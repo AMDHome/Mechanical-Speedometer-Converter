@@ -78,7 +78,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent btIntent = new Intent(getActivity(), com.android.ecs193.meterconverter.BtConnection.class);
                 startActivityForResult(btIntent, BT_INTENT_FLAG);
-
             }
         });
 
