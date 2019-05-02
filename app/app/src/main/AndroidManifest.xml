@@ -43,6 +43,10 @@
         <activity android:name=".MeterWizard.MeterWizardUnit"></activity>
         <activity android:name=".MeterWizard.MeterWizardRatio"></activity>
         <activity android:name=".MeterWizard.MeterWizardRPM"></activity>
+        <activity android:name=".MeterWizard.MeterWizardDriveCheck"></activity>
+        <activity android:name=".MeterWizard.MeterWizardMagnet"></activity>
+        <activity android:name=".MeterWizard.MeterWizardTireSize"></activity>
+        <activity android:name=".MeterWizard.MeterWizardCalibrate"></activity>
     </application>
 
 

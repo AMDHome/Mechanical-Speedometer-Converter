@@ -12,7 +12,6 @@ import com.android.ecs193.meterconverter.R;
 
 public class MeterWizardUnit extends AppCompatActivity {
 
-    TextView unitsText;
     RadioButton but_kph;
     RadioButton but_mph;
     Button but_next;
@@ -60,7 +59,6 @@ public class MeterWizardUnit extends AppCompatActivity {
                 if (but_mph.isChecked() || but_kph.isChecked()) {
                     Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
                     finish();
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     startActivity(wizIntent);
                 } else {
                     new AlertDialog.Builder(MeterWizardUnit.this)

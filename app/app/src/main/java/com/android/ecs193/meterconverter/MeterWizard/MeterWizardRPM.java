@@ -36,7 +36,7 @@ public class MeterWizardRPM extends AppCompatActivity {
     boolean mAutoIncrement = false;
     boolean mAutoDecrement = false;
 
-    Integer targetSpeed;
+    static Integer targetSpeed;
 
     HomeFragment mHomeFragment = new HomeFragment();
     MeterWizardUnit mMeterWizardUnit = new MeterWizardUnit();
@@ -196,7 +196,14 @@ public class MeterWizardRPM extends AppCompatActivity {
                                     }
 
                                 }
-                                finish();
+
+                                if (mHomeFragment.getDriveCheck()) {
+                                    Intent wizIntent = new Intent(MeterWizardRPM.this, MeterWizardMagnet.class);
+                                    finish();
+                                    startActivity(wizIntent);
+                                } else {
+                                    finish();
+                                }
                             }
                         })
                         .setNegativeButton("Go Back", null)
@@ -252,6 +259,10 @@ public class MeterWizardRPM extends AppCompatActivity {
                 msg("Error");
             }
         }
+    }
+
+    static public Integer getTargetSpeed() {
+        return targetSpeed;
     }
 
     private void msg(String s)

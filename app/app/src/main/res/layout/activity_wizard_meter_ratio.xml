@@ -39,7 +39,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/str_speed_wizard"
+                android:text="@string/str_speed_wizard_max"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/text_speed_q"
@@ -116,9 +116,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:inputType="numberSigned"
-                    android:autofillHints="@string/str_zero"
+                    android:ellipsize="start"
+                    android:hint="@string/str_zero"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorPrimaryDark"
                     android:background="@color/colorWhite"
                     android:textSize="25sp"/>
 

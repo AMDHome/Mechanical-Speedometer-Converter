@@ -51,6 +51,10 @@
         <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardUnit" />
         <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio" />
         <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardRPM" />
+        <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardDriveCheck" />
+        <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardMagnet" />
+        <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardTireSize" />
+        <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardCalibrate" />
     </application>
 
 </manifest>

@@ -39,7 +39,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/str_speed_wizard"
+                android:text="@string/str_speed_wizard_units"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/text_speed_q"

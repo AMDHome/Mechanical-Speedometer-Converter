@@ -54,25 +54,50 @@
     <string name="str_magnets">Magnets</string>
     <string name="str_finalDrive">Final Drive</string>
     <string name="str_ratio">Speedometer Ratio</string>
-    <string name="str_size">Wheel Size</string>
+    <string name="str_size">Tire Size</string>
 
     <string name="str_next">Next</string>
     <string name="str_finish">Finish</string>
     <string name="str_mph">Miles per hour (mph)</string>
     <string name="str_kph">Kilometers per hour (kph)</string>
 
-    <string name="str_speed_wizard">SPEEDOMETER WIZARD: UNITS</string>
+    <string name="str_speed_wizard_units">SPEEDOMETER WIZARD: UNITS</string>
+    <string name="str_speed_wizard_max">SPEEDOMETER WIZARD: MAX SPEED</string>
+    <string name="str_speed_wizard_rpm">SPEEDOMETER WIZARD: RPM</string>
+    <string name="str_drive_wizard_check">FINAL DRIVE WIZARD: CHECK</string>
+    <string name="str_drive_wizard_magnet">FINAL DRIVE WIZARD: MAGNETS</string>
+    <string name="str_drive_wizard_tire_size">FINAL DRIVE WIZARD: TIRE SIZE</string>
+    <string name="str_drive_wizard_calibrate">FINAL DRIVE WIZARD: CALIBRATION</string>
+
     <string name="str_speed_unit_q">What are the primary units shown on the speedometer?</string>
     <string name="str_speed_max_q">What is the maximum speed shown on the speedometer?</string>
     <string name="str_speed_rpm_q">Please adjust the target RPM until the speedometer reads 40 MPH.</string>
+    <string name="str_speed_check_q">Have you already set up your speedometer (Car Units, Max Speed, Speedometer Ratio)?</string>
+    <string name="str_speed_magnet_q">How many magnet did you install for your speed sensor?</string>
+    <string name="str_speed_tire_size_q">What is the tire size of your car?</string>
+    <string name="str_tire_size_statement">Tire size is found on the side of the tire.</string>
+    <string name="str_calibate">We are now ready to help find the final drive ratio of your car.</string>
+    <string name="str_cali_statement_1">Find a straight empty road and drive at the speed shown below.</string>
+    <string name="str_cali_statement_2">Remember to obey all speed and driving laws during the calibration process!</string>
 
     <string name="str_speed_max_input">Max Speed:</string>
     <string name="str_speed_rpm_input">Target RPM:</string>
     <string name="str_speed_ratio">Speedometer Ratio:</string>
+    <string name="str_speed_tire_size_input">Tire Size:</string>
     <string name="str_speed_plus">+</string>
     <string name="str_speed_minus">-</string>
     <string name="str_zero">0</string>
     <string name="str_meter_img">Speedometer Image</string>
+    <string name="str_tire_img">Car Tire Image</string>
+    <string name="str_size_hint">P _ _ _ / _ _ R _ _</string>
+    <string name="str_target_speed">Please drive at:</string>
+    <string name="str_current_speed">You are currently driving at:</string>
+
+    <string name="str_yes">Yes</string>
+    <string name="str_no">No</string>
+    <string name="str_one">1</string>
+    <string name="str_two">2</string>
+    <string name="str_four">4</string>
 
     <string-array name="settings_array">
         <item>Units</item>
@@ -80,7 +105,7 @@
         <item>Magnets</item>
         <item>Final Drive</item>
         <item>Speedometer Ratio</item>
-        <item>Wheel Size</item>
+        <item>Tire Size</item>
         <item>Wheel Circumference</item>
     </string-array>
 

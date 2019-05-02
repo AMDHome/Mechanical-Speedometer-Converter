@@ -21,13 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardUnit;
+import com.android.ecs193.meterconverter.MeterWizard.MeterWizardDriveCheck;
 
 public class HomeFragment extends Fragment {
 
+    Button butWizardDrive;
     Button butWizardRatio;
     Button pairDevice;
     //TextView butUnits;
@@ -40,11 +41,11 @@ public class HomeFragment extends Fragment {
 
     TextView unitsText;
     TextView maxSpeedText;
-    TextView magnetsText;
+    static TextView magnetsText;
     TextView finalDriveText;
     static TextView meterRatioText;
     TextView wheelSizeText;
-    TextView wheelCircText;
+    static TextView wheelCircText;
 
     TextView tv;
     ListView mListView;
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment {
     AlertDialog alertDialog1;
 
     String wheelUnit;
+    static boolean driveCheck = false;
     final static int BT_INTENT_FLAG = 0;
 
     private RecyclerView recyclerView;
@@ -90,14 +92,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        butMaxSpeed= view.findViewById(R.id.but_maxSpeed);
-        maxSpeedText = view.findViewById(R.id.maxSpeedText);
-        butMaxSpeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getTextBoxDialog("Enter Max Speed", maxSpeedText, "M:");
-            }
-        });
+
 
         butMagnets= view.findViewById(R.id.but_magnets);
         magnetsText = view.findViewById(R.id.magnetsText);
@@ -114,6 +109,34 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getTextBoxDialog("Enter Final Drive", finalDriveText, "F:");
+            }
+        });
+
+        butWizardDrive = view.findViewById(R.id.find_drive);
+        butWizardDrive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (btSocket != null) {
+                    try {
+                        // Write to Arduino to tell it to enter speedometer ratio calibration mode
+                        btSocket.getOutputStream().write("P:1\0".getBytes());
+
+                        Intent wizIntent = new Intent(getActivity(), MeterWizardDriveCheck.class);
+                        startActivity(wizIntent);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        butMaxSpeed= view.findViewById(R.id.but_maxSpeed);
+        maxSpeedText = view.findViewById(R.id.maxSpeedText);
+        butMaxSpeed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getTextBoxDialog("Enter Max Speed", maxSpeedText, "M:");
             }
         });
 
@@ -145,7 +168,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        butSize= view.findViewById(R.id.but_size);
+        butSize = view.findViewById(R.id.but_size);
         wheelCircText = view.findViewById(R.id.wheelCircText);
         butSize.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -634,6 +657,22 @@ public class HomeFragment extends Fragment {
 
     static public void setMeterRatioText(String value) {
         meterRatioText.setText(value);
+    }
+
+    static public void setMagnetText(String value) {
+        magnetsText.setText(value);
+    }
+
+    static public void setDriveCheck() {
+        driveCheck = true;
+    }
+
+    static public boolean getDriveCheck() {
+        return driveCheck;
+    }
+
+    static public void setTireSize(String value) {
+        wheelCircText.setText(value);
     }
 
     private void msg(String s)
