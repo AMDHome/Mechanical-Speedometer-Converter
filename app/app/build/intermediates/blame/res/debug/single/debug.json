@@ -288,12 +288,12 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/layout/abc_popup_menu_header_item_layout.xml"
     },
     {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/anim_design_bottom_sheet_slide_out.xml.flat",
-        "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/anim/design_bottom_sheet_slide_out.xml"
-    },
-    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/layout_activity_wizard_meter_rpm.xml.flat",
         "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/layout/activity_wizard_meter_rpm.xml"
+    },
+    {
+        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/anim_design_bottom_sheet_slide_out.xml.flat",
+        "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/anim/design_bottom_sheet_slide_out.xml"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/layout_notification_template_big_media_custom.xml.flat",
@@ -376,12 +376,12 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/drawable/abc_ic_ab_back_material.xml"
     },
     {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable_ic_mtrl_chip_checked_black.xml.flat",
-        "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/drawable/ic_mtrl_chip_checked_black.xml"
-    },
-    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-mdpi_ic_baseline_error_24px.png.flat",
         "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/generated/res/pngs/debug/drawable-mdpi/ic_baseline_error_24px.png"
+    },
+    {
+        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable_ic_mtrl_chip_checked_black.xml.flat",
+        "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/drawable/ic_mtrl_chip_checked_black.xml"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/color_abc_hint_foreground_material_dark.xml.flat",
@@ -416,16 +416,16 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/drawable-xxxhdpi-v4/abc_ic_star_black_36dp.png"
     },
     {
+        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/anim_slide_in_left.xml.flat",
+        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/anim/slide_in_left.xml"
+    },
+    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/color-v23_abc_tint_switch_track.xml.flat",
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/color-v23/abc_tint_switch_track.xml"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/layout_design_text_input_password_icon.xml.flat",
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/layout/design_text_input_password_icon.xml"
-    },
-    {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/anim_slide_in_left.xml.flat",
-        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/anim/slide_in_left.xml"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable_abc_ic_search_api_material.xml.flat",
@@ -604,16 +604,16 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/layout/design_layout_snackbar_include.xml"
     },
     {
+        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/anim_slide_out_right.xml.flat",
+        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/anim/slide_out_right.xml"
+    },
+    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/layout_design_navigation_menu.xml.flat",
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/layout/design_navigation_menu.xml"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-anydpi-v21_ic_image.xml.flat",
         "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/generated/res/pngs/debug/drawable-anydpi-v21/ic_image.xml"
-    },
-    {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/anim_slide_out_right.xml.flat",
-        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/anim/slide_out_right.xml"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-hdpi_ic_data_black_24dp.png.flat",
@@ -1092,12 +1092,12 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/color-v23/abc_tint_spinner.xml"
     },
     {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_data_black_24dp.png.flat",
-        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/generated/res/pngs/debug/drawable-xxhdpi/ic_data_black_24dp.png"
-    },
-    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/layout_activity_wizard_meter_drive_check.xml.flat",
         "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/layout/activity_wizard_meter_drive_check.xml"
+    },
+    {
+        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_data_black_24dp.png.flat",
+        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/generated/res/pngs/debug/drawable-xxhdpi/ic_data_black_24dp.png"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_image.png.flat",
@@ -1476,12 +1476,12 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/color/mtrl_tabs_icon_color_selector.xml"
     },
     {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-mdpi_ic_settings.png.flat",
-        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/generated/res/pngs/debug/drawable-mdpi/ic_settings.png"
-    },
-    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/anim_slide_out_left.xml.flat",
         "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/anim/slide_out_left.xml"
+    },
+    {
+        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-mdpi_ic_settings.png.flat",
+        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/generated/res/pngs/debug/drawable-mdpi/ic_settings.png"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_text_select_handle_left_mtrl_dark.png.flat",
@@ -1868,12 +1868,12 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/drawable-xxhdpi-v4/abc_list_pressed_holo_light.9.png"
     },
     {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_design_ic_visibility_off.png.flat",
-        "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/drawable-mdpi-v4/design_ic_visibility_off.png"
-    },
-    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_ic_baseline_error_24px.png.flat",
         "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/generated/res/pngs/debug/drawable-xxxhdpi/ic_baseline_error_24px.png"
+    },
+    {
+        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_design_ic_visibility_off.png.flat",
+        "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/drawable-mdpi-v4/design_ic_visibility_off.png"
     },
     {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",

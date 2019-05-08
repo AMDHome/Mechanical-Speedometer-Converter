@@ -164,7 +164,7 @@
                     android:layout_weight="0.5"
                     android:layout_gravity="center"
                     android:textStyle="bold"
-                    android:text="14.5"
+                    android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryLight"
                     android:textSize="80sp"/>
