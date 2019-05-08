@@ -1329,7 +1329,16 @@ id text_rpm_q
 id text_speed_q
 id text_speed_wizard
 id text_target_speed
-id text_tireSize
+id text_tireSize1
+id text_tireSize2
+id text_tireSize3
+id text_tireSize4
+id text_tireSize5
+id text_tireSize6
+id text_tireSize7
+id text_tireSizeP
+id text_tireSizeR
+id text_tireSizeSlash
 id textinput_counter
 id textinput_error
 id textinput_helper_text

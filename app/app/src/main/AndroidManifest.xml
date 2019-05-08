@@ -48,7 +48,10 @@
         <activity android:name=".MeterWizard.MeterWizardRPM"></activity>
         <activity android:name=".MeterWizard.MeterWizardDriveCheck"></activity>
         <activity android:name=".MeterWizard.MeterWizardMagnet"></activity>
-        <activity android:name=".MeterWizard.MeterWizardTireSize"></activity>
+        <activity
+            android:name=".MeterWizard.MeterWizardTireSize"
+            android:windowSoftInputMode="stateVisible">
+        </activity>
         <activity android:name=".MeterWizard.MeterWizardCalibrate"></activity>
     </application>
 
