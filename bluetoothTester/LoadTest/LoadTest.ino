@@ -65,9 +65,12 @@ void dataDump() {
   out[index++] = ':';
 
   // Wheel Circumference
-  tempL = EEPROM.get(12, tempF) * 1000000;
-  ultoa(tempL, out + index, 10);
-  index += strlen(out + index);
+  for(byte i = 0; i < 13; i++){
+    out[index + i] = EEPROM.read(16 + i);
+
+    if(out[index + i] == '\0')
+      break;
+  }
   
   Serial.println(out);
 }

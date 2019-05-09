@@ -4,6 +4,10 @@ unsigned long inRatio;    // input ratio, Also happens to be dt for 0.1 SPH [dt 
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
+bool SCalMode = false;
+byte SRecMode = 0;
+unsigned long targetRPM;
+
 /*
  * Calculate inRatio via stored values.
  * finalDrive should be 1 if not being used
@@ -29,7 +33,7 @@ void loop() {
 }
 
 bool checkBT() {
-  static char data[13];
+  static char data[26];
   bool updated = false;
   float temp;
 
@@ -81,11 +85,56 @@ bool checkBT() {
       updated = true;
       break;
 
-    case 'W': // Store Wheel Circumference
-      EEPROM.put(12, ((float) atol(data)) / 1000000);
+    case 'W': // Store Tire Size & Circumference
+      char* temps;
+      byte i = 0
+
+      EEPROM.put(12, ((float) atol(strtok(data, ":"))) / 1000000);
+
+      temps = strtok(NULL, ":");
+      for(; i < 14 && temps[i] != '\0'; i++) {
+        EEPROM.update(16 + i, temps[i]);
+      }
+      EEPROM.update(16 + i, '\0')
+
       updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
       Serial.print(EEPROM.get(12, temp), 9);
       updated = true;
+      break;
+
+    case 'P':
+      SCalMode = data[0] - '0';
+      Serial.print(data[0]);
+      break;
+
+    case 'T':
+      if(SCalMode) {
+        targetRPM = atol(data);
+        Serial.print(targetRPM);
+      }
+      break;
+
+    case 'D':
+      byte tempb = atol(data)
+      Serial.print(tempb);
+
+      if(tempb) {
+        SRecMode = tempb;
+        // set all recording data to 0
+        // start recording data
+
+      } else {
+        // Do calculations, update ratios and send value off
+        /*
+          EEPROM.put(4, ((float) atol(data)) / 1000000);
+          updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+          Serial.print(EEPROM.get(4, temp), 9);
+          updated = true;
+        */
+        Serial.print("F:10000000");
+        SRecMode = 0;
+      }
+
       break;
 
     case '\0':
@@ -127,12 +176,12 @@ char recvData(char* data) {
       return '\0';
     }
 
-    for(itr = 0; itr < 13 && (Serial.available() > 0); itr++) {
+    for(itr = 0; itr < 26 && (Serial.available() > 0); itr++) {
       data[itr] = Serial.read();
       delay(1);
     }
 
-    if(itr == 13 && data[10] != '\0') {
+    if(itr == 26 && data[23] != '\0') {
       digitalWrite(LED_BUILTIN, HIGH);
       return '\0';
     }
