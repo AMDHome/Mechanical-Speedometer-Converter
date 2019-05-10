@@ -189,7 +189,9 @@ void loop() {
        OCR1A = newPWM;
      oldErr = error;
   }
-  
+
+  // debug printout
+  currentRPM = ((46875 * (tickCounter[0] + tickCounter[1]) / 2) / 1024) * 10;
   
   Serial.print("Current: ");
   Serial.print(currentRPM/10);
