@@ -85,9 +85,9 @@ void setup() {
   // Calculate maxRPM for our speedometer
   EEPROM.get(1, maxSpeed);
 
-  // Configure PWM (Count Up, Fast PWM 10-bit, CLK/64)
+  // Configure PWM (Count Up, Fast PWM 10-bit, 16kHz [15,625 Hz])
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
-  TCCR1B = _BV(WGM12) | _BV(CS11) | _BV(CS10);
+  TCCR1B = _BV(WGM12) | _BV(CS10);
 
   // Enable Analog Comparator
   ADCSRB = 0;
