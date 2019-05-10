@@ -83,6 +83,7 @@ bool checkBT() {
   static char data[26];
   bool updated = false;
   float temp;
+  byte i, tempb;
 
   // check and recieve data
   switch(recvData(data)) {
@@ -134,7 +135,7 @@ bool checkBT() {
 
     case 'W': // Store Tire Size & Circumference
       char* temps;
-      byte i = 0;
+      i = 0;
 
       EEPROM.put(12, ((float) atol(strtok(data, ":"))) / 1000000);
 
@@ -162,7 +163,7 @@ bool checkBT() {
       break;
 
     case 'D':
-      byte tempb = atol(data);
+      tempb = atol(data);
       Serial.print(tempb);
 
       if(tempb) {
@@ -191,7 +192,7 @@ bool checkBT() {
 
   if(updated) {
     digitalWrite(LED_BUILTIN, HIGH);
-    for(byte i = 0; data[i] != '\0' && i < 13; i++) {
+    for(i = 0; data[i] != '\0' && i < 13; i++) {
       Serial.print(data[i]);
     }
     Serial.println("");
