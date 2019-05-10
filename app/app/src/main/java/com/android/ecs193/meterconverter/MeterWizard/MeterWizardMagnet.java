@@ -74,13 +74,13 @@ public class MeterWizardMagnet extends AppCompatActivity {
 
 
                 if (but_one.isChecked()) {
-                    mHomeFragment.setMagnetText(String.valueOf(1));
+                    mHomeFragment.setMagnetText(1);
                     butChecked = true;
                 } else if (but_two.isChecked()) {
-                    mHomeFragment.setMagnetText(String.valueOf(2));
+                    mHomeFragment.setMagnetText(2);
                     butChecked = true;
                 } else if (but_four.isChecked()) {
-                    mHomeFragment.setMagnetText(String.valueOf(4));
+                    mHomeFragment.setMagnetText(4);
                     butChecked = true;
                 }
 

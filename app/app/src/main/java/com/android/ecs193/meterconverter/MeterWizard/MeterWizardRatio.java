@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.os.Handler;
 
+import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
 
 public class MeterWizardRatio extends AppCompatActivity {
@@ -28,6 +29,8 @@ public class MeterWizardRatio extends AppCompatActivity {
     boolean mAutoDecrement = false;
 
     static Integer maxSpeed;
+    String orgMaxSpeed;
+
     class RptUpdater implements Runnable {
         public void run() {
             if( mAutoIncrement ){
@@ -46,7 +49,18 @@ public class MeterWizardRatio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard_meter_ratio);
 
+        final HomeFragment mHomeFragment = new HomeFragment();
+        orgMaxSpeed = mHomeFragment.getMaxSpeed();
+
         text_speed = findViewById(R.id.speedometerMax);
+
+        // Prefill with max speed value in arduino
+        if (orgMaxSpeed.length() == 0) {
+            speedometer_half = 0;
+        } else {
+            speedometer_half = Integer.valueOf(orgMaxSpeed);
+            text_speed.setText(mHomeFragment.getMaxSpeed());
+        }
 
         // Change max speed value on setting fragment
         but_incre = findViewById(R.id.but_increment);
@@ -143,6 +157,9 @@ public class MeterWizardRatio extends AppCompatActivity {
                             .show();
                 } else {
                     maxSpeed = Integer.valueOf(text_speed.getText().toString());
+
+                    // Write new maxSpeed to arduino
+                    mHomeFragment.setMaxSpeed(text_speed.getText().toString());
                     Intent wizIntent = new Intent(MeterWizardRatio.this, MeterWizardRPM.class);
                     finish();
                     startActivity(wizIntent);

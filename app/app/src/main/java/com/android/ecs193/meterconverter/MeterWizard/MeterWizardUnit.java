@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
 
 public class MeterWizardUnit extends AppCompatActivity {
@@ -17,6 +20,8 @@ public class MeterWizardUnit extends AppCompatActivity {
     Button but_next;
     Button but_cancel;
     static String which_but;
+
+    HomeFragment mHomeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,6 @@ public class MeterWizardUnit extends AppCompatActivity {
                 if (but_mph.isChecked()) {
                     but_mph.setChecked(false);
                 }
-                //unitsText.setText("kph");
                 which_but = "kph";
             }
         });
@@ -46,7 +50,6 @@ public class MeterWizardUnit extends AppCompatActivity {
                 if (but_kph.isChecked()) {
                     but_kph.setChecked(false);
                 }
-                //unitsText.setText("mph");
                 which_but = "mph";
             }
         });
@@ -55,8 +58,8 @@ public class MeterWizardUnit extends AppCompatActivity {
         but_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (but_mph.isChecked() || but_kph.isChecked()) {
+                    mHomeFragment.setUnits(which_but);
                     Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
                     finish();
                     startActivity(wizIntent);
@@ -81,6 +84,11 @@ public class MeterWizardUnit extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void msg(String s)
+    {
+        Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
     }
 
     static public String getUnit() { return which_but; }

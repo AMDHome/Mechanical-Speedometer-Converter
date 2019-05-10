@@ -61,7 +61,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         }
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // minTime: 0 and minDistance: 0 indicates that the provider should make updates as fast as possible. This seems to be about once per second.
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
         }
 
         but_finish = findViewById(R.id.but_finish);
@@ -100,7 +100,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         double distance = calcHaversineDist(oldLocation.getLatitude(), oldLocation.getLongitude(), newLat, newLon);
         int mph = (int) ((distance/1609.0)/(((double)(currTime - oldLocation.getTime())) / 3600000.0)); // Convert meters to miles and ms to hours
         text_current = findViewById(R.id.text_curr_speed);
-        text_current.setText(mph);
+        text_current.setText(String.valueOf(mph));
         oldLocation = location;
     }
 

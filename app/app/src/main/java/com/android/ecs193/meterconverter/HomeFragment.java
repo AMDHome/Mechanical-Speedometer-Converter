@@ -2,6 +2,7 @@ package com.android.ecs193.meterconverter;
 
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,8 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.regex.Pattern;
 
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio;
+import com.android.ecs193.meterconverter.MeterWizard.MeterWizardTireSize;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardUnit;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardDriveCheck;
 
@@ -39,19 +43,18 @@ public class HomeFragment extends Fragment {
     Button butRatio;
     Button butSize;
 
-    TextView unitsText;
-    TextView maxSpeedText;
+    static TextView unitsText;
+    static TextView maxSpeedText;
     static TextView magnetsText;
     TextView finalDriveText;
     static TextView meterRatioText;
-    TextView wheelSizeText;
-    static TextView wheelCircText;
+    static TextView tireSizeText;
 
     TextView tv;
     ListView mListView;
-    BluetoothSocket btSocket = null;
+    static BluetoothSocket btSocket = null;
 
-    AlertDialog alertDialog1;
+    static AlertDialog alertDialog1;
 
     String wheelUnit;
     static boolean driveCheck = false;
@@ -59,7 +62,10 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    MeterWizardRatio mMeterWizardRatio = new MeterWizardRatio();
+    static MeterWizardRatio mMeterWizardRatio = new MeterWizardRatio();
+
+    static Context thisContext;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -68,7 +74,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.frag_settings, container, false);
+        thisContext = view.getContext();
 
         view.findViewById(R.id.myCarSettings).setAlpha((float)0.3);
         view.findViewById(R.id.meterSettings).setAlpha((float)0.3);
@@ -117,17 +125,17 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (btSocket != null) {
-                    try {
-                        // Write to Arduino to tell it to enter speedometer ratio calibration mode
-                        btSocket.getOutputStream().write("P:1\0".getBytes());
+            if (btSocket != null) {
+                try {
+                    // Write to Arduino to tell it to enter speedometer ratio calibration mode
+                    btSocket.getOutputStream().write("P:1\0".getBytes());
 
-                        Intent wizIntent = new Intent(getActivity(), MeterWizardDriveCheck.class);
-                        startActivity(wizIntent);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Intent wizIntent = new Intent(getActivity(), MeterWizardDriveCheck.class);
+                    startActivity(wizIntent);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            }
             }
         });
 
@@ -169,84 +177,13 @@ public class HomeFragment extends Fragment {
         });
 
         butSize = view.findViewById(R.id.but_size);
-        wheelCircText = view.findViewById(R.id.wheelCircText);
+        tireSizeText = view.findViewById(R.id.tireSizeText);
         butSize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //getMultiTextBoxDialog(view,"Enter Tire Circumference", wheelCircText);
-                LinearLayout layout = new LinearLayout(getActivity());
-                layout.setOrientation(LinearLayout.VERTICAL);
-
-                // Set text box input as decimal only
-                final EditText wheelCirc = new EditText(getActivity());
-                wheelCirc.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                wheelCirc.setHint("Wheel circumference");
-                layout.addView(wheelCirc); // Notice this is an add method
-
-                // Set up radio button for units
-                final RadioButton circInch = new RadioButton(getActivity());
-                circInch.setText("Inch (in)");
-                layout.addView(circInch);
-
-                final RadioButton circCM = new RadioButton(getActivity());
-                circCM.setText("Centimeter (cm)");
-                layout.addView(circCM);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                        .setTitle("Enter Tire Circumference")
-                        //.setIcon(R.drawable.ic_baseline_create_24px)
-                        .setView(layout)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                // Check which radio button was clicked
-                                if (circInch.isChecked()) {
-                                    wheelUnit = "inch";
-                                    circCM.setChecked(false); // Make sure the other option is unchecked
-                                } else {
-                                    wheelUnit = "cm";
-                                    circInch.setChecked(false);
-                                }
-
-                                wheelCircText.setText(wheelCirc.getText().toString() + " " + wheelUnit);
-
-                                if (wheelCirc.getText().toString().length() != 0) {
-                                    sendWheelCircCalc(wheelCirc.getText().toString(), wheelUnit);
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", null);
-
-                alertDialog1 = builder.create();
-                alertDialog1.show();
-
-                // Initialize a TextView for ListView each Item
-                //tv = view.findViewById(android.R.id.text1);
-
-                // Set the text color of TextView (ListView Item)
-                //tv.setTextColor(Color.WHITE);
+                getTextBoxDialog("Enter tire size", tireSizeText, "W:");
             }
         });
-        /*recyclerView = (RecyclerView) view.findViewById(R.id.home_rv);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        rv_list = new ArrayList<>();
-        rv_list.add(new HomeItem("Home", R.drawable.ic_settings_black_24dp));
-        rv_list.add(new HomeItem("Dashboard", R.drawable.ic_dashboard));
-        rv_list.add(new HomeItem("Notification", R.drawable.ic_notifications));
-        rv_list.add(new HomeItem("image", R.drawable.ic_image));
-        rv_list.add(new HomeItem("Music video", R.drawable.ic_music_video));
-        rv_list.add(new HomeItem("Settings", R.drawable.ic_settings));
-
-
-        MeterWizardUnits mAdapter = new MeterWizardUnits(rv_list);
-
-        recyclerView.setAdapter(mAdapter);
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());*/
-
         return view;
     }
 
@@ -255,13 +192,14 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Check which request we're responding to
         if (requestCode == BT_INTENT_FLAG) {
 
             // Make sure the request was successful
             if (resultCode == getActivity().RESULT_OK) {
+
                 btSocket = BtConnection.getBtConnection();
+
                 getView().findViewById(R.id.myCarSettings).setAlpha((float)1);
                 getView().findViewById(R.id.meterSettings).setAlpha((float)1);
                 getView().findViewById(R.id.sensorSettings).setAlpha((float)1);
@@ -337,17 +275,17 @@ public class HomeFragment extends Fragment {
         alertDialog1.show();
     }
 
-    void getTextBoxDialog(final String title, final TextView textBox, final String arduinoStr) {
+    static void getTextBoxDialog(final String title, final TextView textBox, final String arduinoStr) {
 
         // Set text box input as int only
-        final EditText input = new EditText(getActivity());
+        final EditText input = new EditText(thisContext);
         if (arduinoStr == "M:") { // magnet
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
+        } else if ((arduinoStr == "F:") || (arduinoStr == "S:") || (arduinoStr == "W:")) {
             input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext)
                 .setTitle(title)
                 .setIcon(R.drawable.ic_baseline_create_24px)
                 .setView(input)
@@ -355,14 +293,30 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        textBox.setText(input.getText().toString());
-
                         if (input.getText().toString().length() != 0) {
                             if (arduinoStr == "M:") {
-                                sendInfo(input.getText().toString(), arduinoStr);
-                                mMeterWizardRatio.setspeedometerHalf(Integer.parseInt(input.getText().toString()));
+                                if (testInt(input)) {
+                                    textBox.setText(input.getText().toString());
+                                    sendInfo(input.getText().toString(), arduinoStr);
+                                    mMeterWizardRatio.setspeedometerHalf(Integer.parseInt(input.getText().toString()));
+                                }
                             } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
-                                sendCalc(input.getText().toString(), arduinoStr);
+                                if (testInt(input)) {
+                                    textBox.setText(input.getText().toString());
+                                    sendCalc(input.getText().toString(), arduinoStr);
+                                }
+                            } else if (arduinoStr == "W:") {
+                                if (Pattern.matches("P[0-9][0-9][0-9]\\/[0-9][0-9]R[0-9][0-9]", input.getText().toString())) {
+                                    textBox.setText(input.getText().toString());
+                                    //sendTireSizeCalc(input.getText().toString());
+                                } else {
+                                    new android.support.v7.app.AlertDialog.Builder(thisContext)
+                                            .setTitle("Error")
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .setMessage("Please enter the tire size in the format P _ _ _ / _ _ R _ _")
+                                            .setPositiveButton("OK", null)
+                                            .show();
+                                }
                             }
                         }
                     }
@@ -371,114 +325,6 @@ public class HomeFragment extends Fragment {
 
         alertDialog1 = builder.create();
         alertDialog1.show();
-    }
-
-
-    void getMultiTextBoxDialog (View view, final String title, final TextView textBox) {
-
-        LinearLayout layout = new LinearLayout(getActivity());
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        // Set text box input as decimal only
-        final EditText wheelCirc = new EditText(getActivity());
-        wheelCirc.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        wheelCirc.setHint("Wheel circumference");
-        layout.addView(wheelCirc); // Notice this is an add method
-
-        // Set up radio button for units
-        final RadioButton circInch = new RadioButton(getActivity());
-        circInch.setText("Inch (in)");
-        layout.addView(circInch);
-
-        final RadioButton circCM = new RadioButton(getActivity());
-        circCM.setText("Centimeter (cm)");
-        layout.addView(circCM);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                //.setIcon(R.drawable.ic_baseline_create_24px)
-                .setView(layout)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        // Check which radio button was clicked
-                        if (circInch.isChecked()) {
-                            wheelUnit = "inch";
-                            circCM.setChecked(false); // Make sure the other option is unchecked
-                        } else {
-                            wheelUnit = "cm";
-                            circInch.setChecked(false);
-                        }
-
-                        textBox.setText(wheelCirc.getText().toString() + " " + wheelUnit);
-
-                        if (wheelCirc.getText().toString().length() != 0) {
-                            sendWheelCircCalc(wheelCirc.getText().toString(), wheelUnit);
-                        }
-                    }
-                })
-                .setNegativeButton("Cancel", null);
-
-        alertDialog1 = builder.create();
-        alertDialog1.show();
-
-        // Initialize a TextView for ListView each Item
-        tv = view.findViewById(android.R.id.text1);
-
-        // Set the text color of TextView (ListView Item)
-        tv.setTextColor(Color.WHITE);
-
-        /*// Set up layout for alert dialog
-        LinearLayout layout = new LinearLayout(MainActivity.this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        // Set text box input as int only
-        final EditText tireSize1 = new EditText(MainActivity.this);
-        tireSize1.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        tireSize1.setHint("Wheel size 1");
-        layout.addView(tireSize1); // Notice this is an add method
-
-        final EditText tireSize2 = new EditText(MainActivity.this);
-        tireSize2.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        tireSize2.setHint("Wheel size 2");
-        layout.addView(tireSize2);
-
-        final EditText tireSize3 = new EditText(MainActivity.this);
-        tireSize3.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        tireSize3.setHint("Wheel size 3");
-        layout.addView(tireSize3);
-
-        // Set layout for alert dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
-            .setTitle(title)
-            .setIcon(R.drawable.ic_baseline_create_24px)
-            .setView(layout)
-            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    boolean result = false;
-
-                    textBox.setText(tireSize1.getText().toString() + ", " +
-                            tireSize2.getText().toString() + ", " +
-                            tireSize3.getText().toString());
-
-                    if ((tireSize1.getText().toString().length() != 0) &&
-                            (tireSize2.getText().toString().length() != 0)  &&
-                            (tireSize3.getText().toString().length() != 0)) {
-
-                         sendWheelSizeCalc(tireSize1.getText().toString(),
-                                tireSize2.getText().toString(),
-                                tireSize3.getText().toString(),
-                                unitsText.getText().toString());
-                    }
-                }
-            })
-            .setNegativeButton("Cancel", null);
-
-        alertDialog1 = builder.create();
-        alertDialog1.show();*/
     }
 
     void getMeterSettings() {
@@ -490,8 +336,8 @@ public class HomeFragment extends Fragment {
                 String[] splitArr;
 
                 btSocket.getOutputStream().write("L:1\0".getBytes());
-                for (int rtnBuff = 0; ((rtnBuff = btSocket.getInputStream().read()) >= 0) && rtnBuff != 13;) { // 13 == '\0'
-                    //Log.d("Test", b + " " + (char) b);
+
+                for (int rtnBuff = 0; ((rtnBuff = btSocket.getInputStream().read()) >= 0) && rtnBuff != 13;) {
                     if (rtnStr == null) {
                         rtnStr = Character.toString((char) rtnBuff);
                     } else {
@@ -521,7 +367,7 @@ public class HomeFragment extends Fragment {
 
                     getOrigData(splitArr[4], finalDriveText, 1000000, false);
                     getOrigData(splitArr[5], meterRatioText, 1000000, false);
-                    getOrigData(splitArr[6], wheelCircText, 1000000000, true);
+                    getOrigData(splitArr[6], tireSizeText, 0, true);
 
                 }
             } catch (IOException e) {
@@ -530,37 +376,30 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    void getOrigData(String src, TextView dest, int divider, boolean wheelSize) {
+    void getOrigData(String src, TextView dest, int divider, boolean tireSize) {
 
         if (src != null) {
 
-            if (wheelSize) {
-                //double val = Double.valueOf(src) / divider / Math.PI;
-                //if (unitsText.getText().toString().equalsIgnoreCase("mph")) {
-                    dest.setText(String.valueOf(Double.valueOf(src) * 63360 / divider));
-                //} else if (unitsText.getText().toString().equalsIgnoreCase("kph")) { // cm
-
-                 //   dest.setText(String.valueOf(val * 100));
-                //}
+            if (tireSize) {
+                dest.setText(src);
             } else {
                 dest.setText(String.valueOf((Double.valueOf(src)) / divider));
             }
         }
     }
 
-    void sendUnits(String indexStr) {
-        //System.out.println(indexStr);
-        //System.out.println("string length is: "+indexStr.length());
+    static void sendUnits(String indexStr) {
 
         if (btSocket != null) {
             try {
                 String str = "U:";
-                //System.out.println(indexStr);
                 str = str + indexStr + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
                 msg(str);
 
-                //System.out.println("3");
+                // send tire size too as units have changed
+                sendTireSizeCalc(tireSizeText.getText().toString());
+
             } catch (IOException e) {
                 msg("Error");
             }
@@ -568,7 +407,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    void sendInfo(String textStr, String extraStr) {
+    static void sendInfo(String textStr, String extraStr) {
 
         if (btSocket != null) {
             try {
@@ -582,7 +421,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    void sendCalc(String textStr, String extraStr) {
+    static void sendCalc(String textStr, String extraStr) {
 
         if (btSocket!=null) {
             try {
@@ -599,53 +438,34 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    /*void sendWheelSizeCalc(String size1, String size2, String size3, String unit) {
+    static void sendTireSizeCalc(String tireSize) {
+
+        String withoutP = tireSize.split("P")[1];
+        String size1 = withoutP.split("/")[0];
+        String size2 = withoutP.split("/")[1].split("R")[0];
+        String size3 = withoutP.split("/")[1].split("R")[1];
+
 
         if (btSocket != null) {
             try {
 
-                int result1 = Integer.parseInt(size1);
-                int result2 = Integer.parseInt(size2);
-                int result3 = Integer.parseInt(size3);
+                double result1 = Integer.parseInt(size1);
+                double result2 = Integer.parseInt(size2);
+                double result3 = Integer.parseInt(size3);
 
-                double diameter;
+                double circ;
                 double result;
 
-                if (unit == "kph") {
-                    diameter = (result1 * result2 / 500) + (result3 * 2.54);
-                    result = (diameter / 100) * Math.PI;
+                circ = ((result1 * result2 * 2.00 / 2540.00) + result3) * Math.PI;
+                msg(String.valueOf(circ));
+
+                if (unitsText.getText().toString() == "kph") {
+                    result = circ * 2.54/ 100.00;
                 } else { // mph
-                    diameter = (result1 * result2 / 1270) + result3;
-                    result = (diameter * 1000 / 63360) * Math.PI;
+                    result = circ * 1000.00 / 63360.00;
                 }
-                result = result * 100000000;
-
-                String str = "W:" + Integer.toString((int) result) + '\0';
-                btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
-
-            } catch (IOException e) {
-                msg("Error");
-            }
-        }
-    }*/
-
-    void sendWheelCircCalc(String textStr, String wheelUnit) {
-
-        if (btSocket != null) {
-            try {
-
-                String str = textStr;
-                float result = Float.parseFloat(str);
-
-                if (wheelUnit == "inch") {
-                    result = result * 1000000000;
-                    result = result / 63360;
-                } else { // cm
-                    result = result * 10000;
-                }
-
-                str = "W:" + Integer.toString((int) result) + '\0';
+                result = result * 1000000.00;
+                String str = "W:" + String.valueOf((int)result) + tireSize + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
                 msg(str);
 
@@ -655,12 +475,24 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    static public void setMeterRatioText(String value) {
-        meterRatioText.setText(value);
-    }
+    static public boolean testInt(TextView input) {
+        try {
 
-    static public void setMagnetText(String value) {
-        magnetsText.setText(value);
+            // raise error if input is not numeric
+            Double.parseDouble(input.getText().toString());
+        }
+        catch (NumberFormatException e){
+            new android.support.v7.app.AlertDialog.Builder(thisContext)
+                    .setTitle("Error")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage("Please enter a number")
+                    .setPositiveButton("OK", null)
+                    .show();
+
+            return false;
+        }
+
+        return true;
     }
 
     static public void setDriveCheck() {
@@ -671,13 +503,58 @@ public class HomeFragment extends Fragment {
         return driveCheck;
     }
 
-    static public void setTireSize(String value) {
-        wheelCircText.setText(value);
+    static public void setUnits(String value) {
+        if (value.equalsIgnoreCase("mph")) {
+            // send to arduino if not the same as what is being stored
+            if (unitsText.getText().toString().equalsIgnoreCase("kph")) {
+                sendUnits(Integer.toString(0));
+                unitsText.setText(value);
+            }
+        } else if (value.equalsIgnoreCase("kph")) {
+            // send to arduino if not the same as what is being stored
+            if (unitsText.getText().toString().equalsIgnoreCase("mph")) {
+                sendUnits(Integer.toString(1));
+                unitsText.setText(value);
+            }
+        }
     }
 
-    private void msg(String s)
+    static public String getMaxSpeed() {
+
+        return maxSpeedText.getText().toString();
+    }
+
+    static public void setMaxSpeed(String value) {
+        if (!value.equals(maxSpeedText.getText().toString())) {
+            sendInfo(value, "M:");
+            maxSpeedText.setText(value);
+        }
+    }
+
+    static public void setMeterRatioText(String value) {
+        if (!value.equals(meterRatioText.getText().toString())) {
+            meterRatioText.setText(value);
+            sendCalc(value, "S:");
+        }
+    }
+
+    static public void setMagnetText(int value) {
+        if (!(String.valueOf(value).equals(magnetsText.getText().toString()))) {
+            magnetsText.setText(value);
+            sendInfo(Integer.toString(value), "N:");
+        }
+    }
+
+    static public void setTireSize(String value) {
+        if (!(String.valueOf(value).equals(tireSizeText.getText().toString()))) {
+            tireSizeText.setText(value);
+            sendTireSizeCalc(tireSizeText.getText().toString());
+        }
+    }
+
+    static private void msg(String s)
     {
-        Toast.makeText(getActivity().getApplicationContext(),s, Toast.LENGTH_LONG).show();
+        Toast.makeText(thisContext.getApplicationContext(),s, Toast.LENGTH_LONG).show();
     }
 }
 

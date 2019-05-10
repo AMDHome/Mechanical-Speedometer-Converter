@@ -37,6 +37,7 @@ public class MeterWizardRPM extends AppCompatActivity {
     boolean mAutoDecrement = false;
 
     static Integer targetSpeed;
+    float ratio;
 
     HomeFragment mHomeFragment = new HomeFragment();
     MeterWizardUnit mMeterWizardUnit = new MeterWizardUnit();
@@ -175,6 +176,8 @@ public class MeterWizardRPM extends AppCompatActivity {
                             .setPositiveButton("OK", null)
                             .show();
                 } else {
+
+                    sendRatioVal();
                     new AlertDialog.Builder(MeterWizardRPM.this)
                         .setTitle("Please confirm the following is correct")
                         .setIcon(android.R.drawable.ic_menu_info_details)
@@ -243,9 +246,12 @@ public class MeterWizardRPM extends AppCompatActivity {
     }
 
     public void setRatioVal() {
-
-        float ratio = Float.valueOf(text_rpm.getText().toString())/targetSpeed;
+        ratio = Float.valueOf(text_rpm.getText().toString())/targetSpeed;
         text_ratio.setText("Speedometer Ratio: " + String.valueOf(ratio));
+
+    }
+
+    public void sendRatioVal(){
         mHomeFragment.setMeterRatioText(String.valueOf(ratio));
 
         // Send ratio to Arduino

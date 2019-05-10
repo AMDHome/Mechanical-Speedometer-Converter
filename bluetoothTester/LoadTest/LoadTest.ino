@@ -65,12 +65,9 @@ void dataDump() {
   out[index++] = ':';
 
   // Wheel Circumference
-  for(byte i = 0; i < 13; i++){
-    out[index + i] = EEPROM.read(16 + i);
-
-    if(out[index + i] == '\0')
-      break;
-  }
+  tempL = EEPROM.get(12, tempF) * 1000000;
+  ultoa(tempL, out + index, 10);
+  index += strlen(out + index);
   
   Serial.println(out);
 }
@@ -129,10 +126,14 @@ bool checkBT() {
       break;
 
     case 'W': // Store Wheel Circumference
-      EEPROM.put(12, ((float) atol(data)) / 1000000);
-      updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
-      Serial.print(EEPROM.get(12, temp), 9);
-      updated = true;
+      //EEPROM.put(12, ((float) atol(data)) / 1000000);
+      Serial.println(atol(data));
+      char* newData;
+      newData = strtok(data, ":");
+      Serial.println(newData);
+      //updateInputRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
+      //Serial.print(EEPROM.get(12, temp), 9);
+      //updated = true;
       break;
 
     case 'L': // Load Function

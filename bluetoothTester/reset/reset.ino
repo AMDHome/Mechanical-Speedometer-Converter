@@ -15,6 +15,12 @@ void setup() {
   EEPROM.put(4, finalDrive);
   EEPROM.put(8, speedoRatio);
   EEPROM.put(12, wheel);
+
+  char wheelSize[11] = "P205/65R15";
+
+  for(byte i = 0; i < 11; i++) {
+      EEPROM.update(16 + i, wheelSize[i]);
+    }
 }
 
 void loop() {
