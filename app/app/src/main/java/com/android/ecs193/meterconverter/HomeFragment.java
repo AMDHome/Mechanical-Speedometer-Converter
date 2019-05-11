@@ -308,7 +308,7 @@ public class HomeFragment extends Fragment {
                             } else if (arduinoStr == "W:") {
                                 if (Pattern.matches("P[0-9][0-9][0-9]\\/[0-9][0-9]R[0-9][0-9]", input.getText().toString())) {
                                     textBox.setText(input.getText().toString());
-                                    //sendTireSizeCalc(input.getText().toString());
+                                    sendTireSizeCalc(input.getText().toString());
                                 } else {
                                     new android.support.v7.app.AlertDialog.Builder(thisContext)
                                             .setTitle("Error")
@@ -457,7 +457,6 @@ public class HomeFragment extends Fragment {
                 double result;
 
                 circ = ((result1 * result2 * 2.00 / 2540.00) + result3) * Math.PI;
-                msg(String.valueOf(circ));
 
                 if (unitsText.getText().toString() == "kph") {
                     result = circ * 2.54/ 100.00;
@@ -465,7 +464,7 @@ public class HomeFragment extends Fragment {
                     result = circ * 1000.00 / 63360.00;
                 }
                 result = result * 1000000.00;
-                String str = "W:" + String.valueOf((int)result) + tireSize + '\0';
+                String str = "W:" + String.valueOf((int)result) + ":" + tireSize + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
                 msg(str);
 
@@ -540,7 +539,7 @@ public class HomeFragment extends Fragment {
 
     static public void setMagnetText(int value) {
         if (!(String.valueOf(value).equals(magnetsText.getText().toString()))) {
-            magnetsText.setText(value);
+            magnetsText.setText(String.valueOf(value));
             sendInfo(Integer.toString(value), "N:");
         }
     }
