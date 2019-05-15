@@ -62,6 +62,7 @@ public class MeterWizardDriveCheck extends AppCompatActivity {
                     startActivity(wizIntent);
                 } else if (but_yes.isChecked()){
                     Intent wizIntent = new Intent(MeterWizardDriveCheck.this, MeterWizardMagnet.class);
+                    finish();
                     startActivity(wizIntent);
                 } else {
                     new AlertDialog.Builder(MeterWizardDriveCheck.this)

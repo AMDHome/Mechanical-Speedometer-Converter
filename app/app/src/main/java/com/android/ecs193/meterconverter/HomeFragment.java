@@ -502,6 +502,9 @@ public class HomeFragment extends Fragment {
         return driveCheck;
     }
 
+    static public String getUnits() {
+        return unitsText.getText().toString();
+    }
     static public void setUnits(String value) {
         if (value.equalsIgnoreCase("mph")) {
             // send to arduino if not the same as what is being stored

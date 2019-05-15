@@ -325,7 +325,7 @@
                     android:gravity="end"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/wheelSizeText"
+                    app:layout_constraintBottom_toTopOf="@+id/tireSizeText"
                     app:layout_constraintTop_toBottomOf="@+id/finalDriveText"
                     />
             </FrameLayout>
@@ -383,24 +383,18 @@
             app:layout_constraintTop_toBottomOf="parent"
             />
 
-        <LinearLayout
+        <FrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:baselineAligned="false"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/calibrationTitle"
             >
-
-            <FrameLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/but_magnets"
@@ -423,46 +417,8 @@
                     android:gravity="end"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/finalDriveText"
-                    app:layout_constraintTop_toBottomOf="@+id/maxSpeedText"
                     />
-            </FrameLayout>
-        <!--<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/but_size"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start"
-            android:padding="10dp"
-            android:textSize="20sp"
-            android:text="Wheel Size"
-            android:background="@android:color/transparent"
-            android:textColor="@color/colorWhite"/>
-
-        <TextView
-            android:id="@+id/wheelSizeText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/text_boarder"
-            android:gravity="end"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/meterRatioText"
-            />
-    </FrameLayout>-->
-
-
-        </LinearLayout>
+        </FrameLayout>
 
 
     </LinearLayout>

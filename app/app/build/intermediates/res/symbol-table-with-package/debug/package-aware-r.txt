@@ -19,6 +19,7 @@ anim nav_default_enter_anim
 anim nav_default_exit_anim
 anim nav_default_pop_enter_anim
 anim nav_default_pop_exit_anim
+anim rotate_anim
 anim slide_in_left
 anim slide_in_right
 anim slide_out_left
@@ -34,7 +35,6 @@ animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
 array magnet_array
-array settings_array
 array units_array
 attr action
 attr actionBarDivider
@@ -1148,8 +1148,7 @@ id container
 id content
 id contentPanel
 id coordinator
-id count_btn
-id count_tv
+id countdownTimer
 id custom
 id customPanel
 id dataFragment
@@ -1178,7 +1177,6 @@ id fill_horizontal
 id fill_vertical
 id filled
 id finalDriveText
-id findButton
 id find_drive
 id find_ratio
 id fixed
@@ -1197,8 +1195,6 @@ id img_meter
 id info
 id invisible
 id italic
-id item_desc
-id item_image
 id item_touch_helper_previous_elevation
 id labeled
 id largeLabel
@@ -1213,7 +1209,6 @@ id linlay_findRatio
 id linlay_target_speed
 id listBluetooth
 id listMode
-id listSettings
 id list_item
 id magnetsText
 id main_container
@@ -1244,7 +1239,6 @@ id notification_main_column
 id notification_main_column_container
 id outline
 id packed
-id pairedDeviceTitle
 id parallax
 id parent
 id parentPanel
@@ -1362,8 +1356,6 @@ id up
 id useLogo
 id view_offset_helper
 id visible
-id wheelCircText
-id wheelSizeText
 id withText
 id wrap
 id wrap_content
@@ -1442,7 +1434,6 @@ layout design_text_input_password_icon
 layout frag_calibration
 layout frag_data
 layout frag_settings
-layout home_item
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
 layout notification_action

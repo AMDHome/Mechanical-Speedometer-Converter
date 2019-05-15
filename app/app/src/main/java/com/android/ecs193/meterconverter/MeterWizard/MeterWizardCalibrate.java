@@ -1,21 +1,24 @@
 package com.android.ecs193.meterconverter.MeterWizard;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
 
@@ -36,7 +39,8 @@ public class MeterWizardCalibrate extends AppCompatActivity {
     TextView text_current;
     Button but_cancel;
     Button but_finish;
-
+    TextView text_timer;
+    Integer targetSpeed;
     HomeFragment mHomeFragment = new HomeFragment();
     MeterWizardRPM mMeterWizardRPM = new MeterWizardRPM();
 
@@ -47,19 +51,60 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         setContentView(R.layout.activity_wizard_meter_calibrate);
 
         text_target = findViewById(R.id.text_target_speed);
-        text_target.setText(String.valueOf(mMeterWizardRPM.getTargetSpeed()));
+        if (mHomeFragment.getDriveCheck()) {
+            text_target.setText(String.valueOf(mMeterWizardRPM.getTargetSpeed()));
+        } else {
+            // Set prompt
+            if (mHomeFragment.getUnits() == "kph") {
+                targetSpeed = Math.min(50, Integer.valueOf(mHomeFragment.getMaxSpeed()) / 2);
+            } else if (mHomeFragment.getUnits() == "mph") {
+                targetSpeed = Math.min(40,  Integer.valueOf(mHomeFragment.getMaxSpeed()) / 2);
+            }
+            text_target.setText(String.valueOf(targetSpeed));
+        }
 
-
-
+        text_current = findViewById(R.id.text_curr_speed);
         // GPS for current speed
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new speedCalc();
 
+        boolean statusOfGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         // This part should "register" the listener with the Location Manager to receive updates after checking permissions
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_ACCESS_FINE_LOCATION);
-        }
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if ((ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
+            ActivityCompat.requestPermissions(this, new String[] {
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION
+            }, MY_PERMISSION_ACCESS_FINE_LOCATION);
+        } else if (!statusOfGPS) {
+            // show alert dialog if Internet is not connected
+            AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardCalibrate.this)
+                    .setTitle("GPS Disabled")
+                    .setMessage("Please turn on GPS in location settings to use this feature")
+                    .setCancelable(false)
+                    .setPositiveButton("Settings",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(
+                                            Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    MeterWizardCalibrate.this.startActivity(intent);
+                                    dialog.dismiss();
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent wizIntent = new Intent(MeterWizardCalibrate.this, MeterWizardTireSize.class);
+                                    finish();
+                                    // Slide from right to left
+                                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                    startActivity(wizIntent);
+                                }
+                            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // minTime: 0 and minDistance: 0 indicates that the provider should make updates as fast as possible. This seems to be about once per second.
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
         }
@@ -68,24 +113,47 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         but_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    finish();
+                finish();
             }
         });
 
         but_cancel = findViewById(R.id.but_cancel);
         but_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
-
                 Intent wizIntent = new Intent(MeterWizardCalibrate.this, MeterWizardTireSize.class);
                 finish();
                 // Slide from right to left
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 startActivity(wizIntent);
-
-
             }
         });
+    }
 
+    public void startCountDown() {
+
+        text_timer = findViewById(R.id.countdownTimer);
+
+        new CountDownTimer(3000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                text_timer.setVisibility(View.VISIBLE);
+
+                // Continue timer if speed doesnt change
+                if (text_target.getText().toString().equals(text_target.getText().toString())) {
+                    text_timer.setText(String.valueOf(millisUntilFinished / 1000 + 1));
+                } else {
+                    return;
+                }
+            }
+
+            public void onFinish() {
+                text_timer.setVisibility(View.GONE);
+                but_finish.setVisibility(View.VISIBLE);
+            }
+        }.start();
+
+        return;
     }
 
     public void useNewLocation(Location location) {
@@ -99,9 +167,12 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         long currTime = location.getTime(); // Milliseconds since 1/1/70
         double distance = calcHaversineDist(oldLocation.getLatitude(), oldLocation.getLongitude(), newLat, newLon);
         int mph = (int) ((distance/1609.0)/(((double)(currTime - oldLocation.getTime())) / 3600000.0)); // Convert meters to miles and ms to hours
-        text_current = findViewById(R.id.text_curr_speed);
         text_current.setText(String.valueOf(mph));
         oldLocation = location;
+
+        if (String.valueOf(mph) == text_target.getText().toString()) {
+            startCountDown();
+        }
     }
 
     // Haversine Formula for distance b/t pts on sphere given lat. & lon.; see https://en.wikipedia.org/wiki/Haversine_formula
@@ -134,6 +205,11 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         public void onProviderEnabled(String provider) {}
         @Override
         public void onProviderDisabled(String provider) {}
+    }
+
+    private void msg(String s)
+    {
+        Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
     }
 }
 

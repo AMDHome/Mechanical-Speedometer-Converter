@@ -44,8 +44,8 @@
     <string name="str_title_car">My Car</string>
     <string name="str_title_meter">Speedometer</string>
     <string name="str_title_sensor">Speed Sensor</string>
-    <string name="str_idk_drive">"Find my car's final drive"</string>
-    <string name="str_idk_ratio">"Find my speedometer ratio"</string>
+    <string name="str_idk_drive">"Find My Car's Final Drive"</string>
+    <string name="str_idk_ratio">"Find My Speedometer Ratio"</string>
     <string name="str_cancel">Cancel</string>
 
 
@@ -58,8 +58,8 @@
 
     <string name="str_next">Next</string>
     <string name="str_finish">Finish</string>
-    <string name="str_mph">Miles per hour (mph)</string>
-    <string name="str_kph">Kilometers per hour (kph)</string>
+    <string name="str_mph">Miles Per Hour (mph)</string>
+    <string name="str_kph">Kilometers Per Hour (kph)</string>
 
     <string name="str_speed_wizard_units">SPEEDOMETER WIZARD: UNITS</string>
     <string name="str_speed_wizard_max">SPEEDOMETER WIZARD: MAX SPEED</string>
@@ -98,16 +98,6 @@
     <string name="str_one">1</string>
     <string name="str_two">2</string>
     <string name="str_four">4</string>
-
-    <string-array name="settings_array">
-        <item>Units</item>
-        <item>Max Speed</item>
-        <item>Magnets</item>
-        <item>Final Drive</item>
-        <item>Speedometer Ratio</item>
-        <item>Tire Size</item>
-        <item>Wheel Circumference</item>
-    </string-array>
 
     <string-array name="units_array">
         <item>Miles per hour (mph)</item>

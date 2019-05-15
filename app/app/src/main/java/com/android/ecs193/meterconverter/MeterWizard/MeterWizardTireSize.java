@@ -48,8 +48,8 @@ public class MeterWizardTireSize extends AppCompatActivity {
         text_size6 = findViewById(R.id.text_tireSize6);
         text_size7 = findViewById(R.id.text_tireSize7);
 
-        text_size1.requestFocus();
-        text_size1.setCursorVisible(true);
+        //text_size1.requestFocus();
+        //text_size1.setCursorVisible(true);
         nextText(text_size1, text_size2, false);
         nextText(text_size2, text_size3, false);
         nextText(text_size3, text_size4, false);
@@ -68,11 +68,10 @@ public class MeterWizardTireSize extends AppCompatActivity {
                         text_size3.getText().toString() + '/' + text_size4.getText().toString() +
                         text_size5.getText().toString() + 'R' + text_size6.getText().toString() +
                         text_size7.getText().toString();
-                msg(tireSize);
-                    mHomeFragment.setTireSize(tireSize);
-                    Intent wizIntent = new Intent(MeterWizardTireSize.this, MeterWizardCalibrate.class);
-                    finish();
-                    startActivity(wizIntent);
+                mHomeFragment.setTireSize(tireSize);
+                Intent wizIntent = new Intent(MeterWizardTireSize.this, MeterWizardCalibrate.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 
@@ -144,12 +143,6 @@ public class MeterWizardTireSize extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-
-    private void msg(String s)
-    {
-        Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
     }
 }
 

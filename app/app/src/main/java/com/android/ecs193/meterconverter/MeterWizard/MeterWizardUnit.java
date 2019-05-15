@@ -78,17 +78,20 @@ public class MeterWizardUnit extends AppCompatActivity {
         but_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
-                //slide from right to left
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                if (mHomeFragment.getDriveCheck()) {
+                    Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardDriveCheck.class);
+                    finish();
+                    //slide from right to left
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    startActivity(wizIntent);
+                } else {
+                    finish();
+                    //slide from right to left
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
             }
         });
 
-    }
-
-    private void msg(String s)
-    {
-        Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
     }
 
     static public String getUnit() { return which_but; }
