@@ -1,9 +1,14 @@
-#ifndef Wiring2_h
-#define Wiring2_h
+#ifndef Wiring2_H
+#define Wiring2_H
+
+#include "wiring_private.h"
 
 extern const byte encoderIntCount;
-extern volatile unsigned long tickCounter[2];
-extern volatile byte countENC;
+
+extern volatile byte encoderCtr[2];
+extern volatile byte speedCtr[32];
+extern volatile byte currSpeedCtr;
+extern volatile byte counterIndex;
 
 unsigned long millis2();
 unsigned long micros2();
