@@ -10,6 +10,9 @@ extern volatile byte speedCtr[32];
 extern volatile byte currSpeedCtr;
 extern volatile byte counterIndex;
 
+extern byte CallibrationMode;
+extern volatile byte rTime;
+
 unsigned long millis2();
 unsigned long micros2();
 void delay2(unsigned long ms);

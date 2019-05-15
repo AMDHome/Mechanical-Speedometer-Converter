@@ -30,6 +30,7 @@
 volatile unsigned long timer2_overflow_count = 0;
 volatile unsigned long timer2_millis = 0;
 volatile byte T2OVFCounter = 0;
+volatile byte rTime = 0;
 static unsigned char timer2_fract = 0;
 
 ISR(TIMER2_OVF_vect) {
@@ -60,6 +61,10 @@ ISR(TIMER2_OVF_vect) {
 
     counterIndex++;
     T2OVFCounter = 0;
+
+    if(CallibrationMode && rTime) {
+      rTime--;
+    }
 
   } else {
     T2OVFCounter = r;

@@ -2,64 +2,58 @@
 #include "wiring2.h"
 #include "BTComms.h"
 
-bool checkBT() {
+void checkBT() {
   static char data[26];
-  bool updated = false;
-  float temp;
-  long templ;
-  char *temps;
-  byte i, tempb;
+  float tempF;
+  long tempL;
+  char *tempS;
+  byte i;
 
   // check and recieve data
   switch(recvData(data)) {
     case 'U': // Store Units
       EEPROM.update(0, data[0] - '0');
-      updated = true;
       break;
 
     case 'M': // Store Max Speed
       maxSpeed = (short) atol(data);
       EEPROM.put(1, maxSpeed);
-      updated = true;
       break;
       
     case 'N': // Store Number of Magnets
       EEPROM.update(3, data[0] - '0');
-      updateInRatio(EEPROM.read(3), EEPROM.get(12, templ), EEPROM.get(4, temp));
-      updated = true;
+      updateInRatio(EEPROM.read(3), EEPROM.get(12, tempL), EEPROM.get(4, tempF));
       break;
 
     case 'F': // Store Final Drive Ratio
       EEPROM.put(4, ((float) atol(data)) / 1000000);
-      updateInRatio(EEPROM.read(3), EEPROM.get(12, templ), EEPROM.get(4, temp));
-      updated = true;
+      updateInRatio(EEPROM.read(3), EEPROM.get(12, tempL), EEPROM.get(4, tempF));
       break;
 
     case 'S': // Store Speedometer Ratio
       outRatio = atol(data);
       EEPROM.put(8, outRatio);
-      updated = true;
       break;
 
     case 'W': // Store Tire Size & Circumference
       EEPROM.put(12, atol(strtok(data, ":")));
 
-      temps = strtok(NULL, ":");
-      for(i = 0; i < 14 && temps[i] != '\0'; i++) {
-        EEPROM.update(16 + i, temps[i]);
+      tempS = strtok(NULL, ":");
+      for(i = 0; i < 14 && tempS[i] != '\0'; i++) {
+        EEPROM.update(16 + i, tempS[i]);
       }
       EEPROM.update(16 + i, '\0');
 
-      updateInRatio(EEPROM.read(3), EEPROM.get(12, templ), EEPROM.get(4, temp));
-      updated = true;
+      updateInRatio(EEPROM.read(3), EEPROM.get(12, tempL), EEPROM.get(4, tempF));
       break;
 
     case 'P':
-      SCalMode = data[0] - '0';
+      CallibrationMode = data[0] - '0';
+      targetRPM = 0;
       break;
 
     case 'T':
-      if(SCalMode) {
+      if(CallibrationMode) {
         targetRPM = atol(data);
       }
       break;
@@ -71,26 +65,32 @@ bool checkBT() {
       break;
 
     case 'D':
-      tempb = atol(data);
-
-      if(tempb) {
-        SRecMode = tempb;
-        // set all recording data to 0
-        // start recording data
-
+      if (data[0] == 'S')
+      {
+        CallibrationMode = 2;
+        targetRPM = 0;
+        rTime = 153;
+        calTicks = 0;
       } else {
-        // Do calculations, update ratios and send value off
-        /*
-          EEPROM.put(4, ((float) atol(data)) / 1000000);
-          updateInRatio(EEPROM.read(3), EEPROM.get(12, temp), EEPROM.get(4, temp));
-          Serial.print(EEPROM.get(4, temp), 9);
-          updated = true;
-        */
-        Serial.print("F:10000000");
-        SRecMode = 0;
-      }
 
-      break;
+        tempL = atol(data);
+
+        if(tempL) {
+          // Do calculations, update ratios and send value off
+          
+          tempF = (140625.0 * calTicks) / (39168.0 * EEPROM.read(3) * tempL);
+          tempF *= EEPROM.get(12, tempL);
+
+          EEPROM.put(4, tempF);
+          updateInRatio(EEPROM.read(3), EEPROM.get(12, tempL), EEPROM.get(4, tempF));
+          
+          Serial.print((long) (tempF * 1000000));
+        }
+
+        CallibrationMode = 0;
+
+        break;
+      }
 
     case 'X':
       KP = atol(data);
@@ -114,15 +114,6 @@ bool checkBT() {
     default:
       break;
   }
-/*
-  if(updated) {
-    digitalWrite(LED_BUILTIN, HIGH);
-    Serial.print("Data Payload: ");
-    for(i = 0; data[i] != '\0' && i < 26; i++) {
-      Serial.print(data[i]);
-    }
-    Serial.println("");
-  }*/
 }
 
 char recvData(char* data) {

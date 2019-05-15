@@ -18,7 +18,7 @@
 // define PID constants
 /*
 #define KP 125          // Proportional constant
-#define KI 10            // Integral constant
+#define KI 10           // Integral constant
 #define KD 10           // Derivative constant
 #define KFF 90          // Feed Forward constant
 */
@@ -37,8 +37,9 @@ unsigned short SPHr = 0;       // Speed/Hour * 10 (Unit friendly, for mph & kph)
 unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
 
 // calibration variables
-bool SCalMode = false;
-byte SRecMode = 0;
+byte CallibrationMode = 0;
+volatile unsigned short calTicks;
+extern volatile byte rTime;
 
 long oldErr = 0; // Previous error
 long pid_p; // Proportional term
@@ -75,7 +76,7 @@ byte shift;
  */
 void updateInRatio(byte numMag, long wheelCirc, float finalDrive) {
   // 16 for limit adjustment
-  inRatio = (long) (finalDrive * wheelCirc / (numMag * 16.0));
+  inRatio = ((long) (finalDrive * wheelCirc / numMag)) >> 4;
 }
 
 void setup() {
@@ -128,20 +129,25 @@ void loop() {
   long error;
   long newPWM;
   long currentRPM = 0; // Feedback from slotted wheel on motor shaft
-  //long revolutions = 0; // Number of 360 degree rotations
 
-  if(checkBT()){
-    delay2(10);
-  }
-
+  checkBT();
+  
   SPHr = calcSpeed();
 
-  if(!SPHr) {
+  // limit max speed shown
+  if(SPHr > maxSpeed) {
+    SPHr = maxSpeed;
+  }
+
+  if(!SPHr && !CallibrationMode) {
     targetRPM = 0;
     OCR1A = 0;
 
   } else {
-    targetRPM = (((unsigned long) SPHr) * (outRatio / 1000)) / 1000;
+
+    if(!CallibrationMode) {
+      targetRPM = (((unsigned long) SPHr) * (outRatio / 1000)) / 1000;
+    }
 
     // RPM based on number of ticks passed
     // see Technical Manual pg. 16 for explanation of numbers
@@ -157,7 +163,6 @@ void loop() {
      */
 
     error = targetRPM - currentRPM;
-    //pid_ff = KFF * targetRPM / 100;
     pid_p = KP * error / 100;
     pid_i += KI * error / 100;
     pid_d = KD * (error - oldErr) / 100;
@@ -211,34 +216,11 @@ unsigned short calcSpeed() {
   }
 }
 
-/*
-ISR(ANALOG_COMP_vect) {
-  static unsigned long currTime = 0;
-
-  currTime = micros2();
-
-  // if counter overflow then just ignore, happens once every 70-ish minutes
-  if(currTime < pTime) {
-    pTime = currTime;
-    return;
-  }
-
-  // update time
-  eTime[count] = currTime - pTime;
-  pTime = currTime;
-
-  if(numMag > 1) {
-    if(fromStop && count + 1 == numMag) {
-      fromStop = false;
-    }
-    count = (count + 1) % numMag;
-  }
-  
-  updated = true;
-}*/
-
 ISR(ANALOG_COMP_vect) {
   currSpeedCtr++;
+  if(CallibrationMode == 2 && rTime) {
+    calTicks++;
+  }
 }
 
 void loadVariables() {
