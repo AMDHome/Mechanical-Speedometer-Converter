@@ -713,17 +713,17 @@ public final class R {
         public static final int tag_unhandled_key_listeners = 0x7f0900e3;
         public static final int text = 0x7f0900e4;
         public static final int text2 = 0x7f0900e5;
-        public static final int textSpacerNoButtons = 0x7f0900e6;
-        public static final int textSpacerNoTitle = 0x7f0900e7;
-        public static final int time = 0x7f0900fe;
-        public static final int title = 0x7f090100;
-        public static final int titleDividerNoCustom = 0x7f090101;
-        public static final int title_template = 0x7f090102;
-        public static final int top = 0x7f090103;
-        public static final int topPanel = 0x7f090104;
-        public static final int uniform = 0x7f09010b;
-        public static final int up = 0x7f09010e;
-        public static final int wrap_content = 0x7f090114;
+        public static final int textSpacerNoButtons = 0x7f0900e8;
+        public static final int textSpacerNoTitle = 0x7f0900e9;
+        public static final int time = 0x7f090100;
+        public static final int title = 0x7f090102;
+        public static final int titleDividerNoCustom = 0x7f090103;
+        public static final int title_template = 0x7f090104;
+        public static final int top = 0x7f090105;
+        public static final int topPanel = 0x7f090106;
+        public static final int uniform = 0x7f09010d;
+        public static final int up = 0x7f090110;
+        public static final int wrap_content = 0x7f090116;
     }
     public static final class integer {
         private integer() {}
@@ -818,8 +818,8 @@ public final class R {
         public static final int abc_shareactionprovider_share_with = 0x7f100024;
         public static final int abc_shareactionprovider_share_with_application = 0x7f100025;
         public static final int abc_toolbar_collapse_description = 0x7f100026;
-        public static final int search_menu_title = 0x7f10003f;
-        public static final int status_bar_notification_info_overflow = 0x7f100041;
+        public static final int search_menu_title = 0x7f10003d;
+        public static final int status_bar_notification_info_overflow = 0x7f10003f;
     }
     public static final class style {
         private style() {}

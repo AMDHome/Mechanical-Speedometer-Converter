@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     static TextView unitsText;
     static TextView maxSpeedText;
     static TextView magnetsText;
-    TextView finalDriveText;
+    static TextView finalDriveText;
     static TextView meterRatioText;
     static TextView tireSizeText;
 
@@ -552,6 +552,56 @@ public class HomeFragment extends Fragment {
             tireSizeText.setText(value);
             sendTireSizeCalc(tireSizeText.getText().toString());
         }
+    }
+
+    static public void startCalibration(String targetSpeed) {
+        if (btSocket != null) {
+            try {
+                String str = "D:" + targetSpeed + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
+                msg(str);
+            } catch (IOException e) {
+                msg("Error");
+            }
+        }
+    }
+
+    static public boolean setFinalDrive() {
+
+        if (btSocket != null) {
+            try {
+
+                String rtnStr = null;
+                String[] splitArr;
+                btSocket.getOutputStream().write("D:0\0".getBytes());
+                for (int rtnBuff = 0; ((rtnBuff = btSocket.getInputStream().read()) >= 0) && rtnBuff != 13; ) {
+                    if (rtnStr == null) {
+                        rtnStr = Character.toString((char) rtnBuff);
+                    } else {
+                        rtnStr += Character.toString((char) rtnBuff);
+                    }
+                }
+
+                msg(rtnStr);
+                if (!rtnStr.startsWith("F:")) {
+                    msg("error reading in values");
+                    return false;
+                } else {
+
+                    splitArr = rtnStr.split(":");
+
+                    Integer intFinalDrive = Integer.getInteger(splitArr[1]);
+                    Double doubleFinalDrive = intFinalDrive/1000000.00;
+                    finalDriveText.setText(String.valueOf(doubleFinalDrive));
+                    return true;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+
     }
 
     static private void msg(String s)

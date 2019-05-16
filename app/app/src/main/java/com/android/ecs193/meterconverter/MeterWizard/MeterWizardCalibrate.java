@@ -1,6 +1,7 @@
 package com.android.ecs193.meterconverter.MeterWizard;
 
 import android.Manifest;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.ecs193.meterconverter.BtConnection;
 import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
 
@@ -37,6 +40,8 @@ public class MeterWizardCalibrate extends AppCompatActivity {
 
     TextView text_target;
     TextView text_current;
+    TextView text_holdSpeed;
+    TextView text_laws;
     Button but_cancel;
     Button but_finish;
     TextView text_timer;
@@ -121,28 +126,38 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         but_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent wizIntent = new Intent(MeterWizardCalibrate.this, MeterWizardTireSize.class);
+                startCountDown();
+                /*Intent wizIntent = new Intent(MeterWizardCalibrate.this, MeterWizardTireSize.class);
                 finish();
                 // Slide from right to left
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                startActivity(wizIntent);
+                startActivity(wizIntent);*/
             }
         });
     }
 
     public void startCountDown() {
 
+
         text_timer = findViewById(R.id.countdownTimer);
+        text_holdSpeed = findViewById(R.id.textHoldSpeed);
+        text_laws = findViewById(R.id.textLaws);
 
-        new CountDownTimer(3000, 1000) {
+        mHomeFragment.startCalibration("11");
+        //mHomeFragment.startCalibration(text_target.getText().toString());
 
+        final CountDownTimer showCountDown;
+        showCountDown = new CountDownTimer(3000, 1000) {
+
+            Double targetSpeed = Double.valueOf(text_target.getText().toString());
+            Double currentSpeed = Double.valueOf(text_current.getText().toString());
             public void onTick(long millisUntilFinished) {
                 text_timer.setVisibility(View.VISIBLE);
-
-                // Continue timer if speed doesnt change
-                if (text_target.getText().toString().equals(text_target.getText().toString())) {
+                // Continue timer if speed is within +-1 of the target speed
+                if (currentSpeed >= (targetSpeed - 1.00) && currentSpeed <= (targetSpeed + 1.00)) {
                     text_timer.setText(String.valueOf(millisUntilFinished / 1000 + 1));
                 } else {
+                    text_timer.setVisibility(View.INVISIBLE);
                     return;
                 }
             }
@@ -150,6 +165,23 @@ public class MeterWizardCalibrate extends AppCompatActivity {
             public void onFinish() {
                 text_timer.setVisibility(View.GONE);
                 but_finish.setVisibility(View.VISIBLE);
+                if (mHomeFragment.setFinalDrive()) {
+                    finish();
+                } else {
+                    return;
+                }
+            }
+        };
+
+        text_laws.setVisibility(View.INVISIBLE);
+        new CountDownTimer(2500,1000)  {
+            public void onTick(long millisUntilFinished) {
+                text_holdSpeed.setVisibility(View.VISIBLE);
+            }
+
+            public void onFinish() {
+                text_holdSpeed.setVisibility(View.GONE);
+                showCountDown.start();
             }
         }.start();
 

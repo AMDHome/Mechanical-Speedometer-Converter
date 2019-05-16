@@ -1,5 +1,6 @@
 package com.android.ecs193.meterconverter.MeterWizard;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
+
+import java.io.IOException;
 
 public class MeterWizardTireSize extends AppCompatActivity {
 
@@ -68,10 +71,20 @@ public class MeterWizardTireSize extends AppCompatActivity {
                         text_size3.getText().toString() + '/' + text_size4.getText().toString() +
                         text_size5.getText().toString() + 'R' + text_size6.getText().toString() +
                         text_size7.getText().toString();
-                mHomeFragment.setTireSize(tireSize);
-                Intent wizIntent = new Intent(MeterWizardTireSize.this, MeterWizardCalibrate.class);
-                finish();
-                startActivity(wizIntent);
+
+                if (tireSize.length() != 10) {
+                    new AlertDialog.Builder(MeterWizardTireSize.this)
+                            .setTitle("Enter Tire Size")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setMessage("Please enter a tire size in the format P _ _ _ / _ _ R _ _")
+                            .setPositiveButton("OK", null)
+                            .show();
+                } else {
+                    mHomeFragment.setTireSize(tireSize);
+                    Intent wizIntent = new Intent(MeterWizardTireSize.this, MeterWizardCalibrate.class);
+                    finish();
+                    startActivity(wizIntent);
+                }
             }
         });
 
