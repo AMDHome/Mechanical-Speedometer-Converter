@@ -554,10 +554,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    static public void startCalibration(String targetSpeed) {
+    static public void startCalibration() {
         if (btSocket != null) {
             try {
-                String str = "D:" + targetSpeed + '\0';
+                String str = "D:S" + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
                 msg(str);
             } catch (IOException e) {
@@ -566,14 +566,27 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    static public boolean setFinalDrive() {
+    static public void endCalibration() {
+        if (btSocket != null) {
+            try {
+                String str = "D:0" + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
+                msg(str);
+            } catch (IOException e) {
+                msg("Error");
+            }
+        }
+    }
+
+    static public boolean setFinalDrive(String avgSpeed) {
 
         if (btSocket != null) {
             try {
 
                 String rtnStr = null;
                 String[] splitArr;
-                btSocket.getOutputStream().write("D:0\0".getBytes());
+                String str = "D:" + avgSpeed + '\0';
+                btSocket.getOutputStream().write(str.getBytes());
                 for (int rtnBuff = 0; ((rtnBuff = btSocket.getInputStream().read()) >= 0) && rtnBuff != 13; ) {
                     if (rtnStr == null) {
                         rtnStr = Character.toString((char) rtnBuff);

@@ -126,12 +126,11 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         but_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startCountDown();
-                /*Intent wizIntent = new Intent(MeterWizardCalibrate.this, MeterWizardTireSize.class);
+                Intent wizIntent = new Intent(MeterWizardCalibrate.this, MeterWizardTireSize.class);
                 finish();
                 // Slide from right to left
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                startActivity(wizIntent);*/
+                startActivity(wizIntent);
             }
         });
     }
@@ -143,12 +142,14 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         text_holdSpeed = findViewById(R.id.textHoldSpeed);
         text_laws = findViewById(R.id.textLaws);
 
-        mHomeFragment.startCalibration("11");
-        //mHomeFragment.startCalibration(text_target.getText().toString());
+        mHomeFragment.startCalibration();
 
+
+        // 10 seconds count down
         final CountDownTimer showCountDown;
-        showCountDown = new CountDownTimer(3000, 1000) {
+        showCountDown = new CountDownTimer(10000, 1000) {
 
+            int totalSpeed = 0;
             Double targetSpeed = Double.valueOf(text_target.getText().toString());
             Double currentSpeed = Double.valueOf(text_current.getText().toString());
             public void onTick(long millisUntilFinished) {
@@ -156,7 +157,9 @@ public class MeterWizardCalibrate extends AppCompatActivity {
                 // Continue timer if speed is within +-1 of the target speed
                 if (currentSpeed >= (targetSpeed - 1.00) && currentSpeed <= (targetSpeed + 1.00)) {
                     text_timer.setText(String.valueOf(millisUntilFinished / 1000 + 1));
+                    totalSpeed += currentSpeed;
                 } else {
+                    mHomeFragment.endCalibration();
                     text_timer.setVisibility(View.INVISIBLE);
                     return;
                 }
@@ -165,7 +168,8 @@ public class MeterWizardCalibrate extends AppCompatActivity {
             public void onFinish() {
                 text_timer.setVisibility(View.GONE);
                 but_finish.setVisibility(View.VISIBLE);
-                if (mHomeFragment.setFinalDrive()) {
+                totalSpeed *= 10;
+                if (mHomeFragment.setFinalDrive(String.valueOf(totalSpeed))) {
                     finish();
                 } else {
                     return;
@@ -174,7 +178,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         };
 
         text_laws.setVisibility(View.INVISIBLE);
-        new CountDownTimer(2500,1000)  {
+        new CountDownTimer(2000,1000)  {
             public void onTick(long millisUntilFinished) {
                 text_holdSpeed.setVisibility(View.VISIBLE);
             }
