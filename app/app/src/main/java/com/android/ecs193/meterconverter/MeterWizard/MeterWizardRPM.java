@@ -20,6 +20,8 @@ import com.android.ecs193.meterconverter.R;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MeterWizardRPM extends AppCompatActivity {
 
@@ -142,12 +144,23 @@ public class MeterWizardRPM extends AppCompatActivity {
                         String str = text_rpm.getText().toString();
                         mHomeFragment.setMeterRatioText(df.format(Double.valueOf(str)));
                         if (Double.valueOf(text_rpm.getText().toString()) < 0.0) {
-                            new AlertDialog.Builder(MeterWizardRPM.this)
-                                .setTitle("Error")
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .setMessage("Please enter a value greater than 0")
-                                .setPositiveButton("Confirm", null)
-                                .show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRPM.this);
+                            builder.setTitle("Error");
+                            builder.setIcon(android.R.drawable.ic_dialog_alert);
+                            builder.setMessage("Please enter a value greater than 0");
+                            builder.setCancelable(true);
+
+                            final AlertDialog closeDialog = builder.create();
+                            closeDialog.show();
+
+                            // Display dialog box for 2 seconds
+                            final Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                public void run() {
+                                    closeDialog.dismiss();
+                                    timer.cancel();
+                                }
+                            }, 2000);
                         }
                         setRatioVal();
                     } catch (NumberFormatException nfe) {
@@ -239,10 +252,28 @@ public class MeterWizardRPM extends AppCompatActivity {
 
     public void DecreSpeed() {
         float rpm = Float.valueOf(text_rpm.getText().toString());
-        if (rpm > 0.0) {
+        if (rpm > 0.1) {
             rpm = rpm - (float) 0.1;
+            text_rpm.setText(String.valueOf(df.format(rpm)));
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRPM.this);
+            builder.setTitle("Error");
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setMessage("Please enter a value greater than 0");
+            builder.setCancelable(true);
+
+            final AlertDialog closeDialog = builder.create();
+            closeDialog.show();
+
+            // Display dialog box for 2 seconds
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    closeDialog.dismiss();
+                    timer.cancel();
+                }
+            }, 2000);
         }
-        text_rpm.setText(String.valueOf(df.format(rpm)));
     }
 
     public void setRatioVal() {

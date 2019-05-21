@@ -9,7 +9,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,9 @@ public class HomeFragment extends Fragment {
     static MeterWizardRatio mMeterWizardRatio = new MeterWizardRatio();
 
     static Context thisContext;
+
+    static EditText tireSize1, tireSize2, tireSize3, tireSize4, tireSize5, tireSize6, tireSize7;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -178,10 +183,18 @@ public class HomeFragment extends Fragment {
 
         butSize = view.findViewById(R.id.but_size);
         tireSizeText = view.findViewById(R.id.tireSizeText);
+        tireSize1 = view.findViewById(R.id.text_tire1);
+        tireSize2 = view.findViewById(R.id.text_tire2);
+        tireSize3 = view.findViewById(R.id.text_tire3);
+        tireSize4 = view.findViewById(R.id.text_tire4);
+        tireSize5 = view.findViewById(R.id.text_tire5);
+        tireSize6 = view.findViewById(R.id.text_tire6);
+        tireSize7 = view.findViewById(R.id.text_tire7);
         butSize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTextBoxDialog("Enter tire size", tireSizeText, "W:");
+                //getTextBoxDialog("Enter tire size", tireSizeText, "W:");
+                getTireSizeDialog();
             }
         });
         return view;
@@ -273,6 +286,67 @@ public class HomeFragment extends Fragment {
 
         alertDialog1 = builder.create();
         alertDialog1.show();
+    }
+
+    static void getTireSizeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
+
+        // get the layout inflater
+        LayoutInflater inflater = (LayoutInflater)thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        // inflate and set the layout for the dialog
+        // pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.dialog_tire_size, null));
+
+        tireSize1.requestFocus();
+        tireSize1.setCursorVisible(true);
+        /*nextText(tireSize1, tireSize2, false);
+        nextText(tireSize2, tireSize3, false);
+        nextText(tireSize3, tireSize4, false);
+        nextText(tireSize4, tireSize5, false);
+        nextText(tireSize5, tireSize6, false);
+        nextText(tireSize6, tireSize7, false);
+        nextText(tireSize7, tireSize7, true);*/
+
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // remove the dialog from the screen
+            }
+        });
+        builder.show();
+    }
+
+    static protected void nextText(final EditText text1, final EditText text2, final boolean last) {
+
+        final StringBuilder sb = new StringBuilder();
+
+        text1.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (sb.length() == 0 & text1.length() == 1) {
+                    sb.append(s);
+                    text1.clearFocus();
+
+                    if (!last) {
+                        text2.requestFocus();
+                        text2.setCursorVisible(true);
+                    }
+
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (sb.length() == 1) {
+                    sb.deleteCharAt(0);
+                }
+            }
+
+            public void afterTextChanged(Editable s) {
+                if (sb.length() == 0) {
+                    text1.requestFocus();
+                }
+
+            }
+        });
     }
 
     static void getTextBoxDialog(final String title, final TextView textBox, final String arduinoStr) {

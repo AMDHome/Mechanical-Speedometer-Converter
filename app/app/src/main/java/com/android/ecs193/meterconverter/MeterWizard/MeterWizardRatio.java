@@ -14,6 +14,9 @@ import android.os.Handler;
 import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MeterWizardRatio extends AppCompatActivity {
 
     private int speedometer_half;
@@ -122,12 +125,23 @@ public class MeterWizardRatio extends AppCompatActivity {
                     try {
                         setspeedometerHalf(Integer.valueOf(text_speed.getText().toString()));
                         if (Integer.valueOf(text_speed.getText().toString()) < 0) {
-                            new AlertDialog.Builder(MeterWizardRatio.this)
-                                .setTitle("Error")
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .setMessage("Please enter a value greater than 0")
-                                .setPositiveButton("OK", null)
-                                .show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRatio.this);
+                            builder.setTitle("Error");
+                            builder.setIcon(android.R.drawable.ic_dialog_alert);
+                            builder.setMessage("Please enter a value greater than 0");
+                            builder.setCancelable(true);
+
+                            final AlertDialog closeDialog = builder.create();
+                            closeDialog.show();
+
+                            // Display dialog box for 2 seconds
+                            final Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                public void run() {
+                                    closeDialog.dismiss();
+                                    timer.cancel();
+                                }
+                            }, 2000);
                         }
                     } catch (NumberFormatException nfe) {
                         new AlertDialog.Builder(MeterWizardRatio.this)
@@ -176,8 +190,6 @@ public class MeterWizardRatio extends AppCompatActivity {
                 // Slide from right to left
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 startActivity(wizIntent);
-
-
             }
         });
 
@@ -192,11 +204,31 @@ public class MeterWizardRatio extends AppCompatActivity {
 
     public void DecreSpeed() {
         int speed = getspeedometerHalf();
-        if (speed > 0) {
+        if (speed > 0.1) {
             speed = speed - 1;
+            setspeedometerHalf(speed);
+            text_speed.setText(String.valueOf(speed));
+        } else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRatio.this);
+            builder.setTitle("Error");
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setMessage("Please enter a speed greater than 0");
+            builder.setCancelable(true);
+
+            final AlertDialog closeDialog = builder.create();
+            closeDialog.show();
+
+            // Display dialog box for 2 seconds
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    closeDialog.dismiss();
+                    timer.cancel();
+                }
+            }, 2000);
         }
-        setspeedometerHalf(speed);
-        text_speed.setText(String.valueOf(speed));
+
     }
 
      public Integer getspeedometerHalf() {

@@ -1324,6 +1324,13 @@ id text_rpm_q
 id text_speed_q
 id text_speed_wizard
 id text_target_speed
+id text_tire1
+id text_tire2
+id text_tire3
+id text_tire4
+id text_tire5
+id text_tire6
+id text_tire7
 id text_tireSize1
 id text_tireSize2
 id text_tireSize3
@@ -1432,6 +1439,7 @@ layout design_navigation_item_subheader
 layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
+layout dialog_tire_size
 layout frag_calibration
 layout frag_data
 layout frag_settings
