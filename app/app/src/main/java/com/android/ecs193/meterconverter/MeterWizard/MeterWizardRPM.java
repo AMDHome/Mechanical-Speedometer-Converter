@@ -28,7 +28,7 @@ public class MeterWizardRPM extends AppCompatActivity {
     BluetoothSocket btSocket = null;
     TextView text_q;
     TextView text_ratio;
-    TextView text_rpm;
+    Float target_rpm = (float) 0.0;
     Button but_incre;
     Button but_decre;
     Button but_cancel;
@@ -46,7 +46,7 @@ public class MeterWizardRPM extends AppCompatActivity {
     MeterWizardRatio mMeterWizardRatio = new MeterWizardRatio();
 
     // For formatting RPM
-    DecimalFormat df = new DecimalFormat("###.#");
+    DecimalFormat df = new DecimalFormat("##0.000##");
 
     class RptUpdater implements Runnable {
         public void run() {
@@ -69,16 +69,15 @@ public class MeterWizardRPM extends AppCompatActivity {
         btSocket = BtConnection.getBtConnection();
         text_q = findViewById(R.id.text_rpm_q);
         text_ratio = findViewById(R.id.text_ratio);
-        text_rpm = findViewById(R.id.text_rpm);
 
         // Set prompt
         if (mMeterWizardUnit.getUnit() == "kph") {
             targetSpeed = Math.min(50, mMeterWizardRatio.getMaxSpeed() / 2);
-            text_q.setText("Please adjust the target RPM until the speedometer reads " + String.valueOf(targetSpeed) + " KPH.");
+            text_q.setText("Please adjust the buttons until the speedometer reads " + String.valueOf(targetSpeed) + " KPH.");
         } else if (mMeterWizardUnit.getUnit() == "mph") {
             msg(String.valueOf(mMeterWizardRatio.getspeedometerHalf()));
             targetSpeed = Math.min(40, mMeterWizardRatio.getMaxSpeed() / 2);
-            text_q.setText("Please adjust the target RPM until the speedometer reads " + String.valueOf(targetSpeed) + " MPH.");
+            text_q.setText("Please adjust the buttons until the speedometer reads " + String.valueOf(targetSpeed) + " MPH.");
         }
 
         // Change target RPM value on setting fragment
@@ -87,6 +86,7 @@ public class MeterWizardRPM extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 IncreSpeed();
+                //setRatioVal();
             }
         });
         but_incre.setOnLongClickListener(new View.OnLongClickListener(){
@@ -102,7 +102,7 @@ public class MeterWizardRPM extends AppCompatActivity {
                 if( (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL)
                         && mAutoIncrement ){
                     mAutoIncrement = false;
-                    setRatioVal();
+                    //setRatioVal();
                 }
                 return false;
             }
@@ -114,6 +114,7 @@ public class MeterWizardRPM extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DecreSpeed();
+                //setRatioVal();
             }
         });
         but_decre.setOnLongClickListener(new View.OnLongClickListener(){
@@ -129,13 +130,13 @@ public class MeterWizardRPM extends AppCompatActivity {
                 if( (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL)
                         && mAutoDecrement ){
                     mAutoDecrement = false;
-                    setRatioVal();
+                    //setRatioVal();
                 }
                 return false;
             }
         });
 
-        text_rpm.setOnKeyListener(new View.OnKeyListener() {
+        /*text_rpm.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -175,55 +176,77 @@ public class MeterWizardRPM extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
 
         but_finish = findViewById(R.id.but_finish);
         but_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (text_rpm.getText().toString().matches("")) {
-                    new AlertDialog.Builder(MeterWizardRPM.this)
-                            .setTitle("Enter target RPM")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setMessage("Please enter the target RPM of your car")
-                            .setPositiveButton("OK", null)
-                            .show();
+                AlertDialog.Builder builder;
+                if (text_ratio.getText().toString().matches("Speedometer Ratio:")) {
+                    builder = new AlertDialog.Builder(MeterWizardRPM.this);
+                    builder.setTitle("Adjust value");
+                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+                    builder.setMessage("Please adjust the buttons");
+                    builder.setPositiveButton("OK", null);
+                    builder.setCancelable(true);
+
+                    final AlertDialog closeDialog = builder.create();
+                    closeDialog.show();
+
+                    // Display dialog box for 2 seconds
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            closeDialog.dismiss();
+                            timer.cancel();
+                        }
+                    }, 2000);
+
+                } else if (text_ratio.getText().toString().matches("Speedometer Ratio: 0.0")) {
+                    builder = new AlertDialog.Builder(MeterWizardRPM.this);
+                    builder.setTitle("Adjust value");
+                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+                    builder.setMessage("Please adjust the buttons so the ratio is not zero");
+                    builder.setPositiveButton("OK", null);
+                    builder.setCancelable(true);
+
+                    final AlertDialog closeDialog = builder.create();
+                    closeDialog.show();
+
+                    // Display dialog box for 2 seconds
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            closeDialog.dismiss();
+                            timer.cancel();
+                        }
+                    }, 2000);
                 } else {
 
                     sendRatioVal();
-                    new AlertDialog.Builder(MeterWizardRPM.this)
-                        .setTitle("Please confirm the following is correct")
-                        .setIcon(android.R.drawable.ic_menu_info_details)
-                        .setMessage("Max Speed: " + mMeterWizardRatio.getMaxSpeed() + '\n'
-                                + "Target RPM: " + text_rpm.getText().toString())
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
 
-                                // Send string to Arduino to end calibration mode
-                                if (btSocket != null) {
-                                    try {
-                                        String str = "P:0\0";
-                                        btSocket.getOutputStream().write(str.getBytes());
-                                        msg(str);
+                    // Send string to Arduino to end calibration mode
+                    if (btSocket != null) {
+                        try {
+                            String str = "P:0\0";
+                            btSocket.getOutputStream().write(str.getBytes());
+                            msg(str);
 
-                                    } catch (IOException e) {
-                                        msg("Error");
-                                    }
+                        } catch (IOException e) {
+                            msg("Error");
+                        }
 
-                                }
+                    }
 
-                                if (mHomeFragment.getDriveCheck()) {
-                                    Intent wizIntent = new Intent(MeterWizardRPM.this, MeterWizardMagnet.class);
-                                    finish();
-                                    startActivity(wizIntent);
-                                } else {
-                                    finish();
-                                }
-                            }
-                        })
-                        .setNegativeButton("Go Back", null)
-                        .show();
+                    if (mHomeFragment.getDriveCheck()) {
+                        Intent wizIntent = new Intent(MeterWizardRPM.this, MeterWizardMagnet.class);
+                        finish();
+                        startActivity(wizIntent);
+                    } else {
+                        finish();
+                    }
+
                 }
             }
         });
@@ -244,22 +267,19 @@ public class MeterWizardRPM extends AppCompatActivity {
     }
 
     public void IncreSpeed() {
-
-        float rpm = Float.valueOf(text_rpm.getText().toString());
-        rpm = rpm + (float) 0.1;
-        text_rpm.setText(String.valueOf(df.format(rpm)));
+        target_rpm = target_rpm + (float) 0.1;
+        setRatioVal();
     }
 
     public void DecreSpeed() {
-        float rpm = Float.valueOf(text_rpm.getText().toString());
-        if (rpm > 0.1) {
-            rpm = rpm - (float) 0.1;
-            text_rpm.setText(String.valueOf(df.format(rpm)));
+        if (target_rpm > 0.1) {
+            target_rpm = target_rpm - (float) 0.1;
+            setRatioVal();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRPM.this);
             builder.setTitle("Error");
             builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setMessage("Please enter a value greater than 0");
+            builder.setMessage("You have hit a value too low to be possible!");
             builder.setCancelable(true);
 
             final AlertDialog closeDialog = builder.create();
@@ -277,8 +297,8 @@ public class MeterWizardRPM extends AppCompatActivity {
     }
 
     public void setRatioVal() {
-        ratio = Float.valueOf(text_rpm.getText().toString())/targetSpeed;
-        text_ratio.setText("Speedometer Ratio: " + String.valueOf(ratio));
+        ratio = target_rpm/targetSpeed;
+        text_ratio.setText("Speedometer Ratio: " + String.valueOf(df.format(ratio)));
 
     }
 

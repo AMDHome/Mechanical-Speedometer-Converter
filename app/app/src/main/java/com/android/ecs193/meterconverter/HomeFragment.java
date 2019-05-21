@@ -409,7 +409,7 @@ public class HomeFragment extends Fragment {
         if (arduinoStr == "M:") { // magnet
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
         } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
-            input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(thisContext)

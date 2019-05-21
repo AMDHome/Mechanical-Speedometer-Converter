@@ -1319,7 +1319,6 @@ id textStart
 id text_curr_speed
 id text_input_password_toggle
 id text_ratio
-id text_rpm
 id text_rpm_q
 id text_speed_q
 id text_speed_wizard

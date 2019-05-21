@@ -48,7 +48,7 @@
 
     <string name="str_speed_unit_q">What are the primary units shown on the speedometer?</string>
     <string name="str_speed_max_q">What is the maximum speed shown on the speedometer?</string>
-    <string name="str_speed_rpm_q">Please adjust the target RPM until the speedometer reads 40 MPH.</string>
+    <string name="str_speed_rpm_q">Please adjust with the value until the speedometer reads 40 MPH.</string>
     <string name="str_speed_check_q">Have you already set up your speedometer (Car Units, Max Speed, Speedometer Ratio)?</string>
     <string name="str_speed_magnet_q">How many magnet did you install for your speed sensor?</string>
     <string name="str_speed_tire_size_q">What is the tire size of your car?</string>

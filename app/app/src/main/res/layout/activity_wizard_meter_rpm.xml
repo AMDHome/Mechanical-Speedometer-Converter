@@ -63,12 +63,13 @@
 
             <ImageView
                 android:id="@+id/img_meter"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
-                android:adjustViewBounds="false"
+                android:layout_marginBottom="20dp"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/str_meter_img"
                 android:cropToPadding="false"
                 android:scaleType="fitCenter"
@@ -79,26 +80,12 @@
                 android:id="@+id/text_ratio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginRight="25dp"
-                android:gravity="center"
-                android:text="@string/str_speed_ratio"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/linlay_adjButtons"
-                app:layout_constraintTop_toBottomOf="@+id/img_meter"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginRight="25dp"
-                android:text="@string/str_speed_rpm_input"
+                android:text="@string/str_speed_ratio"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/linlay_adjButtons"
@@ -110,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginRight="25dp"
                 android:orientation="horizontal"
@@ -119,11 +107,11 @@
                     android:id="@+id/but_decrement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
+                    android:layout_weight="1"
                     android:text="@string/str_speed_minus"
                     android:textSize="20sp"/>
 
-                <EditText
+                <!--<EditText
                     android:id="@+id/text_rpm"
                     android:layout_width="122dp"
                     android:layout_height="wrap_content"
@@ -134,13 +122,13 @@
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimary"
                     android:background="@color/colorWhite"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"/>-->
 
                 <Button
                     android:id="@+id/but_increment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_weight="1"
                     android:text="@string/str_speed_plus"
                     android:textSize="20sp"/>
 

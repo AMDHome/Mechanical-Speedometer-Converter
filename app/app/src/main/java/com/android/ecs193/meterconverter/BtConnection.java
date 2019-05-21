@@ -37,8 +37,6 @@ public class BtConnection extends AppCompatActivity {
     private boolean isBtConnected = false;
     //SPP UUID. Look for it
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    public static String EXTRA_ADDRESS;
-    public static final String BT_INTENT_FLAG = "BT_INTENT_FLAG";
     static String btName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

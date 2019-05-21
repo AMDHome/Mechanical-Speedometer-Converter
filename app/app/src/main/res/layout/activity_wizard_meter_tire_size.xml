@@ -64,15 +64,15 @@
 
             <ImageView
                 android:id="@+id/img_meter"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
-                android:adjustViewBounds="false"
                 android:contentDescription="@string/str_tire_img"
                 android:cropToPadding="false"
-                android:scaleType="fitCenter"
                 android:src="@drawable/ic_tire"
                 app:layout_constraintTop_toBottomOf="@+id/text_speed_q"/>
 
@@ -121,8 +121,10 @@
                     android:layout_gravity="center"
                     android:inputType="text"
                     android:text="P"
+                    android:textColor="@color/colorWhite"
                     android:textAlignment="center"
                     android:textSize="25sp"/>
+
                 <EditText
                     android:id="@+id/text_tireSize1"
                     android:layout_width="30dp"
@@ -172,6 +174,7 @@
                     android:layout_gravity="center"
                     android:inputType="text"
                     android:text="/"
+                    android:textColor="@color/colorWhite"
                     android:textAlignment="center"
                     android:textSize="25sp"/>
                 <EditText
@@ -209,6 +212,7 @@
                     android:layout_gravity="center"
                     android:inputType="text"
                     android:text="R"
+                    android:textColor="@color/colorWhite"
                     android:textAlignment="center"
                     android:textSize="25sp"/>
                 <EditText
