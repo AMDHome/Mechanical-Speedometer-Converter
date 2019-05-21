@@ -42,6 +42,10 @@ public class MeterWizardMagnet extends AppCompatActivity {
                 } else if (but_four.isChecked()) {
                     but_four.setChecked(false);
                 }
+                mHomeFragment.setMagnetText(1);
+                Intent wizIntent = new Intent(MeterWizardMagnet.this, MeterWizardTireSize.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 
@@ -53,6 +57,10 @@ public class MeterWizardMagnet extends AppCompatActivity {
                 } else if (but_four.isChecked()) {
                     but_four.setChecked(false);
                 }
+                mHomeFragment.setMagnetText(2);
+                Intent wizIntent = new Intent(MeterWizardMagnet.this, MeterWizardTireSize.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 
@@ -64,6 +72,10 @@ public class MeterWizardMagnet extends AppCompatActivity {
                 } else if (but_two.isChecked()) {
                     but_two.setChecked(false);
                 }
+                mHomeFragment.setMagnetText(4);
+                Intent wizIntent = new Intent(MeterWizardMagnet.this, MeterWizardTireSize.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 

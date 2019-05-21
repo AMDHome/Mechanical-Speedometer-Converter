@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MeterWizardUnit extends AppCompatActivity {
 
     RadioButton but_kph;
@@ -41,6 +44,10 @@ public class MeterWizardUnit extends AppCompatActivity {
                     but_mph.setChecked(false);
                 }
                 which_but = "kph";
+                mHomeFragment.setUnits(which_but);
+                Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 
@@ -51,6 +58,10 @@ public class MeterWizardUnit extends AppCompatActivity {
                     but_kph.setChecked(false);
                 }
                 which_but = "mph";
+                mHomeFragment.setUnits(which_but);
+                Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 

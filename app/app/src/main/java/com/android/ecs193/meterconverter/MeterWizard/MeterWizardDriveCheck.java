@@ -38,6 +38,9 @@ public class MeterWizardDriveCheck extends AppCompatActivity {
                 if (but_no.isChecked()) {
                     but_no.setChecked(false);
                 }
+                Intent wizIntent = new Intent(MeterWizardDriveCheck.this, MeterWizardMagnet.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 
@@ -47,6 +50,10 @@ public class MeterWizardDriveCheck extends AppCompatActivity {
                 if (but_yes.isChecked()) {
                     but_yes.setChecked(false);
                 }
+                mHomeFragment.setDriveCheck();
+                Intent wizIntent = new Intent(MeterWizardDriveCheck.this, MeterWizardUnit.class);
+                finish();
+                startActivity(wizIntent);
             }
         });
 

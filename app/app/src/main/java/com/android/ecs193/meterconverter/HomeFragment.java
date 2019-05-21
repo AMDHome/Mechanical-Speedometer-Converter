@@ -226,66 +226,100 @@ public class HomeFragment extends Fragment {
 
     void getButtonDialog(final String title, int arrID, final TextView textBox) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setIcon(R.drawable.ic_baseline_create_24px)
-                .setSingleChoiceItems(getResources().getStringArray(arrID),
-                        -1, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
+        final AlertDialog closeDialog;
 
-                                if (title == "Choose Units") {
-                                    switch(item) {
-                                        case 0:
-                                            textBox.setText("mph");
-                                            break;
-                                        case 1:
-                                            textBox.setText("kph");
-                                            break;
-                                    }
-                                } else if (title == "Choose Number of Magnets") {
-                                    switch(item) {
-                                        case 0:
-                                            textBox.setText("1");
-                                            break;
-                                        case 1:
-                                            textBox.setText("2");
-                                            break;
-                                        case 2:
-                                            textBox.setText("4");
-                                            break;
-                                    }
-                                }
-                            }
-                        })
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title);
+        builder.setIcon(R.drawable.ic_baseline_create_24px);
+        builder.setSingleChoiceItems(getResources().getStringArray(arrID),
+                -1, new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, int item) {
 
-                        if (title == "Choose Units") {
+                boolean dismiss = false;
 
-                            if (textBox.getText().toString().equalsIgnoreCase("mph")) {
-                                sendUnits(Integer.toString(0));
-                            } else if (textBox.getText().toString().equalsIgnoreCase("kph")) {
-                                sendUnits(Integer.toString(1));
-                            }
-
-                        } else if (title == "Choose Number of Magnets") {
-
-                            if (textBox.getText().toString().equalsIgnoreCase("1")) {
-                                sendInfo(Integer.toString(1), "N:");
-                            } else if (textBox.getText().toString().equalsIgnoreCase("2")) {
-                                sendInfo(Integer.toString(2), "N:");
-                            } else if (textBox.getText().toString().equalsIgnoreCase("4")) {
-                                sendInfo(Integer.toString(4), "N:");
-                            }
-
-                        }
+                if (title == "Choose Units") {
+                    switch(item) {
+                        case 0:
+                            textBox.setText("mph");
+                            break;
+                        case 1:
+                            textBox.setText("kph");
+                            break;
                     }
-                })
-                .setNegativeButton("Cancel", null);
 
-        alertDialog1 = builder.create();
-        alertDialog1.show();
+                    if (item == 0) {
+                        sendUnits(Integer.toString(0));
+                        dismiss = true;
+                    } else if (item == 1) {
+                        sendUnits(Integer.toString(1));
+                        dismiss = true;
+                    }
+
+                } else if (title == "Choose Number of Magnets") {
+                    switch(item) {
+                        case 0:
+                            textBox.setText("1");
+                            break;
+                        case 1:
+                            textBox.setText("2");
+                            break;
+                        case 2:
+                            textBox.setText("4");
+                            break;
+                    }
+
+                    if (item == 0) {
+                        sendInfo(Integer.toString(1), "N:");
+                        dismiss = true;
+                    } else if (item == 1) {
+                        sendInfo(Integer.toString(2), "N:");
+                        dismiss = true;
+                    } else if (item == 2) {
+                        sendInfo(Integer.toString(4), "N:");
+                        dismiss = true;
+                    }
+                }
+
+                if (dismiss) {
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            dialog.dismiss();
+                            timer.cancel();
+                        }
+                    }, 500);
+                }
+            }
+        });
+        builder.setCancelable(true);
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+
+        /*if (title == "Choose Units") {
+
+            if (textBox.getText().toString().equalsIgnoreCase("mph")) {
+                sendUnits(Integer.toString(0));
+                closeDialog.dismiss();
+            } else if (textBox.getText().toString().equalsIgnoreCase("kph")) {
+                sendUnits(Integer.toString(1));
+                closeDialog.dismiss();
+            }
+
+        } else if (title == "Choose Number of Magnets") {
+
+            if (textBox.getText().toString().equalsIgnoreCase("1")) {
+                sendInfo(Integer.toString(1), "N:");
+                closeDialog.dismiss();
+            } else if (textBox.getText().toString().equalsIgnoreCase("2")) {
+                sendInfo(Integer.toString(2), "N:");
+                closeDialog.dismiss();
+            } else if (textBox.getText().toString().equalsIgnoreCase("4")) {
+                sendInfo(Integer.toString(4), "N:");
+                closeDialog.dismiss();
+            }
+
+        }*/
+
     }
 
     static void getTireSizeDialog() {

@@ -167,13 +167,13 @@ public class BtConnection extends AppCompatActivity {
 
             if (!ConnectSuccess)
             {
-                msg("Connection Failed. Is it a SPP Bluetooth? Try again.");
+                msg("Connection Failed. Please try again.");
                 finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
             else
             {
-                msg("Connected.");
+                msg("Connected");
                 isBtConnected = true;
                 // change opacity of calibration layout
                 //findViewById(R.id.meterSettings).setAlpha((float)1);
