@@ -20,6 +20,7 @@ import com.android.ecs193.meterconverter.HomeFragment;
 import com.android.ecs193.meterconverter.R;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class MeterWizardTireSize extends AppCompatActivity {
 
@@ -53,14 +54,13 @@ public class MeterWizardTireSize extends AppCompatActivity {
 
         //text_size1.requestFocus();
         //text_size1.setCursorVisible(true);
-        nextText(text_size1, text_size2, false);
-        nextText(text_size2, text_size3, false);
-        nextText(text_size3, text_size4, false);
-        nextText(text_size4, text_size5, false);
-        nextText(text_size5, text_size6, false);
-        nextText(text_size6, text_size7, false);
-        nextText(text_size7, text_size7, true);
-
+        nextText(text_size1, text_size2);
+        nextText(text_size2, text_size3);
+        nextText(text_size3, text_size4);
+        nextText(text_size4, text_size5);
+        nextText(text_size5, text_size6);
+        nextText(text_size6, text_size7);
+        nextText(text_size7, text_size7);
 
         but_next = findViewById(R.id.but_next);
         but_next.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class MeterWizardTireSize extends AppCompatActivity {
                         text_size5.getText().toString() + 'R' + text_size6.getText().toString() +
                         text_size7.getText().toString();
 
-                if (tireSize.length() != 10) {
+                if (!Pattern.matches("P[0-9][0-9][0-9]\\/[0-9][0-9]R[0-9][0-9]", tireSize)) {
                     new AlertDialog.Builder(MeterWizardTireSize.this)
                             .setTitle("Enter Tire Size")
                             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -105,7 +105,7 @@ public class MeterWizardTireSize extends AppCompatActivity {
     }
 
 
-    protected void nextText(final EditText text1, final EditText text2, final boolean last) {
+    protected void nextText(final EditText text1, final EditText text2) {
 
         final StringBuilder sb = new StringBuilder();
 
@@ -114,11 +114,8 @@ public class MeterWizardTireSize extends AppCompatActivity {
                 if(sb.length() == 0 & text1.length()==1) {
                     sb.append(s);
                     text1.clearFocus();
-
-                    if (!last) {
-                        text2.requestFocus();
-                        text2.setCursorVisible(true);
-                    }
+                    text2.requestFocus();
+                    text2.setCursorVisible(true);
 
                 }
             }

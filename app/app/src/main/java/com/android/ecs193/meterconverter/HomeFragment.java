@@ -12,9 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio;
@@ -183,13 +188,6 @@ public class HomeFragment extends Fragment {
 
         butSize = view.findViewById(R.id.but_size);
         tireSizeText = view.findViewById(R.id.tireSizeText);
-        tireSize1 = view.findViewById(R.id.text_tire1);
-        tireSize2 = view.findViewById(R.id.text_tire2);
-        tireSize3 = view.findViewById(R.id.text_tire3);
-        tireSize4 = view.findViewById(R.id.text_tire4);
-        tireSize5 = view.findViewById(R.id.text_tire5);
-        tireSize6 = view.findViewById(R.id.text_tire6);
-        tireSize7 = view.findViewById(R.id.text_tire7);
         butSize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -296,27 +294,79 @@ public class HomeFragment extends Fragment {
 
         // inflate and set the layout for the dialog
         // pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.dialog_tire_size, null));
+        View viewInflate = inflater.inflate(R.layout.dialog_tire_size, null);
+        builder.setView(viewInflate);
+
+        tireSize1 = viewInflate.findViewById(R.id.text_tire1);
+        tireSize2 = viewInflate.findViewById(R.id.text_tire2);
+        tireSize3 = viewInflate.findViewById(R.id.text_tire3);
+        tireSize4 = viewInflate.findViewById(R.id.text_tire4);
+        tireSize5 = viewInflate.findViewById(R.id.text_tire5);
+        tireSize6 = viewInflate.findViewById(R.id.text_tire6);
+        tireSize7 = viewInflate.findViewById(R.id.text_tire7);
 
         tireSize1.requestFocus();
         tireSize1.setCursorVisible(true);
-        /*nextText(tireSize1, tireSize2, false);
-        nextText(tireSize2, tireSize3, false);
-        nextText(tireSize3, tireSize4, false);
-        nextText(tireSize4, tireSize5, false);
-        nextText(tireSize5, tireSize6, false);
-        nextText(tireSize6, tireSize7, false);
-        nextText(tireSize7, tireSize7, true);*/
+        nextText(tireSize1, tireSize2);
+        nextText(tireSize2, tireSize3);
+        nextText(tireSize3, tireSize4);
+        nextText(tireSize4, tireSize5);
+        nextText(tireSize5, tireSize6);
+        nextText(tireSize6, tireSize7);
+        nextText(tireSize7, tireSize7);
 
-        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // remove the dialog from the screen
             }
         });
-        builder.show();
+
+        final AlertDialog alert = builder.create();
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        alert.show();
+
+        tireSize7.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
+                        (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    alert.dismiss();
+                    String input = 'P' + tireSize1.getText().toString()
+                            + tireSize2.getText().toString() + tireSize3.getText().toString()
+                            + '/' + tireSize4.getText().toString() + tireSize5.getText().toString()
+                            + 'R' + tireSize6.getText().toString() + tireSize7.getText().toString();
+                    if (Pattern.matches("P[0-9][0-9][0-9]\\/[0-9][0-9]R[0-9][0-9]", input)) {
+                        tireSizeText.setText(input);
+                        sendTireSizeCalc(input);
+                    } else {
+                        AlertDialog.Builder builder =
+                                new AlertDialog.Builder(thisContext);
+                        builder.setTitle("Error");
+                        builder.setIcon(android.R.drawable.ic_dialog_alert);
+                        builder.setMessage(
+                                "Please enter the tire size in the format P _ _ _ / _ _ R _ _");
+                        builder.setCancelable(true);
+
+                        final AlertDialog closeDialog = builder.create();
+                        closeDialog.show();
+
+                        // Display dialog box for 2 seconds
+                        final Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            public void run() {
+                                closeDialog.dismiss();
+                                timer.cancel();
+                                alert.show();
+                            }
+                        }, 2000);
+
+                    }
+                }
+                return false;
+            }
+        });
     }
 
-    static protected void nextText(final EditText text1, final EditText text2, final boolean last) {
+    static protected void nextText(final EditText text1, final EditText text2) {
 
         final StringBuilder sb = new StringBuilder();
 
@@ -325,12 +375,8 @@ public class HomeFragment extends Fragment {
                 if (sb.length() == 0 & text1.length() == 1) {
                     sb.append(s);
                     text1.clearFocus();
-
-                    if (!last) {
-                        text2.requestFocus();
-                        text2.setCursorVisible(true);
-                    }
-
+                    text2.requestFocus();
+                    text2.setCursorVisible(true);
                 }
             }
 
@@ -355,7 +401,7 @@ public class HomeFragment extends Fragment {
         final EditText input = new EditText(thisContext);
         if (arduinoStr == "M:") { // magnet
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        } else if ((arduinoStr == "F:") || (arduinoStr == "S:") || (arduinoStr == "W:")) {
+        } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
             input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
         }
 
@@ -363,42 +409,39 @@ public class HomeFragment extends Fragment {
                 .setTitle(title)
                 .setIcon(R.drawable.ic_baseline_create_24px)
                 .setView(input)
-                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setNegativeButton("Cancel", null);
 
-                        if (input.getText().toString().length() != 0) {
-                            if (arduinoStr == "M:") {
-                                if (testInt(input)) {
-                                    textBox.setText(input.getText().toString());
-                                    sendInfo(input.getText().toString(), arduinoStr);
-                                    mMeterWizardRatio.setspeedometerHalf(Integer.parseInt(input.getText().toString()));
-                                }
-                            } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
-                                if (testInt(input)) {
-                                    textBox.setText(input.getText().toString());
-                                    sendCalc(input.getText().toString(), arduinoStr);
-                                }
-                            } else if (arduinoStr == "W:") {
-                                if (Pattern.matches("P[0-9][0-9][0-9]\\/[0-9][0-9]R[0-9][0-9]", input.getText().toString())) {
-                                    textBox.setText(input.getText().toString());
-                                    sendTireSizeCalc(input.getText().toString());
-                                } else {
-                                    new android.support.v7.app.AlertDialog.Builder(thisContext)
-                                            .setTitle("Error")
-                                            .setIcon(android.R.drawable.ic_dialog_alert)
-                                            .setMessage("Please enter the tire size in the format P _ _ _ / _ _ R _ _")
-                                            .setPositiveButton("OK", null)
-                                            .show();
-                                }
+        final AlertDialog alert = builder.create();
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        alert.show();
+
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) ||
+                        (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    alert.dismiss();
+                    if (input.getText().toString().length() != 0) {
+                        if (arduinoStr == "M:") {
+                            if (testInt(input)) {
+                                textBox.setText(input.getText().toString());
+                                sendInfo(input.getText().toString(), arduinoStr);
+                                mMeterWizardRatio.setspeedometerHalf(Integer.parseInt(input.getText().toString()));
+                            } else {
+                                alert.show();
+                            }
+                        } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
+                            if (testInt(input)) {
+                                textBox.setText(input.getText().toString());
+                                sendCalc(input.getText().toString(), arduinoStr);
+                            } else {
+                                alert.show();
                             }
                         }
                     }
-                })
-                .setNegativeButton("Cancel", null);
-
-        alertDialog1 = builder.create();
-        alertDialog1.show();
+                }
+                return false;
+            }
+        });
     }
 
     void getMeterSettings() {
@@ -555,12 +598,23 @@ public class HomeFragment extends Fragment {
             Double.parseDouble(input.getText().toString());
         }
         catch (NumberFormatException e){
-            new android.support.v7.app.AlertDialog.Builder(thisContext)
-                    .setTitle("Error")
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setMessage("Please enter a number")
-                    .setPositiveButton("OK", null)
-                    .show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
+            builder.setTitle("Error");
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setMessage("Please enter a number");
+            builder.setCancelable(true);
+
+            final AlertDialog closeDialog = builder.create();
+            closeDialog.show();
+
+            // Display dialog box for 2 seconds
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    closeDialog.dismiss();
+                    timer.cancel();
+                }
+            }, 2000);
 
             return false;
         }
