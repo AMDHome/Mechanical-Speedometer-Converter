@@ -48,6 +48,8 @@ public class MeterWizardCalibrate extends AppCompatActivity {
     Integer targetSpeed;
     HomeFragment mHomeFragment = new HomeFragment();
     MeterWizardRPM mMeterWizardRPM = new MeterWizardRPM();
+    Boolean firstCountDown = true;
+    Boolean finishCalibrate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +146,6 @@ public class MeterWizardCalibrate extends AppCompatActivity {
 
         mHomeFragment.startCalibration();
 
-
         // 10 seconds count down
         final CountDownTimer showCountDown;
         showCountDown = new CountDownTimer(10000, 1000) {
@@ -161,7 +162,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
                 } else {
                     mHomeFragment.endCalibration();
                     text_timer.setVisibility(View.INVISIBLE);
-                    return;
+                    cancel();
                 }
             }
 
@@ -170,24 +171,30 @@ public class MeterWizardCalibrate extends AppCompatActivity {
                 but_finish.setVisibility(View.VISIBLE);
                 totalSpeed *= 10;
                 if (mHomeFragment.setFinalDrive(String.valueOf(totalSpeed))) {
+                    finishCalibrate = true;
                     finish();
                 } else {
-                    return;
+                    cancel();
                 }
             }
         };
 
-        text_laws.setVisibility(View.INVISIBLE);
-        new CountDownTimer(2000,1000)  {
-            public void onTick(long millisUntilFinished) {
-                text_holdSpeed.setVisibility(View.VISIBLE);
-            }
+        if (firstCountDown) {
+            text_laws.setVisibility(View.INVISIBLE);
+            new CountDownTimer(2000,1000)  {
+                public void onTick(long millisUntilFinished) {
+                    text_holdSpeed.setVisibility(View.VISIBLE);
+                }
 
-            public void onFinish() {
-                text_holdSpeed.setVisibility(View.GONE);
-                showCountDown.start();
-            }
-        }.start();
+                public void onFinish() {
+                    text_holdSpeed.setVisibility(View.GONE);
+                    showCountDown.start();
+                }
+            }.start();
+            firstCountDown = false;
+        } else {
+            showCountDown.start();
+        }
 
         return;
     }
@@ -206,7 +213,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         text_current.setText(String.valueOf(mph));
         oldLocation = location;
 
-        if (String.valueOf(mph) == text_target.getText().toString()) {
+        if ((String.valueOf(mph) == text_target.getText().toString()) && (finishCalibrate == false)) {
             startCountDown();
         }
     }
