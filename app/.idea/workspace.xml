@@ -15,11 +15,19 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/multi-v2/debug.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/debug.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/blame/res/debug/single/debug.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_frag_settings.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_frag_settings.xml.flat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../controller/BTComms.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../controller/BTComms.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../controller/BTComms.h" beforeDir="false" afterPath="$PROJECT_DIR$/../controller/BTComms.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../controller/controller.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../controller/controller.ino" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -156,16 +164,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="36" />
-          <entry key="java" value="14335" />
-          <entry key="txt" value="12" />
-          <entry key="xml" value="5281" />
+          <entry key="java" value="14356" />
+          <entry key="txt" value="45" />
+          <entry key="xml" value="5636" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="14335" />
-          <entry key="PLAIN_TEXT" value="48" />
-          <entry key="XML" value="5281" />
+          <entry key="JAVA" value="14356" />
+          <entry key="PLAIN_TEXT" value="81" />
+          <entry key="XML" value="5636" />
         </counts>
       </usages-collector>
     </session>
@@ -176,42 +184,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardRPM.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="162" column="37" selection-start-line="150" selection-start-column="28" selection-end-line="162" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#6071#6315#0" expanded="true" />
-                <element signature="e#6314#6315#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="78" column="66" selection-start-line="78" selection-start-column="66" selection-end-line="78" selection-end-column="66" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2104#3352#0" expanded="true" />
-                <element signature="e#3351#3352#0" expanded="true" />
-                <element signature="e#3446#3845#0" expanded="true" />
-                <element signature="e#3844#3845#0" expanded="true" />
-                <element signature="e#4852#5648#0" expanded="true" />
-                <element signature="e#5647#5648#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="346" column="58" selection-start-line="346" selection-start-column="58" selection-end-line="346" selection-end-column="58" />
+            <state relative-caret-position="292">
+              <caret line="220" column="61" selection-start-line="220" selection-start-column="61" selection-end-line="220" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#12275#12457#0" expanded="true" />
@@ -239,34 +215,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4">
-              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-manifest" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_tire_size.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="162" column="33" selection-start-line="162" selection-start-column="33" selection-end-line="162" selection-end-column="33" />
-              <folding>
-                <element signature="e#431#449#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="156" column="41" selection-start-line="156" selection-start-column="41" selection-end-line="156" selection-end-column="41" />
+            <state relative-caret-position="358">
+              <caret line="64" column="17" lean-forward="true" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
+              <folding>
+                <element signature="e#1407#1428#0" expanded="true" />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="android-designer2" />
@@ -314,9 +270,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sendwheel</find>
-      <find>sendWheelSizeCalc</find>
-      <find>setTireSizeCal</find>
       <find>wheel</find>
       <find>finalDrive</find>
       <find>unit</find>
@@ -342,8 +295,11 @@
       <find>getTextBoxDialog</find>
       <find>sendInfo</find>
       <find>sendCalc</find>
-      <find>testInt</find>
       <find>tireSize</find>
+      <find>gravity</find>
+      <find>android:layout_gravity=&quot;center_vertical&quot;</find>
+      <find>testInt</find>
+      <find>arr</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2661,9 +2617,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardRPM.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_bt_connection.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_tire_size.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml" />
       </list>
     </option>
   </component>
@@ -2963,11 +2919,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="44" y="23" width="1396" height="877" extended-state="6" />
+    <frame x="44" y="23" width="1396" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" sideWeight="0.5026247" side_tool="true" weight="0.2683115" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49737534" visible="true" weight="0.25701624" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49737534" visible="true" weight="0.25701624" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" sideWeight="0.50090414" side_tool="true" weight="0.20305343" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -2979,7 +2935,7 @@
       <window_info anchor="bottom" id="TODO" order="2" weight="0.32939634" />
       <window_info anchor="bottom" id="Terminal" order="3" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Build" order="5" visible="true" weight="0.24934383" />
+      <window_info active="true" anchor="bottom" id="Build" order="5" visible="true" weight="0.24934383" />
       <window_info anchor="bottom" id="Android Profiler" order="6" weight="0.32939634" />
       <window_info anchor="bottom" id="Run" order="7" />
       <window_info anchor="bottom" id="Debug" order="8" />
@@ -3263,13 +3219,6 @@
       </provider>
       <provider selected="true" editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_wizard_meter_rpm.xml">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="1350">
@@ -3304,25 +3253,6 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_tire_size.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="162" column="33" selection-start-line="162" selection-start-column="33" selection-end-line="162" selection-end-column="33" />
-          <folding>
-            <element signature="e#431#449#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="156" column="41" selection-start-line="156" selection-start-column="41" selection-end-line="156" selection-end-column="41" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4">
@@ -3339,10 +3269,21 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_tire_size.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="756">
+          <caret line="162" column="33" selection-start-line="162" selection-start-column="33" selection-end-line="162" selection-end-column="33" />
+          <folding>
+            <element signature="e#431#449#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardRPM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="162" column="37" selection-start-line="150" selection-start-column="28" selection-end-line="162" selection-end-column="37" />
+        <state relative-caret-position="1349">
+          <caret line="153" column="47" selection-start-line="153" selection-start-column="47" selection-end-line="153" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6071#6315#0" expanded="true" />
@@ -3369,8 +3310,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="346" column="58" selection-start-line="346" selection-start-column="58" selection-end-line="346" selection-end-column="58" />
+        <state relative-caret-position="292">
+          <caret line="220" column="61" selection-start-line="220" selection-start-column="61" selection-end-line="220" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#12275#12457#0" expanded="true" />
@@ -3396,6 +3337,24 @@
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="64" column="17" lean-forward="true" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
+          <folding>
+            <element signature="e#1407#1428#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
   </component>
 </project>

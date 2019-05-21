@@ -33,40 +33,30 @@ long KD = 10;
 
 void loadVariables();
 
-unsigned short SPHr = 0;       // Speed/Hour * 10 (Unit friendly, for mph & kph)
 unsigned short targetRPM = 0;  // RPM * 10 (ex. 543.5RPM will be stored at 5435)
+
+bool debug = false;
 
 // calibration variables
 byte CallibrationMode = 0;
 volatile unsigned short calTicks;
 extern volatile byte rTime;
 
-long oldErr = 0; // Previous error
-long pid_p; // Proportional term
-long pid_i = 0; // Integral term
-long pid_d; // Derivative term
-//long pid_ff; // Feed Forward term
+long oldErr = 0;  // Previous error
+long pid_p;       // Proportional term
+long pid_i = 0;   // Integral term
+long pid_d;       // Derivative term
 
-unsigned long inRatio;    // Also == dt for 0.1 SPH [dt > inRatio => SPHr > 0.1]
+unsigned long inRatio;
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
-volatile byte encoderCtr[2] = {0};  // # of ticks every ~0.13 seconds
-volatile byte speedCtr[MAX_RECORD] = {0};  // # of ticks every ~0.13 seconds
+volatile byte encoderCtr[2] = {0};          // # of ticks every ~0.13 seconds on encoder
+volatile byte speedCtr[MAX_RECORD] = {0};   // # of ticks every ~0.13 seconds on speed sensor
 volatile byte currSpeedCtr;
-volatile byte counterIndex = 0;                   // flag to tell which tickCounter to put new data into
+volatile byte counterIndex = 0;             // flag to tell which tickCounter to put new data into
 
-volatile unsigned long currentRPM  = 0;
 const byte encoderIntCount = 64;
-
-//volatile unsigned long pTime = 0;
-//volatile unsigned long eTime[4] = {0};
-//volatile bool updated = false;
-volatile byte count = 0;
-volatile bool fromStop = true;
-
-byte numMag;
-byte shift;
 
 /*
  * Calculate inRatio via stored values.
@@ -93,12 +83,6 @@ void setup() {
   // if no value isnt valid then set default value
   loadVariables();
 
-  Serial.println(inRatio);
-  Serial.println(outRatio);
-  Serial.println(maxSpeed);
-  Serial.println(numMag);
-  Serial.println(shift);
-
   // Configure PWM (Count Up, Fast PWM 10-bit, 16kHz [15,625 Hz])
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
   TCCR1B = _BV(WGM12) | _BV(CS10);
@@ -117,18 +101,14 @@ void setup() {
   // Start-Up Min 205, Absolute Min: 0
   // Operating Range ~100 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
-
-  Serial.println("~~~Starting~~~");
-  Serial.print("inRatio: ");
-  Serial.println(inRatio);
-  Serial.print("outRatio: ");
-  Serial.println(outRatio);
 }
 
 void loop() {
+  unsigned short SPHr = 0;  // Speed/Hour * 10 (Unit friendly, for mph & kph)
+  long currentRPM = 0;      // Feedback from slotted wheel on motor shaft
+
   long error;
   long newPWM;
-  long currentRPM = 0; // Feedback from slotted wheel on motor shaft
 
   checkBT();
   
@@ -163,9 +143,9 @@ void loop() {
      */
 
     error = targetRPM - currentRPM;
-    pid_p = KP * error / 100;
-    pid_i += KI * error / 100;
-    pid_d = KD * (error - oldErr) / 100;
+    pid_p = (long) KP * error / 100;
+    pid_i += (long) KI * error / 100;
+    pid_d = (long) KD * (error - oldErr) / 100;
     newPWM = (pid_p + pid_i + pid_d) / RPM_TO_PWM;
 
     if (newPWM > MAX)
@@ -175,29 +155,27 @@ void loop() {
     else 
       OCR1A = newPWM;
     oldErr = error;
+  
+    if(debug) {
+      Serial.print("Current: ");
+      Serial.print(currentRPM/10);
+      Serial.print("\tw/ PWM: ");
+      Serial.print(OCR1A);
+      Serial.print("\tTarget: ");
+      Serial.print(targetRPM/10);
+      Serial.print("\tSPHr: ");
+      Serial.println(SPHr/10);
+    }
   }
-
-  // debug printout
-  currentRPM = ((46875 * (encoderCtr[0] + encoderCtr[1]) / 2) / 1024) * 10;
-  
-  
-  Serial.print("Current: ");
-  Serial.print(currentRPM/10);
-  Serial.print("\tw/ PWM: ");
-  Serial.print(OCR1A);
-  Serial.print("\tTarget: ");
-  Serial.print(targetRPM/10);
-  Serial.print("\tSPHr: ");
-  Serial.println(SPHr/10);
-  
 }
 
 unsigned short calcSpeed() {
   unsigned long totTicks = 0;
-  byte readings = 32;
+  byte readings = MAX_RECORD;
   bool leadingZeros = true;
   byte cIndex = counterIndex;
-
+/*
+  // sum all records in last 2-ish seconds, skipping over leading zeros
   for(byte i = 0; i < MAX_RECORD; i++) {    
 
     if(speedCtr[(cIndex + i) % MAX_RECORD] == 0 && leadingZeros) {
@@ -213,7 +191,13 @@ unsigned short calcSpeed() {
     return 0;
   } else {
     return (unsigned short) ((inRatio * totTicks * 9) / ((unsigned long) readings * 1024));
+  }*/
+
+  for(byte i = 0; i < MAX_RECORD; i++) {
+    totTicks += speedCtr[i];
   }
+
+  return (unsigned short) ((inRatio * totTicks * 9) / ((unsigned long) MAX_RECORD * 1024));
 }
 
 ISR(ANALOG_COMP_vect) {
@@ -224,7 +208,7 @@ ISR(ANALOG_COMP_vect) {
 }
 
 void loadVariables() {
-
+  byte numMag;
   long templ;
   float temp;
 
@@ -234,8 +218,6 @@ void loadVariables() {
     numMag = 1;
     EEPROM.update(3, numMag);
   }
-
-  shift = numMag / 2;
 
   // check final drive
   if(EEPROM.get(4, templ) == 0) {
@@ -250,9 +232,6 @@ void loadVariables() {
   }
 
   updateInRatio(numMag, templ, EEPROM.get(4, temp));
-  Serial.println(numMag);
-  Serial.println(EEPROM.get(12, temp));
-  Serial.println(EEPROM.get(4, temp));
 
   if(EEPROM.get(8, outRatio) == 0) {
     outRatio = 10000000;

@@ -6,7 +6,7 @@ void checkBT() {
   static char data[26];
   float tempF;
   long tempL;
-  char *tempS;
+  char *tempC;
   byte i;
 
   // check and recieve data
@@ -38,9 +38,9 @@ void checkBT() {
     case 'W': // Store Tire Size & Circumference
       EEPROM.put(12, atol(strtok(data, ":")));
 
-      tempS = strtok(NULL, ":");
-      for(i = 0; i < 14 && tempS[i] != '\0'; i++) {
-        EEPROM.update(16 + i, tempS[i]);
+      tempC = strtok(NULL, ":");
+      for(i = 0; i < 14 && tempC[i] != '\0'; i++) {
+        EEPROM.update(16 + i, tempC[i]);
       }
       EEPROM.update(16 + i, '\0');
 
@@ -91,6 +91,10 @@ void checkBT() {
 
         break;
       }
+
+    case 'B':
+      debug = data[0] - '0';
+      break;
 
     case 'X':
       KP = atol(data);

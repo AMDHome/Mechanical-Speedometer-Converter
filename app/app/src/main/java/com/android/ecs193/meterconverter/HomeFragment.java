@@ -217,6 +217,7 @@ public class HomeFragment extends Fragment {
                 getView().findViewById(R.id.sensorSettings).setAlpha((float)1);
 
                 TextView deviceText = getView().findViewById(R.id.device_text);
+                deviceText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 deviceText.setText(BtConnection.getBtName());
                 getMeterSettings();
             }
