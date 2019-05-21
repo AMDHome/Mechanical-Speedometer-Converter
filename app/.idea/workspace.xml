@@ -16,15 +16,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/processed_res/debug/processDebugResources/out/resources-debug.ap_" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_frag_settings.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_frag_settings.xml.flat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_tire_size.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_tire_size.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/frag_settings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -161,14 +156,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="36" />
-          <entry key="java" value="14244" />
+          <entry key="java" value="14335" />
           <entry key="txt" value="12" />
           <entry key="xml" value="5281" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="14244" />
+          <entry key="JAVA" value="14335" />
           <entry key="PLAIN_TEXT" value="48" />
           <entry key="XML" value="5281" />
         </counts>
@@ -197,10 +192,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="69" column="55" lean-forward="true" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="55" />
+            <state relative-caret-position="236">
+              <caret line="78" column="66" selection-start-line="78" selection-start-column="66" selection-end-line="78" selection-end-column="66" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2104#3352#0" expanded="true" />
+                <element signature="e#3351#3352#0" expanded="true" />
+                <element signature="e#3446#3845#0" expanded="true" />
+                <element signature="e#3844#3845#0" expanded="true" />
                 <element signature="e#4852#5648#0" expanded="true" />
                 <element signature="e#5647#5648#0" expanded="true" />
               </folding>
@@ -211,20 +210,24 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="335" column="99" selection-start-line="335" selection-start-column="99" selection-end-line="335" selection-end-column="99" />
+            <state relative-caret-position="295">
+              <caret line="346" column="58" selection-start-line="346" selection-start-column="58" selection-end-line="346" selection-end-column="58" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#12296#12478#0" expanded="true" />
-                <element signature="e#12477#12478#0" expanded="true" />
-                <element signature="e#12705#14463#0" expanded="true" />
-                <element signature="e#14136#14360#0" expanded="true" />
-                <element signature="e#14359#14360#0" expanded="true" />
-                <element signature="e#14462#14463#0" expanded="true" />
-                <element signature="e#16467#17701#0" expanded="true" />
-                <element signature="e#17700#17701#0" expanded="true" />
-                <element signature="e#23025#23189#0" expanded="true" />
-                <element signature="e#23188#23189#0" expanded="true" />
+                <element signature="e#12275#12457#0" expanded="true" />
+                <element signature="e#12456#12457#0" expanded="true" />
+                <element signature="e#12684#14981#0" expanded="true" />
+                <element signature="e#14318#14542#0" expanded="true" />
+                <element signature="e#14541#14542#0" expanded="true" />
+                <element signature="e#14713#14879#0" expanded="true" />
+                <element signature="e#14878#14879#0" expanded="true" />
+                <element signature="e#14980#14981#0" expanded="true" />
+                <element signature="e#16896#18709#0" expanded="true" />
+                <element signature="e#18320#18518#0" expanded="true" />
+                <element signature="e#18517#18518#0" expanded="true" />
+                <element signature="e#18708#18709#0" expanded="true" />
+                <element signature="e#24041#24205#0" expanded="true" />
+                <element signature="e#24204#24205#0" expanded="true" />
                 <element signature="e#24237#24238#0" expanded="true" />
                 <element signature="e#24270#24271#0" expanded="true" />
                 <element signature="e#24315#24316#0" expanded="true" />
@@ -3336,18 +3339,6 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="69" column="55" lean-forward="true" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4852#5648#0" expanded="true" />
-            <element signature="e#5647#5648#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardRPM.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="457">
@@ -3360,22 +3351,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/MeterWizard/MeterWizardTireSize.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="335" column="99" selection-start-line="335" selection-start-column="99" selection-end-line="335" selection-end-column="99" />
+        <state relative-caret-position="236">
+          <caret line="78" column="66" selection-start-line="78" selection-start-column="66" selection-end-line="78" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12296#12478#0" expanded="true" />
-            <element signature="e#12477#12478#0" expanded="true" />
-            <element signature="e#12705#14463#0" expanded="true" />
-            <element signature="e#14136#14360#0" expanded="true" />
-            <element signature="e#14359#14360#0" expanded="true" />
-            <element signature="e#14462#14463#0" expanded="true" />
-            <element signature="e#16467#17701#0" expanded="true" />
-            <element signature="e#17700#17701#0" expanded="true" />
-            <element signature="e#23025#23189#0" expanded="true" />
-            <element signature="e#23188#23189#0" expanded="true" />
+            <element signature="e#2104#3352#0" expanded="true" />
+            <element signature="e#3351#3352#0" expanded="true" />
+            <element signature="e#3446#3845#0" expanded="true" />
+            <element signature="e#3844#3845#0" expanded="true" />
+            <element signature="e#4852#5648#0" expanded="true" />
+            <element signature="e#5647#5648#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/android/ecs193/meterconverter/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="346" column="58" selection-start-line="346" selection-start-column="58" selection-end-line="346" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#12275#12457#0" expanded="true" />
+            <element signature="e#12456#12457#0" expanded="true" />
+            <element signature="e#12684#14981#0" expanded="true" />
+            <element signature="e#14318#14542#0" expanded="true" />
+            <element signature="e#14541#14542#0" expanded="true" />
+            <element signature="e#14713#14879#0" expanded="true" />
+            <element signature="e#14878#14879#0" expanded="true" />
+            <element signature="e#14980#14981#0" expanded="true" />
+            <element signature="e#16896#18709#0" expanded="true" />
+            <element signature="e#18320#18518#0" expanded="true" />
+            <element signature="e#18517#18518#0" expanded="true" />
+            <element signature="e#18708#18709#0" expanded="true" />
+            <element signature="e#24041#24205#0" expanded="true" />
+            <element signature="e#24204#24205#0" expanded="true" />
             <element signature="e#24237#24238#0" expanded="true" />
             <element signature="e#24270#24271#0" expanded="true" />
             <element signature="e#24315#24316#0" expanded="true" />

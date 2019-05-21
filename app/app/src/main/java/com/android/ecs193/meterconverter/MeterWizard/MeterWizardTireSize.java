@@ -76,7 +76,7 @@ public class MeterWizardTireSize extends AppCompatActivity {
                     new AlertDialog.Builder(MeterWizardTireSize.this)
                             .setTitle("Enter Tire Size")
                             .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setMessage("Please enter a tire size in the format P _ _ _ / _ _ R _ _")
+                            .setMessage("Please enter only numbers")
                             .setPositiveButton("OK", null)
                             .show();
                 } else {

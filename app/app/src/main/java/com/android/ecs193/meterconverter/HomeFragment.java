@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -343,7 +344,7 @@ public class HomeFragment extends Fragment {
                         builder.setTitle("Error");
                         builder.setIcon(android.R.drawable.ic_dialog_alert);
                         builder.setMessage(
-                                "Please enter the tire size in the format P _ _ _ / _ _ R _ _");
+                                "Please enter only numbers");
                         builder.setCancelable(true);
 
                         final AlertDialog closeDialog = builder.create();
@@ -355,10 +356,15 @@ public class HomeFragment extends Fragment {
                             public void run() {
                                 closeDialog.dismiss();
                                 timer.cancel();
+                            }
+                        }, 2000);
+                        // show prompt again after 2 seconds
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
                                 alert.show();
                             }
                         }, 2000);
-
                     }
                 }
                 return false;
@@ -434,7 +440,15 @@ public class HomeFragment extends Fragment {
                                 textBox.setText(input.getText().toString());
                                 sendCalc(input.getText().toString(), arduinoStr);
                             } else {
-                                alert.show();
+
+                                // show prompt again after 2 seconds
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        alert.show();
+                                    }
+                                }, 2000);
+
                             }
                         }
                     }
