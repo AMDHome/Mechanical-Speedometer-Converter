@@ -4,17 +4,7 @@
             "outputFile": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/9467d1fda5ac6b093de52410ec2c1807/res/values-land/values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,125,196",
-                        "endColumns": "69,70,67",
-                        "endOffsets": "120,191,259"
-                    }
-                },
-                {
-                    "source": "/Users/tyuen/gradle-5.2/caches/transforms-1/files-1.1/design-28.0.0.aar/34ca131406ac6696e1236214a9b159e2/res/values-land/values-land.xml",
+                    "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e13059028c425c3d23e1af264d0a26c5/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,6 +20,16 @@
                         "endLines": "8",
                         "endColumns": "10",
                         "endOffsets": "431"
+                    }
+                },
+                {
+                    "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,125,196",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "120,191,259"
                     }
                 }
             ]
