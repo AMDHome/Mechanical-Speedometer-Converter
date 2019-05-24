@@ -138,9 +138,10 @@ public class HomeFragment extends Fragment {
 
             if (btSocket != null) {
                 try {
+                    String str = "P:1" + '\0';
                     // Write to Arduino to tell it to enter speedometer ratio calibration mode
-                    btSocket.getOutputStream().write("P:1\0".getBytes());
-
+                    btSocket.getOutputStream().write(str.getBytes());
+                    msg(str);
                     Intent wizIntent = new Intent(getActivity(), MeterWizardDriveCheck.class);
                     startActivity(wizIntent);
                 } catch (IOException e) {
@@ -175,9 +176,10 @@ public class HomeFragment extends Fragment {
 
                 if (btSocket != null) {
                     try {
+                        String str = "P:1" + '\0';
                         // Write to Arduino to tell it to enter speedometer ratio calibration mode
-                        btSocket.getOutputStream().write("P:1\0".getBytes());
-
+                        btSocket.getOutputStream().write(str.getBytes());
+                        msg(str);
                         Intent wizIntent = new Intent(getActivity(), MeterWizardUnit.class);
                         startActivity(wizIntent);
                     } catch (IOException e) {

@@ -136,15 +136,15 @@ public class MeterWizardRPM extends AppCompatActivity {
             }
         });
 
-        /*text_rpm.setOnKeyListener(new View.OnKeyListener() {
+        text_ratio.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
                     try {
-                        String str = text_rpm.getText().toString();
+                        String str = text_ratio.getText().toString();
                         mHomeFragment.setMeterRatioText(df.format(Double.valueOf(str)));
-                        if (Double.valueOf(text_rpm.getText().toString()) < 0.0) {
+                        if (Double.valueOf(text_ratio.getText().toString()) < 0.0) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRPM.this);
                             builder.setTitle("Error");
                             builder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -163,7 +163,11 @@ public class MeterWizardRPM extends AppCompatActivity {
                                 }
                             }, 2000);
                         }
-                        setRatioVal();
+                        // Convert ratio to target rpm
+                        target_rpm = ratio * targetSpeed;
+                        sendRatioVal();
+
+
                     } catch (NumberFormatException nfe) {
                         new AlertDialog.Builder(MeterWizardRPM.this)
                             .setTitle("Error")
@@ -176,14 +180,14 @@ public class MeterWizardRPM extends AppCompatActivity {
                 }
                 return false;
             }
-        });*/
+        });
 
         but_finish = findViewById(R.id.but_finish);
         but_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder;
-                if (text_ratio.getText().toString().matches("Speedometer Ratio:")) {
+                if (text_ratio.getText().toString().length() == 0) {
                     builder = new AlertDialog.Builder(MeterWizardRPM.this);
                     builder.setTitle("Adjust value");
                     builder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -203,7 +207,7 @@ public class MeterWizardRPM extends AppCompatActivity {
                         }
                     }, 2000);
 
-                } else if (text_ratio.getText().toString().matches("Speedometer Ratio: 0.0")) {
+                } else if (text_ratio.getText().toString().matches("0.0")) {
                     builder = new AlertDialog.Builder(MeterWizardRPM.this);
                     builder.setTitle("Adjust value");
                     builder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -224,11 +228,12 @@ public class MeterWizardRPM extends AppCompatActivity {
                     }, 2000);
                 } else {
 
-                    sendRatioVal();
+                    //sendRatioVal();
 
                     // Send string to Arduino to end calibration mode
                     if (btSocket != null) {
                         try {
+                            mHomeFragment.setMeterRatioText(String.valueOf(ratio));
                             String str = "P:0\0";
                             btSocket.getOutputStream().write(str.getBytes());
                             msg(str);
@@ -269,12 +274,14 @@ public class MeterWizardRPM extends AppCompatActivity {
     public void IncreSpeed() {
         target_rpm = target_rpm + (float) 0.1;
         setRatioVal();
+        sendRatioVal();
     }
 
     public void DecreSpeed() {
         if (target_rpm > 0.1) {
             target_rpm = target_rpm - (float) 0.1;
             setRatioVal();
+            sendRatioVal();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRPM.this);
             builder.setTitle("Error");
@@ -298,17 +305,16 @@ public class MeterWizardRPM extends AppCompatActivity {
 
     public void setRatioVal() {
         ratio = target_rpm/targetSpeed;
-        text_ratio.setText("Speedometer Ratio: " + String.valueOf(df.format(ratio)));
+        text_ratio.setText(String.valueOf(df.format(ratio)));
 
     }
 
     public void sendRatioVal(){
-        mHomeFragment.setMeterRatioText(String.valueOf(ratio));
 
         // Send ratio to Arduino
         if (btSocket != null) {
             try {
-                String str = "T:" + String.valueOf(ratio * 10) + '\0';
+                String str = "T:" + String.valueOf(target_rpm * 10) + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
                 msg(str);
 
