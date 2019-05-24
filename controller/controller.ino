@@ -27,7 +27,7 @@
 #define MAX_RECORD 32
 
 
-long KP = 15;
+long KP = 13;
 long KI = 2;
 long KD = 2;
 
