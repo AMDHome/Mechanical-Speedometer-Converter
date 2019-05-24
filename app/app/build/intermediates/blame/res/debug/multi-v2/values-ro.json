@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ro/values-ro.xml",
+            "outputFile": "C:\\Users\\Nguye\\Documents\\GitHub\\Mechanical-Speedometer-Converter\\app\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ro\\values-ro.xml",
             "map": [
                 {
-                    "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d3d4919c213014da89f5f611f6b06b1d/res/values-ro/values-ro.xml",
+                    "source": "C:\\Users\\Nguye\\.gradle\\caches\\transforms-2\\files-2.1\\9b50c3af7ebd3bbf8ef05702ab73c818\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/res/values-ro/values-ro.xml",
+                    "source": "C:\\Users\\Nguye\\.gradle\\caches\\transforms-2\\files-2.1\\e44b303aea3d580097f6a5a7e443b21e\\res\\values-ro\\values-ro.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v17/values-v17.xml",
+            "outputFile": "C:\\Users\\Nguye\\Documents\\GitHub\\Mechanical-Speedometer-Converter\\app\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v17\\values-v17.xml",
             "map": [
                 {
-                    "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/res/values-v17/values-v17.xml",
+                    "source": "C:\\Users\\Nguye\\.gradle\\caches\\transforms-2\\files-2.1\\e44b303aea3d580097f6a5a7e443b21e\\res\\values-v17\\values-v17.xml",
                     "from": {
                         "startLines": "2,5,9,12,15,18,22,25,29,33,37,40,43,46,50,53,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
