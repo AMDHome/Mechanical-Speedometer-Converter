@@ -5,7 +5,7 @@
 
 extern const byte encoderIntCount;
 
-extern volatile byte encoderCtr[2];
+extern volatile byte encoderCtr[4];
 extern volatile byte speedCtr[32];
 extern volatile byte currSpeedCtr;
 extern volatile byte counterIndex;

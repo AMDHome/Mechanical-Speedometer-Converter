@@ -50,6 +50,7 @@ void checkBT() {
     case 'P':
       CallibrationMode = data[0] - '0';
       targetRPM = 0;
+      OCR1A = 0;
       break;
 
     case 'T':

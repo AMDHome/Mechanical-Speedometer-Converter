@@ -27,9 +27,9 @@
 #define MAX_RECORD 32
 
 
-long KP = 125;
-long KI = 10;
-long KD = 10;
+long KP = 15;
+long KI = 2;
+long KD = 2;
 
 void loadVariables();
 
@@ -51,12 +51,13 @@ unsigned long inRatio;
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 unsigned short maxSpeed;  // max speed our speedometer can show
 
-volatile byte encoderCtr[2] = {0};          // # of ticks every ~0.13 seconds on encoder
+volatile byte encoderCtr[4] = {0};          // # of ticks every ~0.13 seconds on encoder
 volatile byte speedCtr[MAX_RECORD] = {0};   // # of ticks every ~0.13 seconds on speed sensor
 volatile byte currSpeedCtr;
 volatile byte counterIndex = 0;             // flag to tell which tickCounter to put new data into
 
 const byte encoderIntCount = 64;
+
 
 /*
  * Calculate inRatio via stored values.
@@ -68,6 +69,7 @@ void updateInRatio(byte numMag, long wheelCirc, float finalDrive) {
   // 16 for limit adjustment
   inRatio = ((long) (finalDrive * wheelCirc / numMag)) >> 4;
 }
+
 
 void setup() {
   // change clock to timer 2
@@ -103,6 +105,7 @@ void setup() {
   OCR1A = 0;
 }
 
+
 void loop() {
   unsigned short SPHr = 0;  // Speed/Hour * 10 (Unit friendly, for mph & kph)
   long currentRPM = 0;      // Feedback from slotted wheel on motor shaft
@@ -111,12 +114,13 @@ void loop() {
   long newPWM;
 
   checkBT();
+  delay2(10);
   
   SPHr = calcSpeed();
-
+  
   // limit max speed shown
-  if(SPHr > maxSpeed) {
-    SPHr = maxSpeed;
+  if(SPHr > maxSpeed * 10) {
+    SPHr = maxSpeed * 10;
   }
 
   if(!SPHr && !CallibrationMode) {
@@ -131,21 +135,20 @@ void loop() {
 
     // RPM based on number of ticks passed
     // see Technical Manual pg. 16 for explanation of numbers
-    currentRPM = ((46875 * (encoderCtr[0] + encoderCtr[1]) / 2) / 1024) * 10;
+    currentRPM = ((46875 * (encoderCtr[0] + encoderCtr[1] + encoderCtr[2] + encoderCtr[3]) / 4) / 1024) * 10;
 
-    if(SPHr > 0 && currentRPM <= 10) {
-      OCR1A = 400;
+    if(SPHr > 0 && currentRPM <= 25) {
+      OCR1A = 350;
     } 
     
     /*
      * PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
-     * are larger by a factor of 100 to avoid floats. These may require additional tuning.
+     * are larger by a factor of 100 to avoid floats.
      */
-
     error = targetRPM - currentRPM;
-    pid_p = (long) KP * error / 100;
-    pid_i += (long) KI * error / 100;
-    pid_d = (long) KD * (error - oldErr) / 100;
+    pid_p = KP * error / 100;
+    pid_i += KI * error / 100;
+    pid_d = KD * (error - oldErr) / 100;
     newPWM = (pid_p + pid_i + pid_d) / RPM_TO_PWM;
 
     if (newPWM > MAX)
@@ -155,50 +158,31 @@ void loop() {
     else 
       OCR1A = newPWM;
     oldErr = error;
+  }
   
-    if(debug) {
-      Serial.print("Current: ");
-      Serial.print(currentRPM/10);
-      Serial.print("\tw/ PWM: ");
-      Serial.print(OCR1A);
-      Serial.print("\tTarget: ");
-      Serial.print(targetRPM/10);
-      Serial.print("\tSPHr: ");
-      Serial.println(SPHr/10);
-    }
+  if(debug) {
+    Serial.print("Current: ");
+    Serial.print(currentRPM/10);
+    Serial.print("\tw/ PWM: ");
+    Serial.print(OCR1A);
+    Serial.print("\tTarget: ");
+    Serial.print(targetRPM/10);
+    Serial.print("\tSPHr: ");
+    Serial.println(SPHr/10);
   }
 }
 
+
 unsigned short calcSpeed() {
   unsigned long totTicks = 0;
-  byte readings = MAX_RECORD;
-  bool leadingZeros = true;
-  byte cIndex = counterIndex;
-/*
-  // sum all records in last 2-ish seconds, skipping over leading zeros
-  for(byte i = 0; i < MAX_RECORD; i++) {    
-
-    if(speedCtr[(cIndex + i) % MAX_RECORD] == 0 && leadingZeros) {
-      readings--;
-
-    } else {
-      leadingZeros = false;
-      totTicks += speedCtr[(cIndex + i) % MAX_RECORD];
-    }
-  }
-
-  if(readings == 0){
-    return 0;
-  } else {
-    return (unsigned short) ((inRatio * totTicks * 9) / ((unsigned long) readings * 1024));
-  }*/
 
   for(byte i = 0; i < MAX_RECORD; i++) {
     totTicks += speedCtr[i];
   }
-
+  
   return (unsigned short) ((inRatio * totTicks * 9) / ((unsigned long) MAX_RECORD * 1024));
 }
+
 
 ISR(ANALOG_COMP_vect) {
   currSpeedCtr++;
@@ -206,6 +190,7 @@ ISR(ANALOG_COMP_vect) {
     calTicks++;
   }
 }
+
 
 void loadVariables() {
   byte numMag;
