@@ -102,7 +102,7 @@ public class MeterWizardRPM extends AppCompatActivity {
                 if( (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL)
                         && mAutoIncrement ){
                     mAutoIncrement = false;
-                    //setRatioVal();
+                    setRatioVal();
                 }
                 return false;
             }
@@ -130,7 +130,7 @@ public class MeterWizardRPM extends AppCompatActivity {
                 if( (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL)
                         && mAutoDecrement ){
                     mAutoDecrement = false;
-                    //setRatioVal();
+                    setRatioVal();
                 }
                 return false;
             }
@@ -143,7 +143,6 @@ public class MeterWizardRPM extends AppCompatActivity {
 
                     try {
                         String str = text_ratio.getText().toString();
-                        mHomeFragment.setMeterRatioText(df.format(Double.valueOf(str)));
                         if (Double.valueOf(text_ratio.getText().toString()) < 0.0) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardRPM.this);
                             builder.setTitle("Error");
@@ -164,6 +163,7 @@ public class MeterWizardRPM extends AppCompatActivity {
                             }, 2000);
                         }
                         // Convert ratio to target rpm
+                        ratio = Float.valueOf(text_ratio.getText().toString());
                         target_rpm = ratio * targetSpeed;
                         sendRatioVal();
 
@@ -234,6 +234,13 @@ public class MeterWizardRPM extends AppCompatActivity {
                     if (btSocket != null) {
                         try {
                             mHomeFragment.setMeterRatioText(String.valueOf(ratio));
+                            final Timer timer = new Timer();
+
+                            // Wait for one second
+                            timer.schedule(new TimerTask() {
+                                public void run() {
+                                }
+                            }, 1000);
                             String str = "P:0\0";
                             btSocket.getOutputStream().write(str.getBytes());
                             msg(str);

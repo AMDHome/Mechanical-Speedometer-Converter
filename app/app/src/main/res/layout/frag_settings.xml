@@ -46,6 +46,11 @@
             android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
             app:layout_constraintBottom_toTopOf="@+id/maxSpeedText"
             app:layout_constraintTop_toBottomOf="parent"
             />

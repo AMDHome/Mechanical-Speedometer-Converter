@@ -93,7 +93,6 @@ public class BtConnection extends AppCompatActivity {
 
         pairedDevices = myBluetooth.getBondedDevices();
         ArrayList list = new ArrayList();
-
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice bt : pairedDevices) {
                 list.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
