@@ -28,7 +28,7 @@
             android:layout_weight="12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/linLay_buttons" >
+            app:layout_constraintEnd_toStartOf="@+id/linLay_buttons">
 
             <TextView
                 android:id="@+id/searchDevicesTitle"
@@ -53,6 +53,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:baselineAligned="false"
+                android:textColor="@color/colorWhite"
                 android:divider="@color/colorPrimary"
                 android:footerDividersEnabled="true"
                 android:headerDividersEnabled="true"

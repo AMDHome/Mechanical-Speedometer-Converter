@@ -736,7 +736,7 @@ public class HomeFragment extends Fragment {
     static public void startCalibration() {
         if (btSocket != null) {
             try {
-                String str = "D:s" + '\0';
+                String str = "D:S" + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
                 msg(str);
             } catch (IOException e) {
