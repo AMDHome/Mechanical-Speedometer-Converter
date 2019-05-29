@@ -112,9 +112,8 @@ public class BtConnection extends AppCompatActivity {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Get the device MAC address, the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
-            btName = info.substring(0, 15);
             address = info.substring(info.length() - 17);
-
+            btName = info.split(address)[0].split("\n")[0];
 
             // Initialize a TextView for ListView each Item
             tv = v.findViewById(android.R.id.text1);
@@ -133,8 +132,10 @@ public class BtConnection extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            progress = ProgressDialog.show(BtConnection.this, "Connecting...",
-                    "Please wait!!!");  //show a progress dialog
+            progress = new ProgressDialog(BtConnection.this, R.style.DialogTheme);
+            progress.setTitle("Connecting...");
+            progress.setMessage("Please wait...");
+            progress.show();
         }
 
         @Override

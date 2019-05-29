@@ -653,6 +653,7 @@ color design_fab_stroke_top_inner_color
 color design_fab_stroke_top_outer_color
 color design_snackbar_background_color
 color design_tint_password_toggle
+color dialogButtonText
 color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
@@ -1415,7 +1416,6 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_bt_connection
 layout activity_main
-layout activity_settings
 layout activity_wizard_meter_calibrate
 layout activity_wizard_meter_drive_check
 layout activity_wizard_meter_magnet
@@ -1558,7 +1558,6 @@ string str_no
 string str_one
 string str_ratio
 string str_size
-string str_size_hint
 string str_speed_check_q
 string str_speed_magnet_q
 string str_speed_max_input
@@ -1787,6 +1786,7 @@ style CardView
 style CardView_Dark
 style CardView_Light
 style CustomActivityAnimation
+style DialogTheme
 style Platform_AppCompat
 style Platform_AppCompat_Light
 style Platform_MaterialComponents

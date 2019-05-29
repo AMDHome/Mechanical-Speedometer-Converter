@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#696969</color>
     <color name="colorPrimaryLight">#898989</color>
     <color name="colorAccent">#ff5c33</color>
+    <color name="dialogButtonText">#FFFFFFFF</color>
     <color name="white_70">#B3FFFFFF</color>
     <color name="colorWhite">#FFFFFFFF</color>
 </resources>

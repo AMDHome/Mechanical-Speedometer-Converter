@@ -1064,10 +1064,6 @@
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/res/drawable-xxxhdpi-v4/abc_ic_star_black_16dp.png"
     },
     {
-        "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/layout_activity_settings.xml.flat",
-        "source": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/res/layout/activity_settings.xml"
-    },
-    {
         "merged": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ab_share_pack_mtrl_alpha.9.png.flat",
         "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/res/drawable-mdpi-v4/abc_ab_share_pack_mtrl_alpha.9.png"
     },

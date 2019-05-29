@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
@@ -21,9 +23,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +42,8 @@ import com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardTireSize;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardUnit;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardDriveCheck;
+
+import static android.view.View.GONE;
 
 public class HomeFragment extends Fragment {
 
@@ -57,6 +64,7 @@ public class HomeFragment extends Fragment {
     static TextView finalDriveText;
     static TextView meterRatioText;
     static TextView tireSizeText;
+
 
     TextView tv;
     ListView mListView;
@@ -198,6 +206,7 @@ public class HomeFragment extends Fragment {
                 getTireSizeDialog();
             }
         });
+
         return view;
     }
 
@@ -221,6 +230,7 @@ public class HomeFragment extends Fragment {
                 TextView deviceText = getView().findViewById(R.id.device_text);
                 deviceText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 deviceText.setText(BtConnection.getBtName());
+
                 getMeterSettings();
             }
         }
@@ -228,17 +238,13 @@ public class HomeFragment extends Fragment {
 
     void getButtonDialog(final String title, int arrID, final TextView textBox) {
 
-        final AlertDialog closeDialog;
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
         builder.setTitle(title);
         builder.setIcon(R.drawable.ic_baseline_create_24px);
         builder.setSingleChoiceItems(getResources().getStringArray(arrID),
                 -1, new DialogInterface.OnClickListener() {
             public void onClick(final DialogInterface dialog, int item) {
-
                 boolean dismiss = false;
-
                 if (title == "Choose Units") {
                     switch(item) {
                         case 0:
@@ -297,35 +303,10 @@ public class HomeFragment extends Fragment {
         builder.setNegativeButton("Cancel", null);
         builder.show();
 
-        /*if (title == "Choose Units") {
-
-            if (textBox.getText().toString().equalsIgnoreCase("mph")) {
-                sendUnits(Integer.toString(0));
-                closeDialog.dismiss();
-            } else if (textBox.getText().toString().equalsIgnoreCase("kph")) {
-                sendUnits(Integer.toString(1));
-                closeDialog.dismiss();
-            }
-
-        } else if (title == "Choose Number of Magnets") {
-
-            if (textBox.getText().toString().equalsIgnoreCase("1")) {
-                sendInfo(Integer.toString(1), "N:");
-                closeDialog.dismiss();
-            } else if (textBox.getText().toString().equalsIgnoreCase("2")) {
-                sendInfo(Integer.toString(2), "N:");
-                closeDialog.dismiss();
-            } else if (textBox.getText().toString().equalsIgnoreCase("4")) {
-                sendInfo(Integer.toString(4), "N:");
-                closeDialog.dismiss();
-            }
-
-        }*/
-
     }
 
     static void getTireSizeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext, R.style.DialogTheme);
 
         // get the layout inflater
         LayoutInflater inflater = (LayoutInflater)thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -442,13 +423,14 @@ public class HomeFragment extends Fragment {
 
         // Set text box input as int only
         final EditText input = new EditText(thisContext);
+        input.setTextColor(ContextCompat.getColor(thisContext,R.color.colorWhite));
         if (arduinoStr == "M:") { // magnet
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
         } else if ((arduinoStr == "F:") || (arduinoStr == "S:")) {
             input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext)
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext, R.style.DialogTheme)
                 .setTitle(title)
                 .setIcon(R.drawable.ic_baseline_create_24px)
                 .setView(input)

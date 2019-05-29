@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:layout_marginTop="10dp"
+             android:layout_marginTop="15dp"
              android:layout_marginStart="15dp"
              android:layout_marginLeft="15dp"
              android:layout_marginEnd="15dp"
              android:layout_marginRight="15dp"
              tools:context=".HomeFragment">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/searchDevicesTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round_rect_bkgrd"
         android:orientation="horizontal"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/navigation">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/deviceArrow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:background="?android:attr/selectableItemBackground"
@@ -34,34 +34,31 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
-            android:id="@+id/device_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="end"
-            android:background="@android:color/transparent"
-            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
-            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:fadingEdge="horizontal"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            app:layout_constraintBottom_toTopOf="@+id/maxSpeedText"
-            app:layout_constraintTop_toBottomOf="parent"
-            />
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/device_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:gravity="center_vertical|end"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:background="@android:color/transparent"
+                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                />
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/myCarSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/round_rect_bkgrd"
         android:orientation="vertical"
         android:visibility="visible"
@@ -228,7 +225,7 @@
         android:id="@+id/meterSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="325dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/round_rect_bkgrd"
         android:orientation="vertical"
         android:visibility="visible"
@@ -359,7 +356,7 @@
         android:id="@+id/sensorSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="525dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/round_rect_bkgrd"
         android:orientation="vertical"
         android:visibility="visible"
@@ -420,4 +417,4 @@
 
     </LinearLayout>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

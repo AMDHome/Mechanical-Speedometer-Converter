@@ -126,7 +126,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/str_cancel"/>
+            android:text="@string/str_cancel"
+            android:textColor="@color/colorPrimary"/>
 
 
             <Button
@@ -134,7 +135,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/str_next"/>
+                android:text="@string/str_next"
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
     </LinearLayout>
 

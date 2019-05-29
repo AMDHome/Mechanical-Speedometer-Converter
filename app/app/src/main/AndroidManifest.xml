@@ -30,15 +30,12 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:name=".BtConnection"></activity>
-
-        <activity android:name=".SettingsActivity"
-                  android:label="Settings"></activity>
 
         <activity android:name=".MeterWizard.MeterWizardUnit"></activity>
         <activity android:name=".MeterWizard.MeterWizardRatio"></activity>

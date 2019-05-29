@@ -109,7 +109,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:text="@string/str_speed_minus"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"/>
 
                 <EditText
                     android:id="@+id/speedometerMax"
@@ -130,7 +131,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/str_speed_plus"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -148,7 +150,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/str_cancel"/>
+            android:text="@string/str_cancel"
+            android:textColor="@color/colorPrimary"/>
 
 
             <Button
@@ -157,6 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/str_next"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/but_cancel"/>
         </LinearLayout>
     </LinearLayout>

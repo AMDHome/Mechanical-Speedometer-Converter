@@ -199,7 +199,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/str_cancel"/>
+            android:text="@string/str_cancel"
+            android:textColor="@color/colorPrimary"/>
 
             <Button
                 android:id="@+id/but_finish"
@@ -207,6 +208,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/str_finish"
+                android:textColor="@color/colorPrimary"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/but_cancel"/>
         </LinearLayout>

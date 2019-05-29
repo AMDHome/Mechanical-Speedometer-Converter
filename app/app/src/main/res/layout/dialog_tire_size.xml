@@ -21,10 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:layout_marginLeft="4dp"
             android:text="Enter Tire Size"
             android:gravity="center_vertical"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="20dp"
             />
     </LinearLayout>
@@ -43,7 +42,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="P"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="20dp"
             />
 
@@ -57,7 +56,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLength="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
             android:inputType="number" />
 
         <EditText
@@ -70,7 +70,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLength="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
             android:inputType="number" />
 
         <EditText
@@ -83,7 +84,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLength="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
             android:inputType="number" />
 
         <TextView
@@ -95,7 +97,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="/"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="20dp"
             />
 
@@ -109,7 +111,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLength="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
             android:inputType="number" />
 
         <EditText
@@ -122,7 +125,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLength="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
             android:inputType="number" />
 
         <TextView
@@ -134,7 +138,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="R"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
             android:textSize="20dp"
             />
 
@@ -148,7 +152,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLength="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
             android:inputType="number" />
 
         <EditText
@@ -161,7 +166,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:maxLength="1"
-            android:textColor="#000000"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
             android:inputType="number" />
 
     </LinearLayout>

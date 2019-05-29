@@ -65,17 +65,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        /*if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-            return true;
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
 }

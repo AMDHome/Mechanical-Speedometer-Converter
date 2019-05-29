@@ -40,16 +40,15 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
+
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
         <activity android:name="com.android.ecs193.meterconverter.BtConnection" />
-        <activity
-            android:name="com.android.ecs193.meterconverter.SettingsActivity"
-            android:label="Settings" />
         <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardUnit" />
         <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio" />
         <activity android:name="com.android.ecs193.meterconverter.MeterWizard.MeterWizardRPM" />

@@ -66,13 +66,12 @@
     <string name="str_zero">0</string>
     <string name="str_meter_img">Speedometer Image</string>
     <string name="str_tire_img">Car Tire Image</string>
-    <string name="str_size_hint">P _ _ _ / _ _ R _ _</string>
     <string name="str_target_speed">Please drive at:</string>
     <string name="str_current_speed">You are currently driving at:</string>
 
     <string name="str_yes">Yes</string>
     <string name="str_no">No</string>
-    <string name="str_one">1</string>
+    <string name="str_one">>1</string>
     <string name="str_two">2</string>
     <string name="str_four">4</string>
 
