@@ -19,7 +19,7 @@ extern long KD;
 void updateInRatio(byte numMag, long wheelCirc, float finalDrive);
 
 void checkBT();
-char recvData(char* data);
+char recvData(char* data, byte *pos);
 void dataDump();
 
 #endif

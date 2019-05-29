@@ -3,14 +3,16 @@
 #include "BTComms.h"
 
 void checkBT() {
-  static char data[26];
+  static char buf[26];
+  static byte dPos;
+  static char *data = buf + 2;
   float tempF;
   long tempL;
   char *tempC;
   byte i;
 
   // check and recieve data
-  switch(recvData(data)) {
+  switch(recvData(buf, &dPos)) {
     case 'U': // Store Units
       EEPROM.update(0, data[0] - '0');
       break;
@@ -18,6 +20,7 @@ void checkBT() {
     case 'M': // Store Max Speed
       maxSpeed = (short) atol(data);
       EEPROM.put(1, maxSpeed);
+      maxSpeed *= 10;
       break;
       
     case 'N': // Store Number of Magnets
@@ -121,43 +124,52 @@ void checkBT() {
   }
 }
 
-char recvData(char* data) {
-  char type = '\0';
-  byte itr;
+char recvData(char* data, byte *pos) {
+  byte itr = *pos;
 
-  if(Serial.available() > 2) {
-    type = Serial.read();
+  while(Serial.available() > 0) {
+    data[itr] = Serial.read();
 
-    if(!isupper(type)) {
-      digitalWrite(LED_BUILTIN, HIGH);
-      return '\0';
+    /* 
+     * if uppercase check if valid.
+     * uppercase must be the first character of the line, be R from wheel size,
+     * or immediately follow a colon (:) [S and P]. If none of these conditions
+     * are true, assume the letter is the first character and adjust accordingly
+     */
+    if(isupper(data[itr])) {
+
+      if(itr == 0) {
+        goto readNext;
+
+      } else if(data[itr] == 'R') {
+      	goto readNext;
+
+      } else if(data[itr - 1] != ':') {
+        data[0] = data[itr];
+        itr = 1;
+        continue;
+      }
     }
 
-    data[0] = Serial.read();
-
-    if(data[0] != ':') {
-      digitalWrite(LED_BUILTIN, HIGH);
-      return '\0';
+    // if ending, reset itr and check string. if valid return. else reset to front
+    if(data[itr] == '\0' || data[itr] == '\r' || data[itr] == '\n') {
+      
+      if(isupper(data[0]) && data[1] == ':' && itr > 2) {
+        data[itr] = '\0';
+        *pos = itr = 0;
+        return data[0];
+      }
+      
+      *pos = itr = 0;
     }
 
-    delay2(1);
-
-    for(itr = 0; itr < 26 && (Serial.available() > 0); itr++) {
-      data[itr] = Serial.read();
-      delay2(1);
-    }
-
-    if(itr == 13 && data[10] != '\0') {
-      digitalWrite(LED_BUILTIN, HIGH);
-      return '\0';
-    }
-
-    digitalWrite(LED_BUILTIN, LOW);
+    readNext:
+      itr++;
   }
-  
-  return type;
-}
 
+  *pos = itr;
+  return '\0';
+}
 
 
 void dataDump() {

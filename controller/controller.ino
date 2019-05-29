@@ -113,8 +113,11 @@ void loop() {
   long error;
   long newPWM;
 
-  checkBT();
-  delay2(10);
+  // if there is an incomming signal, go read it
+  if(Serial.available() > 0){
+    checkBT();
+  }
+  delay2(15);
   
   SPHr = calcSpeed();
   
