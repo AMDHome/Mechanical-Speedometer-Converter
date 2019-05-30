@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:layout_marginTop="15dp"
@@ -10,6 +16,7 @@
              android:layout_marginEnd="15dp"
              android:layout_marginRight="15dp"
              tools:context=".HomeFragment">
+
 
     <RelativeLayout
         android:id="@+id/searchDevicesTitle"
@@ -93,20 +100,15 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:text="@string/str_units"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/but_units"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:gravity="start"
-                    android:padding="10dp"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/str_units"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"/>
@@ -115,10 +117,8 @@
                     android:id="@+id/unitsText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
-                    android:gravity="end"
-                    android:paddingTop="10dp"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@+id/maxSpeedText"
@@ -130,17 +130,15 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/but_size"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="start"
-                    android:padding="10dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/str_size"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"/>
@@ -149,11 +147,8 @@
                     android:id="@+id/tireSizeText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/text_boarder"
-                    android:gravity="end"
-                    android:paddingTop="10dp"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
                     app:layout_constraintTop_toBottomOf="parent"
@@ -165,8 +160,6 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -174,8 +167,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:gravity="start"
-                    android:padding="10dp"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/str_finalDrive"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"/>
@@ -184,15 +177,10 @@
                     android:id="@+id/finalDriveText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/text_boarder"
-                    android:gravity="end"
-                    android:paddingTop="10dp"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toTopOf="@+id/meterRatioText"
-                    app:layout_constraintTop_toBottomOf="@+id/magnetsText"
                     />
             </FrameLayout>
 
@@ -200,8 +188,6 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -211,8 +197,8 @@
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
                     android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
-                    android:gravity="start"
-                    android:padding="10dp"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/str_idk_drive"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"/>
@@ -261,8 +247,6 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -270,8 +254,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:gravity="start"
-                    android:padding="10dp"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/str_maxSpeed"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"/>
@@ -280,11 +264,8 @@
                     android:id="@+id/maxSpeedText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/text_boarder"
-                    android:gravity="end"
-                    android:paddingTop="10dp"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@+id/magnetsText"
@@ -296,8 +277,6 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -305,8 +284,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:gravity="start"
-                    android:padding="10dp"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/str_ratio"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"/>
@@ -315,11 +294,8 @@
                     android:id="@+id/meterRatioText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/text_boarder"
-                    android:gravity="end"
-                    android:paddingTop="10dp"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@+id/tireSizeText"
@@ -331,8 +307,6 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -342,8 +316,8 @@
                     android:background="@android:color/transparent"
                     android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
                     android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
-                    android:gravity="start"
-                    android:padding="10dp"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/str_idk_ratio"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp"/>
@@ -382,8 +356,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/calibrationTitle"
@@ -394,8 +368,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:gravity="start"
-                android:padding="10dp"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="10dp"
                 android:text="@string/str_magnets"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"/>
@@ -404,11 +378,8 @@
                 android:id="@+id/magnetsText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/text_boarder"
-                android:gravity="end"
-                android:paddingTop="10dp"
+                android:gravity="end|center_vertical"
+                android:paddingRight="10dp"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
                 />
@@ -418,3 +389,5 @@
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
