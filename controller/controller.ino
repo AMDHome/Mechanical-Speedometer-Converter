@@ -67,7 +67,7 @@ const byte encoderIntCount = 64;
  */
 void updateInRatio(byte numMag, long wheelCirc, float finalDrive) {
   // 16 for limit adjustment
-  inRatio = ((long) (finalDrive * wheelCirc / numMag)) >> 4;
+  inRatio = ((long) (wheelCirc / (finalDrive * numMag))) >> 4;
 }
 
 

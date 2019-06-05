@@ -75,26 +75,29 @@ void checkBT() {
         targetRPM = 0;
         rTime = 153;
         calTicks = 0;
+        
       } else {
 
         tempL = atol(data);
 
         if(tempL) {
           // Do calculations, update ratios and send value off
-          
-          tempF = (140625.0 * calTicks) / (39168.0 * EEPROM.read(3) * tempL);
-          tempF *= EEPROM.get(12, tempL);
+          tempF = (256.0 * encoderIntCount * tempL * EEPROM.read(3) * 153) / (9.0 * calTicks);
+          tempF /= (EEPROM.get(12, tempL));
 
           EEPROM.put(4, tempF);
           updateInRatio(EEPROM.read(3), EEPROM.get(12, tempL), EEPROM.get(4, tempF));
+
+          Serial.println(tempF);
           
-          Serial.print((long) (tempF * 1000000));
+          Serial.println((long) (tempF * 1000000));
+          Serial.println((unsigned long) (tempF * 1000000));
         }
 
         CallibrationMode = 0;
-
-        break;
       }
+      
+      break;
 
     case 'B':
       debug = data[0] - '0';

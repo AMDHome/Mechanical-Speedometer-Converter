@@ -11,6 +11,8 @@ extern volatile unsigned short calTicks;
 extern unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
 extern unsigned short maxSpeed;  // max speed our speedometer can show
 
+extern const byte encoderIntCount;
+
 extern long KP;
 extern long KI;
 extern long KD;
