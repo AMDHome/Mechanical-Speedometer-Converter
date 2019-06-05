@@ -16,17 +16,10 @@
 #define MIN 0
 
 // define PID constants
-/*
-#define KP 125          // Proportional constant
-#define KI 10           // Integral constant
-#define KD 10           // Derivative constant
-#define KFF 90          // Feed Forward constant
-*/
-#define RPM_TO_PWM 100  // Rough conversion ratio of rpm numbers to pwm numbers
-
-long KP = 130;
-long KI = 10;
-long KD = 20;
+#define RPM_TO_PWM 12  // Rough conversion ratio of rpm numbers to pwm numbers
+long KP = 11;
+long KI = 9;
+long KD = 0;
 
 void loadVariables();
 
@@ -55,7 +48,8 @@ volatile byte currSpeedCtr;
 volatile byte counterIndex = 0;             // flag to tell which tickCounter to put new data into
 
 const byte encoderIntCount = 64;
-unsigned short SPHr;      // Speed/Hour * 10 (Unit friendly, for mph & kph)
+unsigned long itrTime;
+
 
 /*
  * Calculate inRatio via stored values.
@@ -77,7 +71,6 @@ void setup() {
 
   pinMode(4, INPUT_PULLUP);       // encoder input
   pinMode(9, OUTPUT);             // motor PWM output
-  pinMode(LED_BUILTIN, OUTPUT);   // onboard LED output
 
   // Read numbers in from EEPROM and check for valid input
   // if no value isnt valid then set default value
@@ -102,11 +95,15 @@ void setup() {
   // Start-Up Min 205, Absolute Min: 0
   // Operating Range ~100 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
+  itrTime = millis2() + 5;
+  Serial.println(itrTime);
 }
 
 
 void loop() {
+  unsigned short SPHr;      // Speed/Hour * 10 (Unit friendly, for mph & kph)
   long currentRPM;          // Feedback from slotted wheel on motor shaft
+  unsigned long currTime;
 
   long error;
   long newPWM;
@@ -116,8 +113,6 @@ void loop() {
     checkBT();
   }
   
-  delay2(1);
-  
   SPHr = calcSpeed();
   
   // limit max speed shown
@@ -125,7 +120,7 @@ void loop() {
     SPHr = maxSpeed;
   }
 
-  if(SPHr < minSpeed && !CallibrationMode) {
+  if(!SPHr && !CallibrationMode) {
     targetRPM = 0;
     OCR1A = 0;
 
@@ -145,8 +140,8 @@ void loop() {
      */
     error = targetRPM - currentRPM;
     pid_p = KP * error / 1000;
-    pid_i += KI * error / 1000;
-    pid_d = KD * (error - oldErr) / 1000;
+    pid_i += KI * error / 10000;
+    pid_d = KD * (error - oldErr) / 10000;
     newPWM = (pid_p + pid_i + pid_d) / RPM_TO_PWM;
 
     if (newPWM > MAX)
@@ -170,6 +165,20 @@ void loop() {
     Serial.print("\tSPHr: ");
     Serial.println(SPHr/10);
   }
+
+  if(itrTime - millis2() <= 5){
+    delay2(1 + itrTime - millis2());
+  } else {
+    if(debug) {
+      Serial.print("T: ");
+      Serial.print(itrTime);
+      Serial.print("/tI: ");
+      Serial.println(millis2());
+    }
+    itrTime = millis2();
+  }
+
+  itrTime += 5;
 }
 
 
