@@ -24,12 +24,9 @@
 */
 #define RPM_TO_PWM 100  // Rough conversion ratio of rpm numbers to pwm numbers
 
-#define MAX_RECORD 32
-
-
-long KP = 13;
-long KI = 2;
-long KD = 2;
+long KP = 130;
+long KI = 10;
+long KD = 20;
 
 void loadVariables();
 
@@ -49,7 +46,8 @@ long pid_d;       // Derivative term
 
 unsigned long inRatio;
 unsigned long outRatio;   // output ratio * 10,000,000 (to compensate for float)
-unsigned short maxSpeed;  // max speed our speedometer can show
+unsigned short maxSpeed;  // max speed our speedometer can show * 10
+unsigned short minSpeed;  // min speed of our speedometer (unimplemented)
 
 volatile byte encoderCtr[4] = {0};          // # of ticks every ~0.13 seconds on encoder
 volatile byte speedCtr[MAX_RECORD] = {0};   // # of ticks every ~0.13 seconds on speed sensor
@@ -57,7 +55,7 @@ volatile byte currSpeedCtr;
 volatile byte counterIndex = 0;             // flag to tell which tickCounter to put new data into
 
 const byte encoderIntCount = 64;
-
+unsigned short SPHr;      // Speed/Hour * 10 (Unit friendly, for mph & kph)
 
 /*
  * Calculate inRatio via stored values.
@@ -84,6 +82,7 @@ void setup() {
   // Read numbers in from EEPROM and check for valid input
   // if no value isnt valid then set default value
   loadVariables();
+  minSpeed = (maxSpeed * 0.1 > 100) ? 100 : maxSpeed * 0.1;
 
   // Configure PWM (Count Up, Fast PWM 10-bit, 16kHz [15,625 Hz])
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
@@ -107,8 +106,7 @@ void setup() {
 
 
 void loop() {
-  unsigned short SPHr = 0;  // Speed/Hour * 10 (Unit friendly, for mph & kph)
-  long currentRPM = 0;      // Feedback from slotted wheel on motor shaft
+  long currentRPM;          // Feedback from slotted wheel on motor shaft
 
   long error;
   long newPWM;
@@ -117,16 +115,17 @@ void loop() {
   if(Serial.available() > 0){
     checkBT();
   }
-  delay2(15);
+  
+  delay2(1);
   
   SPHr = calcSpeed();
   
   // limit max speed shown
-  if(SPHr > maxSpeed * 10) {
-    SPHr = maxSpeed * 10;
+  if(SPHr > maxSpeed) {
+    SPHr = maxSpeed;
   }
 
-  if(!SPHr && !CallibrationMode) {
+  if(SPHr < minSpeed && !CallibrationMode) {
     targetRPM = 0;
     OCR1A = 0;
 
@@ -139,26 +138,24 @@ void loop() {
     // RPM based on number of ticks passed
     // see Technical Manual pg. 16 for explanation of numbers
     currentRPM = ((46875 * (encoderCtr[0] + encoderCtr[1] + encoderCtr[2] + encoderCtr[3]) / 4) / 1024) * 10;
-
-    if(SPHr > 0 && currentRPM <= 25) {
-      OCR1A = 350;
-    } 
     
     /*
      * PID Implementation. Divisions by hard coded 100 reflect that kp, ki, kd, and kff
      * are larger by a factor of 100 to avoid floats.
      */
     error = targetRPM - currentRPM;
-    pid_p = KP * error / 100;
-    pid_i += KI * error / 100;
-    pid_d = KD * (error - oldErr) / 100;
+    pid_p = KP * error / 1000;
+    pid_i += KI * error / 1000;
+    pid_d = KD * (error - oldErr) / 1000;
     newPWM = (pid_p + pid_i + pid_d) / RPM_TO_PWM;
 
     if (newPWM > MAX)
       OCR1A = MAX;
     else if (newPWM < MIN)
       OCR1A = MIN;
-    else 
+    else if (newPWM > OCR1A + 100)
+      OCR1A += 256;
+    else
       OCR1A = newPWM;
     oldErr = error;
   }
@@ -177,13 +174,18 @@ void loop() {
 
 
 unsigned short calcSpeed() {
+
+  static unsigned short oldSPH;
   unsigned long totTicks = 0;
+  unsigned long newSPH;
 
   for(byte i = 0; i < MAX_RECORD; i++) {
     totTicks += speedCtr[i];
   }
-  
-  return (unsigned short) ((inRatio * totTicks * 9) / ((unsigned long) MAX_RECORD * 1024));
+
+  newSPH = ((inRatio * totTicks * 9) / ((unsigned long) MAX_RECORD * 1024));
+  oldSPH = (oldSPH * 2 / 10) + ((unsigned short) (newSPH * 8 / 10));
+  return oldSPH;
 }
 
 
@@ -230,4 +232,5 @@ void loadVariables() {
     maxSpeed = 60;
     EEPROM.put(1, maxSpeed);
   }
+  maxSpeed *= 10;
 }

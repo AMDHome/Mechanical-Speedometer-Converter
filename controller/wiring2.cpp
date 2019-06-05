@@ -56,7 +56,7 @@ ISR(TIMER2_OVF_vect) {
     encoderCtr[counterIndex % 4] = TCNT0;
     TCNT0 = 0;
 
-    speedCtr[counterIndex % 32] = currSpeedCtr;
+    speedCtr[counterIndex % MAX_RECORD] = currSpeedCtr;
     currSpeedCtr = 0;
 
     counterIndex++;

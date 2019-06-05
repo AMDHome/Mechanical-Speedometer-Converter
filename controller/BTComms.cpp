@@ -81,6 +81,10 @@ void checkBT() {
         tempL = atol(data);
 
         if(tempL) {
+          char finalDrive[15];
+          finalDrive[0] = 'F';
+          finalDrive[1] = ':';
+          
           // Do calculations, update ratios and send value off
           tempF = (256.0 * encoderIntCount * tempL * EEPROM.read(3) * 153) / (9.0 * calTicks);
           tempF /= (EEPROM.get(12, tempL));
@@ -88,10 +92,8 @@ void checkBT() {
           EEPROM.put(4, tempF);
           updateInRatio(EEPROM.read(3), EEPROM.get(12, tempL), EEPROM.get(4, tempF));
 
-          Serial.println(tempF);
-          
-          Serial.println((long) (tempF * 1000000));
-          Serial.println((unsigned long) (tempF * 1000000));
+          sprintf(finalDrive + 2, "%lu\0", (unsigned long) (tempF * 1000000));
+          Serial.print(finalDrive);
         }
 
         CallibrationMode = 0;

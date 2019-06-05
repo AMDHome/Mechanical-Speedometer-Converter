@@ -3,10 +3,12 @@
 
 #include "wiring_private.h"
 
+#define MAX_RECORD 16
+
 extern const byte encoderIntCount;
 
 extern volatile byte encoderCtr[4];
-extern volatile byte speedCtr[32];
+extern volatile byte speedCtr[MAX_RECORD];
 extern volatile byte currSpeedCtr;
 extern volatile byte counterIndex;
 
