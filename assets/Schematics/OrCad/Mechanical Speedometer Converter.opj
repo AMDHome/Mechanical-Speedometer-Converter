@@ -17,7 +17,8 @@
       (Path "Design Resources" ".\mechanical speedometer converter.dsn")
       (Path "Design Resources" ".\mechanical speedometer converter.dsn"
          "SCHEMATIC1")
-      (Select "Design Resources"))
+      (Select "Design Resources" ".\mechanical speedometer converter.dsn"
+         "SCHEMATIC1" "PAGE1"))
     (HierarchyView)
     (Doc
       (Type "COrCapturePMDoc")
@@ -27,12 +28,12 @@
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 2 3 -1 -1 -8 -31 52 1655 52 521")
-        (Scroll "-413 -9")
-        (Zoom "137")
+        (Placement "44 2 3 -1 -1 -8 -31 52 1294 52 467")
+        (Scroll "-211 0")
+        (Zoom "100")
         (Occurrence "/"))
       (Path
-         "D:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\MECHANICAL SPEEDOMETER CONVERTER.DSN")
+         "C:\USERS\STEVE\ONEDRIVE\UC DAVIS\CURRENT CLASSES\SENIOR DESIGN\ASSETS\SCHEMATICS\ORCAD\MECHANICAL SPEEDOMETER CONVERTER.DSN")
       (Schematic "SCHEMATIC1")
       (Page "PAGE1")))
   (PartMRUSelector
