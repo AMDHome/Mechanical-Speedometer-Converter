@@ -59,7 +59,7 @@ unsigned long itrTime;
  */
 void updateInRatio(byte numMag, long wheelCirc, float finalDrive) {
   // 16 for limit adjustment
-  inRatio = ((long) (wheelCirc / (finalDrive * numMag))) >> 4;
+  inRatio = ((long) (wheelCirc / (finalDrive * numMag))) >> 2;
 }
 
 
@@ -73,9 +73,9 @@ void setup() {
   pinMode(9, OUTPUT);             // motor PWM output
 
   // Read numbers in from EEPROM and check for valid input
-  // if no value isnt valid then set default value
+  // if no value then set default value
   loadVariables();
-  minSpeed = (maxSpeed * 0.1 > 100) ? 100 : maxSpeed * 0.1;
+  minSpeed = (maxSpeed * 0.1 > 100) ? 100 : maxSpeed * 0.1; // (unimplemented)
 
   // Configure PWM (Count Up, Fast PWM 10-bit, 16kHz [15,625 Hz])
   TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(WGM11) | _BV(WGM10);
@@ -96,7 +96,6 @@ void setup() {
   // Operating Range ~100 - 1023 (Lowest operating value may be lower)
   OCR1A = 0;
   itrTime = millis2() + 5;
-  Serial.println(itrTime);
 }
 
 
@@ -131,7 +130,6 @@ void loop() {
     }
 
     // RPM based on number of ticks passed
-    // see Technical Manual pg. 16 for explanation of numbers
     currentRPM = ((46875 * (encoderCtr[0] + encoderCtr[1] + encoderCtr[2] + encoderCtr[3]) / 4) / 1024) * 10;
     
     /*
@@ -192,7 +190,7 @@ unsigned short calcSpeed() {
     totTicks += speedCtr[i];
   }
 
-  newSPH = ((inRatio * totTicks * 9) / ((unsigned long) MAX_RECORD * 1024));
+  newSPH = ((inRatio * totTicks * 9) / ((unsigned long) MAX_RECORD * 4096));
   oldSPH = (oldSPH * 2 / 10) + ((unsigned short) (newSPH * 8 / 10));
   return oldSPH;
 }

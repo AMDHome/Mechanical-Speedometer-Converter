@@ -69,8 +69,11 @@ void checkBT() {
       break;
 
     case 'D':
-      if (data[0] == 'S')
-      {
+      if (data[0] == 'F'){
+        CallibrationMode = 0;
+        rTime = 0;
+
+      } else if (data[0] == 'S'){
         CallibrationMode = 2;
         targetRPM = 0;
         rTime = 153;
