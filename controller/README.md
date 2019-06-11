@@ -1,6 +1,3 @@
-
-
-
 # Microcontroller Software Technical Manual
 
 Here we will talk about the code in great depth.
@@ -51,6 +48,7 @@ All of our code is put into 5 files. Below are the different parts of code that 
 - `controller.ino`: Setup and Main Loop
 - `BTComms.h/cpp`: All bluetooth I/O is taken care by these two files
 - `wiring2.h/cpp`: All timing functions are in this file. It is a modified version of arduino's original `wiring.cpp` and timing functions
+</br>
 
 ## Main Code
 
@@ -92,6 +90,7 @@ Below is a description of the process in text form:
 8. Stall for time until it needs to start the next iteration
     - This delay is added in because PID works best when each iteration is about the same time period apart
     - This delay can be removed to improve responsiveness; however, it may increase the difficulty of tuning the PID.
+</br>
 
 ## Interrupts
 
@@ -119,6 +118,7 @@ This interrupt is triggered whenever Timer2 overflows (every 1.024 ms) and it do
     - Why did we choose this value? it was arbitrary. We felt like collecting data from the sensor 15-ish times a second was enough and the numbers played nice with our equations. This number can be changed but the equations will need to be recalculated.
 3. Reset the values we just read from to 0 to prepare for the next reading
 4. If we are in the final drive wizard reduce the amount of samples that we still need to collect
+</br>
 
 ## Wizards
 
@@ -148,7 +148,7 @@ Here is an overview of how the wizards work on the side of the microcontroller.
         * After 10 seconds the microcontroller will then wait for an average speed from the users phone.
         * With the number of readings it collected and the average speed, the microcontroller can now calculate the final drive. Once calculated it will send the value back to the phone to be displayed on the menu.
         * Equations for the final drive ratio will be below in the equations section
-
+</br>
 
 ## Bluetooth
 ### Overview
@@ -238,6 +238,7 @@ Notes:
 
 ### Programming the Microcontroller
 Now all of the general commands are sent and used via the app that was created for this project; however, if there is something that the app doesn't do/implement well, you can just a bluetooth serial terminal app to program it manually. You will then not be constrained by our app. Any bluetooth serial terminal app will work. The one that I use is linked above (and linked [here](https://play.google.com/store/apps/details?id=project.bluetoothterminal&hl=en_US) again for your convenience).
+</br>
 
 ## Equations
 ### Overview
@@ -324,6 +325,7 @@ At the top of `controller.ino` you will find the pid values in whole numbers. If
     pid_d = KD * (error - oldErr) / 10000;
 ```
 PID values are typically less than 1 so to compensate for it, we multiply and then divide the division in these lines of code will tell you the coefficients. (ex. KP is 11 so the P coefficient is actually 0.011) 
+</br>
 
 ## Issues/Things to Note
 While we try our best to make it perfect, there are some issues and intricacies that we found last minute. We will try to get the issues solved, but I cannot promise as I have no control over my teammates. Not all the things in this list are necessarily issues. Some of them are things to keep in mind as they don't really matter, but in a perfect world none of these things would exist.  ~Samuel
