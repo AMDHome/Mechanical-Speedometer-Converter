@@ -7,16 +7,10 @@ Here we will talk about the code in great depth.
 
 ## Microprocessor (ATMega328P)
 
-Before we begin we need to talk about the hardware features that the microprocessor has built in. We will only mention the parts relevant to the codebase. Below are a list of terms specific to this section. These terms will also show up at the end of the document.
-
-Register - A hardware unit that can store a value of a specific size. Effectively acts like a variable.
-
-Prescaler - A device that scales back the frequency of a signal. `Input_Frequency / Prescaler = Output_Frequency`
-</br>
+Before we begin we need to talk about the hardware features that the microprocessor has built in. We will only mention the parts relevant to the codebase.
 
 ### Clock
 Our Microprocessor has a 16 MHz clock connected to it (produce a signal with 16,000,000 cycles per second)
-</br>
 
 ### Timer/Counter
 A Timer/Counter is a register that counts up automatically when some sort of signal is provided to it. If the signal provided is of a consistent frequency it becomes a timer that counts up at set intervals. These counters do not take up time on the main CPU so they can run separately without disturbing the main code.
@@ -27,7 +21,7 @@ From this point forward we will use the words Timer and Counter interchangeably 
 
 On our processor we have three timers (T0, T1, T2). Below is a flowchart of the processes that drive these three timers
 
-<img src="https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/High%20Level%20Diagram/Software%20Workflow%20Hardware.png?raw=true" alt="Hardware Processes Flowchart" width="50%" height="50%">
+<img src="https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/High%20Level%20Diagram/Software%20Workflow%20Hardware.png?raw=true" alt="Hardware Processes Flowchart" width="60%" height="60%">
 
 
 #### T0
@@ -63,14 +57,18 @@ All of our code is put into 5 files. Below are the different parts of code that 
 ### Overview
 This is the most straightforward part of the code. When the device starts up it runs `Setup()` once and then it runs `Loop()` over and over again.
 
+</br>
+
 ### `controller.ino`:`Setup();`
-Here we set up the hardware that we will be using. We set up the timers and analog comparator discussed before by setting bits to their respective settings registers. Information for this can be found in the ATMega328P Manual. This manual can be found [here]([https://www.sparkfun.com/datasheets/Components/SMD/ATMega328.pdf]).
+Here we set up the hardware that we will be using. We set up the timers and analog comparator discussed before by setting bits to their respective settings registers. Information for this can be found in the ATMega328P Manual. This manual can be found [here](https://www.sparkfun.com/datasheets/Components/SMD/ATMega328.pdf).
 
 We also set the pins to the proper mode as well as load in previously stored values for the variables.
+
 </br>
 
 ### `controller.ino`:`Loop();`
 Here we run the bulk main processes. Below is a flowchart of the entire loop process:
+
 ![Main Loop](https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/High%20Level%20Diagram/Software%20Workflow%20Main.png?raw=true)
 
 Below is a description of the process in text form:
@@ -102,11 +100,13 @@ We use this section to run code alongside the main loop. These code blocks typic
 
 Here is a flowchart of the interrupts:
 
-<img src="https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/High%20Level%20Diagram/Software%20Workflow%20Interrupts.png?raw=true" alt="Interrupt Processes Flowchart" width="33%" height="33%">
+<img src="https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/High%20Level%20Diagram/Software%20Workflow%20Interrupts.png?raw=true" alt="Interrupt Processes Flowchart" width="40%" height="40%">
 
 ### `controller.ino`:`ISR(ANALOG_COMP_vect);`
 This interrupt is triggered when a magnet passes over our speed sensor. All it does is increment a counter that tells us how many magnets have passed in this time frame.
 If we happen to be in the final drive wizard we will also increment a counter specifically for that wizard to record distance.
+
+<br>
 
 ### `wiring2.ino`:`ISR(TIMER2_OVF_vect);`
 This interrupt is triggered whenever Timer2 overflows (every 1.024 ms) and it does 4 things
@@ -155,6 +155,7 @@ Here is an overview of how the wizards work on the side of the microcontroller.
 During the main loop, the program will check the bluetooth module for any new data, We will now go through the bluetooth section of the main loop here.
 
 Below is the entirety of the main loop again for ease of reference.
+
 ![Main Loop](https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/High%20Level%20Diagram/Software%20Workflow%20Main.png?raw=true)
 
 ### Basic Communication Format
@@ -205,7 +206,7 @@ Here is a list of all commands that are currently sent from the app, what the co
 |    D    | Start/Stop/Finish Final **D**rive Ratio Wizard             |  Byte/Long  | S: Start, <br> F: Cancel, <br>0 - 500    | D:S <br>D:F <br>D:400        | 5     |
 
 Notes:
-*   All values except for final drive are stored exactly the same as the way they are received (ie if an adjustment was made then the adjustment will be stored). Final drive is the only value we convert back to the original value.
+*	All values except for final drive are stored exactly the same as the way they are received (ie if an adjustment was made then the adjustment will be stored). Final drive is the only value we convert back to the original value.
 1. Although We could technically store all realistic speed values in a byte (0 - 255) we chose to use a short as we will be multiplying it by 10 for our equations later
 2. These numbers are multiplied by a million `(1,000,000)` so we don't have to deal with decimals. Transferring decimals over commands adds another thing to check for which increases runtime.
 3. Wheel size is the only complex command that we have as there are two parts to the payload.
@@ -220,7 +221,7 @@ Notes:
     - If it receives a number it will calculate the Final Drive Ratio using the average speed recieved and the distance it recorded (see equations below), and then take it out of the Final Drive Ratio Calibration Mode
 
 ### Debugging Commands Format Table
-Here is a list of "Advanced" commands that the microcontroller will understand. These are commands that I have programmed in to use when creating and debugging the device itself. I didn't remove them as I thought they might be useful in the future for whatever reason. In order to use these commands you must use a Bluetooth Serial Terminal app like [this one]([https://play.google.com/store/apps/details?id=project.bluetoothterminal&hl=en_US]).
+Here is a list of "Advanced" commands that the microcontroller will understand. These are commands that I have programmed in to use when creating and debugging the device itself. I didn't remove them as I thought they might be useful in the future for whatever reason. In order to use these commands you must use a Bluetooth Serial Terminal app like [this one](https://play.google.com/store/apps/details?id=project.bluetoothterminal&hl=en_US).
 
 
 | Command | Description                      | Expected Values       | Example Command | Notes |
@@ -236,7 +237,7 @@ Notes:
 3. This command will not store the PID across reboots. If you wish to keep your PID permanently you will need to modify the source code manually. I did not implement saving PID values into permanent storage as I don't think they should be modified in a production.
 
 ### Programming the Microcontroller
-Now all of the general commands are sent and used via the app that was created for this project; however, if there is something that the app doesn't do/implement well, you can just a bluetooth serial terminal app to program it manually. You will then not be constrained by our app. Any bluetooth serial terminal app will work. The one that I use is linked above (and linked [here]([https://play.google.com/store/apps/details?id=project.bluetoothterminal&hl=en_US]) again for your convenience).
+Now all of the general commands are sent and used via the app that was created for this project; however, if there is something that the app doesn't do/implement well, you can just a bluetooth serial terminal app to program it manually. You will then not be constrained by our app. Any bluetooth serial terminal app will work. The one that I use is linked above (and linked [here](https://play.google.com/store/apps/details?id=project.bluetoothterminal&hl=en_US) again for your convenience).
 
 ## Equations
 ### Overview
@@ -247,16 +248,18 @@ Some of the equations look weird and it is because floating points (decimals) ar
 ### On The Phone
 #### Wheel Size:
 We will use the generic equation to convert metric wheel sizes to circumference in inches.
+
 <img src="https://latex.codecogs.com/gif.latex?Circ\;(in)=\left(\frac{x\cdot&space;y&space;\cdot2}{2540}&plus;z\right)\cdot&space;pi" title="Circ\;(in)=\left(\frac{x\cdot y \cdot2}{2540}+z\right)\cdot pi" alt="Wheel Size Equation"/>
 
 
-This equation assumes that the first set of numbers is x, second set is y, and thrid set is z ```(Ex. In P205/55R15 -> x = 205, y = 55, z= 15)```
+This equation assumes that the first set of numbers is x, second set is y, and thrid set is z
+```(Ex. In P205/55R15 -> x = 205, y = 55, z= 15)```
 
 From there we will convert the circumference to the value we send. The value sent is the circumference in miles or kilometers (depending on the units selected), and then multiplied by a billion. We have the values differ here so that the microcontroller does not have to deal with units at all. If you look through the equations, they are all unit agnostic and our variables are Speed Per Hour (SPH) instead of MPH or KPH.
 
 <img src="https://latex.codecogs.com/svg.latex?\inline&space;\dpi{300}&space;\large&space;\begin{align*}&space;Sent\;Value\;(km)&=Circ\;(in)\cdot\frac{2.54\;cm}{1\;in}\cdot\frac{1\;km}{100000\;cm}*1000000000\\&space;\\&space;&=\frac{Circ\;(in)\;\cdot2.54}{100000}*1000000000&space;\end{align*}" title="\large \begin{align*} Sent\;Value\;(km)&=Circ\;(in)\cdot\frac{2.54\;cm}{1\;in}\cdot\frac{1\;km}{100000\;cm}*1000000000\\ \\ &=\frac{Circ\;(in)\;\cdot2.54}{100000}*1000000000 \end{align*}" alt="Sent km Equation"/>
 
-<br>
+</br>
 
 <img src="https://latex.codecogs.com/svg.latex?\inline&space;\dpi{300}&space;\large&space;\begin{align*}&space;Sent\;Value\;(mi)&=Circ\;(in)\cdot\frac{1\;mi}{63360\;in}*1000000000\\&space;\\&space;&=\frac{Circ\;(in)}{63360}*1000000000&space;\end{align*}" title="\large \begin{align*} Sent\;Value\;(mi)&=Circ\;(in)\cdot\frac{1\;mi}{63360\;in}*1000000000\\ \\ &=\frac{Circ\;(in)}{63360}*1000000000 \end{align*}" alt="Sent mi Equation"/>
 
@@ -274,9 +277,11 @@ On the microcontroller we will stick with the fractional values for maximum accu
 Everytime we calculate the speed of the vehicle, we need to use the Number of Magnets, Final Drive, and Wheel Size. Since all of these should be constants There's no point in calculating it every time; therefore, we have a variable called InRatio just for a precalculated value of these three constants to save time during calculations.
 
 Since our generic formula for calculating vehicle speed is:
+
 <img src="https://latex.codecogs.com/svg.latex?\inline&space;\dpi{300}&space;\large&space;\begin{align*}&space;Vehicle\;Speed&=&space;\frac{Number\;of\;Magnets\;Passed}{Unit\;of\;time}\cdot\frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}=\frac{Distance}{Unit\;of\;Time}&space;\end{align*}" title="\large \begin{align*} Vehicle\;Speed&= \frac{Number\;of\;Magnets\;Passed}{Unit\;of\;time}\cdot\frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}=\frac{Distance}{Unit\;of\;Time} \end{align*}" alt="Generic Speed Formula"/>
 
 As we can see here the last three terms in our dimensional analysis are basically our Number of Magnets, Final Drive, and Wheel Size respectively. We will pull those three terms our and call it our inratio. 
+
 <img src="https://latex.codecogs.com/svg.latex?\inline&space;\dpi{300}&space;\large&space;\begin{align*}&space;InRatio&=&space;\frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}\;/\;4=\frac{Wheel\;Circ.}{Number\;of\;Magnets\cdot&space;Final\;Drive}\;/\;4&space;\end{align*}" title="\large \begin{align*} InRatio&= \frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}\;/\;4=\frac{Wheel\;Circ.}{Number\;of\;Magnets\cdot Final\;Drive}\;/\;4 \end{align*}" alt="InRatio Formulia"/>
 
 The InRatio is divided by 4 to make sure all numbers don't get too big later on.
@@ -287,6 +292,7 @@ The way we calculate the current speed is by taking 16 samples of data (~1 s) an
 Since this is where we calculate the actual speed of our vehicle we will need to divide by a billion to compensate for the adjustments on our wheel size (see wheel size equation). We will also multiply the result by 10 so we have a resolution of 0.1 SPH without worrying about the decimal places.
 
 Starting from the equation above, we can pull out InRatio and use basic algebra to simplify the equation to:
+
 <img src="https://latex.codecogs.com/svg.latex?\inline&space;\dpi{300}&space;\large&space;\begin{align*}&space;Current\;Speed\;Per\;Hour\;(SPH\cdot10)&=&space;\frac{Number\;of\;Magnets\;Passed}{Unit\;of\;time}\cdot\frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}\cdot\frac{1}{1000000000}\cdot10\\&space;\\&space;&=\frac{\sum&space;speedCtr[i]\;(magnets)}{Number\;of\;samples}\cdot\frac{15625\;samples}{1024\;s}\cdot\left(InRatio\cdot4\right)\cdot\frac{3600\;s}{1\;hr}\cdot\frac{1}{1000000000}\cdot10\\&space;\\&space;&=\frac{\sum&space;speedCtr[i]\;(magnets)\cdot&space;InRatio\cdot9}{Number\;of\;samples\cdot1024}\\&space;\end{align*}" title="\large \begin{align*} Current\;Speed\;Per\;Hour\;(SPH\cdot10)&= \frac{Number\;of\;Magnets\;Passed}{Unit\;of\;time}\cdot\frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}\cdot\frac{1}{1000000000}\cdot10\\ \\ &=\frac{\sum speedCtr[i]\;(magnets)}{Number\;of\;samples}\cdot\frac{15625\;samples}{1024\;s}\cdot\left(InRatio\cdot4\right)\cdot\frac{3600\;s}{1\;hr}\cdot\frac{1}{1000000000}\cdot10\\ \\ &=\frac{\sum speedCtr[i]\;(magnets)\cdot InRatio\cdot9}{Number\;of\;samples\cdot1024}\\ \end{align*}" alt="SPHr Equation Derivation"/>
 
 We have left the Number of Samples as a variable instead of simplifying the number into the equation so that if you ever want to change the number of samples recorded all you have to do is change the variable `MAX_RECORD` at the top of `controller.ino` instead of having to recalculate the equation once more. 
@@ -331,3 +337,9 @@ Notes:
 6. Right before the showcase we found out that the app will crash if the data sent from the microcontroller to the phone upon connecting is invalid/corrupted. This typically happens if the app crashes while sending the data to the microcontroller but there are other reasons why it could happen. To fix this you will either need to program it manually using a bluetooth serial terminal app  or just run the reset script that I will include in the repo. I have asked the app people to simply ignore corrupted data so this won't be an issue, but again I don't know if they will get to it.
 7. Since we only have a maximum of 4 magnets for each speed sensor the resolution of the speed is somewhat estimated. We recommend for best performance to put 4 magnets if you are reading the speed on the axel or after the final drive gearing. If it is before the final drive gearing then having less magnets is fine.
 8. If you decide to source your own magnets please do not put more than 20 magnets if reading from the axel, and no more than 4 if reading before the final drive gear change. This is due to the fact that the microcontroller can only handle values up to a certain size. If the numbers get too big weird things happen.
+
+## Glossary
+
+Register - A hardware unit that can store a value of a specific size. Effectively acts like a variable.
+
+Prescaler - A device that scales back the frequency of a signal. `Input_Frequency / Prescaler = Output_Frequency`
