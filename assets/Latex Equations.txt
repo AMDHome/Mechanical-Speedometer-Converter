@@ -1,0 +1,57 @@
+Wheel Size
+
+KM Equation
+\begin{array}{rcl}
+Sent\;Value\;(km)&=&Circ\;(in)\cdot\frac{2.54\;cm}{1\;in}\cdot\frac{1\;km}{100000\;cm}*1000000000\\
+\\
+&=&\frac{Circ\;(in)\;\cdot2.54}{100000}*1000000000
+\end{array}
+
+MI Equation
+\begin{align*}
+Sent\;Value\;(mi)&=Circ\;(in)\cdot\frac{1\;mi}{63360\;in}*1000000000\\
+\\
+&=\frac{Circ\;(in)}{63360}*1000000000
+\end{align*}
+
+Sample Rate Equation
+\begin{align*}
+Sample\;Rate&=\frac{16000000\;cycles}{1\;s}\cdot\frac{1\;inc.}{64\;cycles}\cdot\frac{1\;ovf}{256\;inc}\cdot\frac{1\;sample}{64\;ovf}\\
+\\
+&=\frac{15625}{1024}\approx15.26\;(Samples/Second)
+\end{align*}
+
+InRatio
+Generic Speed
+\begin{align*}
+Vehicle\;Speed&= \frac{Number\;of\;Magnets\;Passed}{Unit\;of\;time}\cdot\frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}=\frac{Distance}{Unit\;of\;Time}
+\end{align*}
+InRatio Calculation
+\begin{align*}
+InRatio&= \frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}\;/\;4=\frac{Wheel\;Circ.}{Number\;of\;Magnets\cdot Final\;Drive}\;/\;4
+\end{align*}
+
+Current Speed
+\begin{align*}
+Current\;Speed\;Per\;Hour\;(SPH\cdot10)&= \frac{Number\;of\;Magnets\;Passed}{Unit\;of\;time}\cdot\frac{1\;Rotation\;(S.S.)}{Number\;of\;Magnets}\cdot\frac{Rotations\;(W)}{Rotations\;(S.S.)}\cdot\frac{Wheel\;Circ.\;(Dist.)}{1\;Rotations\;(W)}\cdot\frac{1}{1000000000}\cdot10\\
+\\
+&=\frac{\sum speedCtr[i]\;(magnets)}{Number\;of\;samples}\cdot\frac{15625\;samples}{1024\;s}\cdot\left(InRatio\cdot4\right)\cdot\frac{3600\;s}{1\;hr}\cdot\frac{1}{1000000000}\cdot10\\
+\\
+&=\frac{\sum speedCtr[i]\;(magnets)\cdot InRatio\cdot9}{Number\;of\;samples\cdot1024}\\
+\end{align*}
+
+
+CurrentRPM
+\begin{align*}
+Motor\;RPM\cdot10&= \frac{Number\;of\;Holes\;Passed}{Unit\;of\;time}\cdot\frac{1\;Rotation}{Number\;of\;Holes}\cdot10\\
+\\
+&=\frac{\sum encoderCtr[i]\;(Holes)}{Number\;of\;samples}\cdot\frac{15625\;samples}{1024\;s}\cdot\frac{1\;Rotation}{20\;Holes}\cdot\frac{60\;s}{1\;min}\cdot10\\
+\\
+&=\frac{\sum speedCtr[i]\;(Holes)\cdot46875}{Number\;of\;samples\cdot1024}\cdot10\\
+\end{align*}
+
+
+targetRPM
+\begin{align*}
+targetRPM\cdot10&=Current\;Speed\;(SPH)\cdot\frac{Number\;of\;RPMs}{1\;SPH}\cdot\frac{1}{1000000}
+\end{align*}
