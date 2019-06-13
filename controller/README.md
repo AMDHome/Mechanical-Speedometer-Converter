@@ -2,79 +2,77 @@
 # Microcontroller Technical Manual
 
 ## Table of Contents
-Sorry, but GitHub doesn't allow links so this is just an outline of the entire thing.
+#### [Quick Start Guide](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#quick-start-guide-1)
+- [Installation](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#installation)
+- [Setup](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#setup)
+- [Troubleshooting](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#troubleshooting)
 
-#### Quick Start Guide
-- Installation
-- Setup
-- Troubleshooting
+#### [Hardware](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#hardware-1)
+- [ATMega328P Pinout](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#atmega328p-pinout)
+	- [Reset Pin 1 (PC6)](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#reset-pin-1-pc6)
+	- [XTAL Pins 9 & 10 (PB6/7)](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#xtal-pins-9--10-pb67)
+	- [SPI Pins 17, 18 & 19 (PB2/3/4) [Optional]](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#spi-pins-17-18--19-pb234-optional)
+- [Power Input](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#power-input)
+- [Bluetooth Module](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#bluetooth-module)
+- [DC Motor Output (PWM)](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#dc-motor-output-pwm)
+- [Encoder Sensor](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#encoder-sensor)
+- [Speed Sensor ADC](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#speed-sensor-adc)
 
-#### Hardware
-- ATMega328P Pinout
-	- Reset Pin 1 (PC6)
-	- XTAL Pins 9 & 10 (PB6/7)
-	- SPI Pins 17, 18 & 19 (PB2/3/4) [Optional]
-- Power Input
-- Bluetooth Module
-- DC Motor Output (PWM)
-- Encoder Sensor
-- Speed Sensor ADC
+#### [Programming the ATMega328P](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#programming-the-atmega328p-1)
+- [Burning the bootloader](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#uploading-the-program)
+- [Uploading the program](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#uploading-the-program)
 
-#### Programming the ATMega328P
-- Burning the bootloader
-- Uploading the program
-
-#### Software
-- **Microprocessor (ATMega328P)**
-	- Clock
-	- Timer/Counter
-		- T0
-		- T1
-		- T2
-	- Analog Comparator
-- **Code Layout**
-- **Main Code**
-	- Overview
-	- `controller.ino`:`Setup();`
-	- `controller.ino`:`Loop();`
-- **Interrupts**
-	- Overview
-	- `controller.ino`:`ISR(ANALOG_COMP_vect);`
-	- `wiring2.ino`:`ISR(TIMER2_OVF_vect);`
-- **Wizards**
-	- Overview
-	- Speedometer Ratio Wizard
-	- Final Drive Wizard 
-- **Bluetooth**
-	- Overview
-	- Basic Communications Format
-	- Reading The Data In
-	- General Commands Format Table
-	- Debugging Commands Format Table
-	- Programming the Values for the Microcontroller
-- **Equations**
-	- Overview
-	- On The Phone
-		- Wheel Size
-	- On The Microcontroller
-		- Time For 1 Sample
-		- The "InRatio"
-		- Current Speed
-		- Target RPM (DC Motor)
-		- Current RPM (DC Motor)
-		- PID Equations
-- **Issues/Things to Note**
+#### [Software](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#software-1)
+- [**Microprocessor (ATMega328P)**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#microprocessor-atmega328p)
+	- [Clock](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#clock)
+	- [Timer/Counter](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#timercounter)
+		- [T0](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#t0)
+		- [T1](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#t1)
+		- [T2](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#t2)
+	- [Analog Comparator](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#analog-comparator)
+- [**Code Layout**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#code-layout)
+- [**Main Code**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#main-code)
+	- [Overview](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#overview)
+	- [`controller.ino`:`Setup();`](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#controllerinosetup)
+	- [`controller.ino`:`Loop();`](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#controllerinoloop)
+- [**Interrupts**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#interrupts)
+	- [Overview](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#overview-1)
+	- [`controller.ino`:`ISR(ANALOG_COMP_vect);`](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#controllerinoisranalog_comp_vect)
+	- [`wiring2.ino`:`ISR(TIMER2_OVF_vect);`](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#wiring2inoisrtimer2_ovf_vect)
+- [**Wizards**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#wizards)
+	- [Overview](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#overview-2)
+	- [Speedometer Ratio Wizard](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#speedometer-ratio-wizard)
+	- [Final Drive Wizard](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#final-drive-wizard)
+- [**Bluetooth**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#bluetooth)
+	- [Overview](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#overview-3)
+	- [Basic Communications Format](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#basic-communication-format)
+	- [Reading The Data In](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#reading-the-data-in)
+	- [General Commands Format Table](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#general-commands-format-table)
+	- [Debugging Commands Format Table](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#debugging-commands-format-table)
+	- [Programming the Values for the Microcontroller](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#programming-the-values-for-the-microcontroller)
+- [**Equations**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#equations)
+	- [Overview](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#overview-4)
+	- [On The Phone](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#on-the-phone)
+		- [Wheel Size](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#wheel-size)
+	- [On The Microcontroller](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#on-the-microcontroller)
+		- [Time For 1 Sample](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#time-for-1-sample)
+		- [The "InRatio"](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#the-inratio)
+		- [Current Speed](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#current-speed)
+		- [Target RPM (DC Motor)](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#target-rpm-dc-motor)
+		- [Current RPM (DC Motor)](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#current-rpm-dc-motor)
+		- [PID Equations](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#pid-equations)
+- [**Issues/Things to Note**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#issuesthings-to-note)
 
 ## Quick Start Guide
 
 ### Installation
 Below is a wiring diagram of the device we have provided you
 
-``` Insert picture here```
+![Wiring Diagram](https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/Schematics/Protoboard%20Final.png?raw=true)
 
 Please note that for the speed sensor provided you can wire it in either direction. It does not effect the operation of the speed sensor. Same with the encoders Vin and L pins, They can be swapped. Everything else must be wired in exactly as shown. 
 
-For the DC Motor, we assume that the terminal with the red dot corresponds with the + terminal and should be wired as shown.
+For the DC Motor, we assume that the terminal with the red dot corresponds with the + terminal and should be wired as shown (Positive on bottom).
 
 Please make sure the bottom of the device is on a non-conductive surface as it is just bare traces. Anything conductive will short circuit the device and potentially burn something.
 
@@ -110,7 +108,8 @@ Once paired you can launch the app and click on devices.
 ## Hardware
 Below is a schematic of our microcontroller Here I will go through it in detail as to what everything does. 
 
-``` Insert Schematic here```
+![Schematic](https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/Schematics/Schematics.png?raw=true)
+This image can be found on our github at: GitHub > assets > Schematics > [Schematics.pdf](https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/assets/Schematics/Schematics.pdf)
 
 ### ATMega328P Pinout
 Our microcontroller uses the ATMega328P as it's SoC/CPU. Here are the pin layout that we use.
