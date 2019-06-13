@@ -1,4 +1,5 @@
 Wheel Size
+Circ\;(in)=\left(\frac{x\cdot y\cdot2}{2540}+z\right)\cdot\pi
 
 KM Equation
 \begin{array}{rcl}
@@ -40,6 +41,10 @@ Current\;Speed\;Per\;Hour\;(SPH\cdot10)&= \frac{Number\;of\;Magnets\;Passed}{Uni
 &=\frac{\sum speedCtr[i]\;(magnets)\cdot InRatio\cdot9}{Number\;of\;samples\cdot1024}\\
 \end{align*}
 
+targetRPM
+\begin{align*}
+targetRPM\cdot10&=Current\;Speed\;(SPH)\cdot\frac{Number\;of\;RPMs}{1\;SPH}\cdot\frac{1}{1000000}
+\end{align*}
 
 CurrentRPM
 \begin{align*}
@@ -51,7 +56,3 @@ Motor\;RPM\cdot10&= \frac{Number\;of\;Holes\;Passed}{Unit\;of\;time}\cdot\frac{1
 \end{align*}
 
 
-targetRPM
-\begin{align*}
-targetRPM\cdot10&=Current\;Speed\;(SPH)\cdot\frac{Number\;of\;RPMs}{1\;SPH}\cdot\frac{1}{1000000}
-\end{align*}
