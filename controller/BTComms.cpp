@@ -89,8 +89,8 @@ void checkBT() {
           finalDrive[1] = ':';
           
           // Do calculations, update ratios and send value off
-          tempF = (256.0 * encoderIntCount * tempL * EEPROM.read(3) * 153) / (9.0 * calTicks);
-          tempF /= (EEPROM.get(12, tempL));
+          tempF = (9.0 * calTicks) / (EEPROM.read(3) * 2500000.0 * tempL);
+          tempF *= (EEPROM.get(12, tempL));
 
           EEPROM.put(4, tempF);
           updateInRatio(EEPROM.read(3), EEPROM.get(12, tempL), EEPROM.get(4, tempF));
