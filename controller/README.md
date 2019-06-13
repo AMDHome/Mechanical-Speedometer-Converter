@@ -61,6 +61,7 @@
 		- [Target RPM (DC Motor)](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#target-rpm-dc-motor)
 		- [Current RPM (DC Motor)](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#current-rpm-dc-motor)
 		- [PID Equations](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#pid-equations)
+		- [Final Drive Ratio Equations](https://github.com/AMDHome/Mechanical-Speedometer-Converter/blob/master/controller/README.md#final-drive-ratio-equations)
 - [**Issues/Things to Note**](https://github.com/AMDHome/Mechanical-Speedometer-Converter/tree/master/controller#issuesthings-to-note)
 
 ## Quick Start Guide
@@ -130,7 +131,7 @@ Our microcontroller uses the ATMega328P as its SoC/CPU. Here is the pin layout t
 |   12 (PD6)   |   AIN0   |  Input | 3v3 Input to Comparator          |
 |   13 (PD7)   |   AIN1   |  Input | Speed Sensor Input to Comparator |
 |   14 (PB0)   |     -    |    -   | Not Used                         |
-|   15 (PB1)   |   OC1A   |    -   | Motor PWM Output                 |
+|   15 (PB1)   |   OC1A   | Output | Motor PWM Output                 |
 |   16 (PB2)   |     -    |    -   | Not Used                         |
 |   17 (PB3)   |   MOSI   |  Input | Used for Burning Bootloader      |
 |   18 (PB4)   |   MISO   |  Input | Used for Burning Bootloader      |
@@ -579,7 +580,7 @@ At the top of `controller.ino` you will find the pid values in whole numbers. If
 PID values are typically less than 1 so to compensate for it, we multiply and then divide the division in these lines of code will tell you the coefficients. Please note that error has an adjustment of `x10` (ex. KP is 11 so the P coefficient is actually `11 x 10 / 1000 = 0.11`) 
 </br>
 
-#### Final Drive Ratio Equations
+##### Final Drive Ratio Equations
 
 To calculate our Final Drive Ratios from the wizard, we need 2 pieces of information. We need the `expected distance traveled` when we dont take into account final drive, as well as the `actual distance traveled`. The reasoning behind this is if the actual distance traveled is shorter than the expected distance traveled with no final drive calculated, then we know the final drive is a ratio of the two.
 
