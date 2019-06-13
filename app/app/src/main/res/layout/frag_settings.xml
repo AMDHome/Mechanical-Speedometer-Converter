@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginTop="15dp"
+             android:layout_marginStart="15dp"
+             android:layout_marginLeft="15dp"
+             android:layout_marginEnd="15dp"
+             android:layout_marginRight="15dp"
+             tools:context=".HomeFragment">
+
+
+    <RelativeLayout
+        android:id="@+id/searchDevicesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_rect_bkgrd"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/deviceArrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="start"
+            android:padding="10dp"
+            android:text="@string/str_devices"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <TextView
+                android:id="@+id/device_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:gravity="center_vertical|end"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:background="@android:color/transparent"
+                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/myCarSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_rect_bkgrd"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/searchDevicesTitle">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/str_title_car"
+            android:textColor="?attr/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/linLay_options"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/linLay_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            >
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_units"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/str_units"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/unitsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/maxSpeedText"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/str_size"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/tireSizeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    />
+
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_finalDrive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/str_finalDrive"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/finalDriveText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/find_drive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                    android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/str_idk_drive"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"/>
+            </FrameLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/meterSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_rect_bkgrd"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/myCarSettings">
+
+        <TextView
+            android:id="@+id/calibrationTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/str_title_meter"
+            android:textColor="?attr/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/linLay_options"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/calibrationTitle"
+            >
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_maxSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/str_maxSpeed"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/maxSpeedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/magnetsText"
+                    app:layout_constraintTop_toBottomOf="@+id/unitsText"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/but_ratio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/str_ratio"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/meterRatioText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tireSizeText"
+                    app:layout_constraintTop_toBottomOf="@+id/finalDriveText"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/find_ratio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                    android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24px"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/str_idk_ratio"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"/>
+            </FrameLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sensorSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_rect_bkgrd"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/meterSettings">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/str_title_sensor"
+            android:textColor="?attr/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/linLay_options"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            />
+
+        <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/calibrationTitle"
+            >
+
+            <Button
+                android:id="@+id/but_magnets"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/str_magnets"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/magnetsText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end|center_vertical"
+                android:paddingRight="10dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                />
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+
+</ScrollView>

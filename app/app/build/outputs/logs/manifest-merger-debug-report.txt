@@ -1,0 +1,264 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+MERGED from [android.arch.navigation:navigation-ui-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/4eff73883a95e6cbff4453316bf853af/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-ui:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6f41b271579328dce280fe764d41fdde/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:design:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e13059028c425c3d23e1af264d0a26c5/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/a77b89e8f03955300e711621538b6635/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/c0bd5fe5dc5daafaf8c6ac4f13c07d5e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/dfebdcac0687242b81d8e845044377f7/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b0ccf9879035cff82cec81aa0427b7b6/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6348d03425f608815645dfdc1463a7d2/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-fragment:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/930eb14b5ff6a25111b540ecbfe30b93/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e088b2a2e1997d12fa4fa89f438b06d0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/3d83fda204de616eb6e2592695192344/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/042c63ffc8b6ff5dc78ad9d3b9d230d5/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/cd73b753816de2a3fb0f5538894e2b31/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-runtime:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6f0392ce30a76badda2dd0689505b8b8/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/05ee9630a9e299e48dde81d71b6940bb/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/1484ca8df3bb1ca2fe948b906fb9d2fc/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d2de336281bd07ea95873d6c38753b3a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/341c5c95fda037d4ba04e72f3a95dfaf/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/9a321105e648f6fb7aa14d0e45964d7d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/35c3b9d883493597ba94268d50f179e7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/2e6ae6c55e0d254e8673d6ef579c0d9a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/01213a9edd47f8eacb0a954de56cc143/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/48b1a0c2de500f6f8e73396d4f4b83a0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/041aff05af73a6e10f9e8c4f904b4ecf/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/cc06e573dbf4c413aa45c33dda3e1fbf/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-common-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/3cd8852ce37b163c4d974e83654b01a0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.navigation:navigation-common:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/be0be098d936e10636932831f26ce984/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d3d4919c213014da89f5f611f6b06b1d/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b9b878ed3967cb91f96997a70a3af243/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/7642ef22118431ce6a458ab230d99dea/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/0e22563962d3e59655386fc3e81999d6/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/25ffa9c7f79babbaaadb1d59e60ec225/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e03debf33d66f1758ec47500b621ea5b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/f0192371cd515548ba118761dc279135/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/2e5875e570261043fe8532f1133c0679/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/83e6725cc62fca6c7d282fa81d09d4ab/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/0726e89af1c4a3cbc48eaa59edbf738e/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6c623f1cfb6c270f1e21dec3143538fe/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/dab8902605ad64c91ce3832d293e1758/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/ab96b984d8b4ea325614ec30b08faa7b/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+	package
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:3:5-48
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:1-52:12
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.BLUETOOTH
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:5:5-68
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:5:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:6:5-74
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:6:22-71
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:7:5-81
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:7:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:8:5-78
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:8:22-76
+uses-feature#android.hardware.location.gps
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:10:5-66
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:10:19-63
+application
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:12:5-49:19
+MERGED from [com.android.support:design:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e13059028c425c3d23e1af264d0a26c5/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e13059028c425c3d23e1af264d0a26c5/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/a77b89e8f03955300e711621538b6635/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/a77b89e8f03955300e711621538b6635/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d3d4919c213014da89f5f611f6b06b1d/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d3d4919c213014da89f5f611f6b06b1d/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b9b878ed3967cb91f96997a70a3af243/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b9b878ed3967cb91f96997a70a3af243/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d3d4919c213014da89f5f611f6b06b1d/AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:17:9-35
+	android:label
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:15:9-41
+	android:roundIcon
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:16:9-54
+	android:icon
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:14:9-43
+	android:allowBackup
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:13:9-35
+	android:theme
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:18:9-40
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:19:9-42
+activity#com.android.ecs193.meterconverter.SplashScreenActivity
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:21:9-26:20
+	android:theme
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:21:56-96
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:21:19-55
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:22:13-25:29
+action#android.intent.action.MAIN
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:23:17-69
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:23:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:24:17-77
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:24:27-74
+activity#com.android.ecs193.meterconverter.MainActivity
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:28:9-37:20
+	android:screenOrientation
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:32:13-49
+	android:label
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:30:13-45
+	android:launchMode
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:31:13-43
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:29:13-41
+activity#com.android.ecs193.meterconverter.BtConnection
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:38:9-59
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:38:19-47
+activity#com.android.ecs193.meterconverter.MeterWizard.MeterWizardUnit
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:40:9-74
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:40:19-62
+activity#com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:41:9-75
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:41:19-63
+activity#com.android.ecs193.meterconverter.MeterWizard.MeterWizardRPM
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:42:9-73
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:42:19-61
+activity#com.android.ecs193.meterconverter.MeterWizard.MeterWizardDriveCheck
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:43:9-80
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:43:19-68
+activity#com.android.ecs193.meterconverter.MeterWizard.MeterWizardMagnet
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:44:9-76
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:44:19-64
+activity#com.android.ecs193.meterconverter.MeterWizard.MeterWizardTireSize
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:45:9-47:20
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:46:13-60
+activity#com.android.ecs193.meterconverter.MeterWizard.MeterWizardCalibrate
+ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:48:9-79
+	android:name
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml:48:19-67
+uses-sdk
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+MERGED from [android.arch.navigation:navigation-ui-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/4eff73883a95e6cbff4453316bf853af/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-ui-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/4eff73883a95e6cbff4453316bf853af/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-ui:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6f41b271579328dce280fe764d41fdde/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-ui:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6f41b271579328dce280fe764d41fdde/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e13059028c425c3d23e1af264d0a26c5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e13059028c425c3d23e1af264d0a26c5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/47df631a21bfb29448454f79a0caf4ae/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/a77b89e8f03955300e711621538b6635/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/a77b89e8f03955300e711621538b6635/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/c0bd5fe5dc5daafaf8c6ac4f13c07d5e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/c0bd5fe5dc5daafaf8c6ac4f13c07d5e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/dfebdcac0687242b81d8e845044377f7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/dfebdcac0687242b81d8e845044377f7/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b0ccf9879035cff82cec81aa0427b7b6/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b0ccf9879035cff82cec81aa0427b7b6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6348d03425f608815645dfdc1463a7d2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6348d03425f608815645dfdc1463a7d2/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-fragment:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/930eb14b5ff6a25111b540ecbfe30b93/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-fragment:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/930eb14b5ff6a25111b540ecbfe30b93/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e088b2a2e1997d12fa4fa89f438b06d0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e088b2a2e1997d12fa4fa89f438b06d0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/3d83fda204de616eb6e2592695192344/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/3d83fda204de616eb6e2592695192344/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/042c63ffc8b6ff5dc78ad9d3b9d230d5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/042c63ffc8b6ff5dc78ad9d3b9d230d5/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/cd73b753816de2a3fb0f5538894e2b31/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/cd73b753816de2a3fb0f5538894e2b31/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-runtime:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6f0392ce30a76badda2dd0689505b8b8/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-runtime:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6f0392ce30a76badda2dd0689505b8b8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/05ee9630a9e299e48dde81d71b6940bb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/05ee9630a9e299e48dde81d71b6940bb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/1484ca8df3bb1ca2fe948b906fb9d2fc/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/1484ca8df3bb1ca2fe948b906fb9d2fc/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d2de336281bd07ea95873d6c38753b3a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d2de336281bd07ea95873d6c38753b3a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/341c5c95fda037d4ba04e72f3a95dfaf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/341c5c95fda037d4ba04e72f3a95dfaf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/9a321105e648f6fb7aa14d0e45964d7d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/9a321105e648f6fb7aa14d0e45964d7d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/35c3b9d883493597ba94268d50f179e7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/35c3b9d883493597ba94268d50f179e7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/2e6ae6c55e0d254e8673d6ef579c0d9a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/2e6ae6c55e0d254e8673d6ef579c0d9a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/01213a9edd47f8eacb0a954de56cc143/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/01213a9edd47f8eacb0a954de56cc143/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/48b1a0c2de500f6f8e73396d4f4b83a0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/48b1a0c2de500f6f8e73396d4f4b83a0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/041aff05af73a6e10f9e8c4f904b4ecf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/041aff05af73a6e10f9e8c4f904b4ecf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/cc06e573dbf4c413aa45c33dda3e1fbf/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/cc06e573dbf4c413aa45c33dda3e1fbf/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-common-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/3cd8852ce37b163c4d974e83654b01a0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-common-ktx:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/3cd8852ce37b163c4d974e83654b01a0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-common:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/be0be098d936e10636932831f26ce984/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.navigation:navigation-common:1.0.0-alpha01] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/be0be098d936e10636932831f26ce984/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d3d4919c213014da89f5f611f6b06b1d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d3d4919c213014da89f5f611f6b06b1d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b9b878ed3967cb91f96997a70a3af243/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/b9b878ed3967cb91f96997a70a3af243/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/7642ef22118431ce6a458ab230d99dea/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/7642ef22118431ce6a458ab230d99dea/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/0e22563962d3e59655386fc3e81999d6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/0e22563962d3e59655386fc3e81999d6/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/25ffa9c7f79babbaaadb1d59e60ec225/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/25ffa9c7f79babbaaadb1d59e60ec225/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e03debf33d66f1758ec47500b621ea5b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/e03debf33d66f1758ec47500b621ea5b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/f0192371cd515548ba118761dc279135/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/f0192371cd515548ba118761dc279135/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/2e5875e570261043fe8532f1133c0679/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/2e5875e570261043fe8532f1133c0679/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/83e6725cc62fca6c7d282fa81d09d4ab/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/83e6725cc62fca6c7d282fa81d09d4ab/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/0726e89af1c4a3cbc48eaa59edbf738e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/0726e89af1c4a3cbc48eaa59edbf738e/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6c623f1cfb6c270f1e21dec3143538fe/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/6c623f1cfb6c270f1e21dec3143538fe/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/dab8902605ad64c91ce3832d293e1758/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/dab8902605ad64c91ce3832d293e1758/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/ab96b984d8b4ea325614ec30b08faa7b/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/ab96b984d8b4ea325614ec30b08faa7b/AndroidManifest.xml:20:5-44
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+		ADDED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/src/main/AndroidManifest.xml

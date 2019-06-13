@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ecs193.speedometerconverter">
+    package="com.android.ecs193.meterconverter" >
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -19,17 +22,31 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
         </activity>
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".BtConnection"></activity>
 
-        <activity android:name=".ledControl"></activity>
-
+        <activity android:name=".MeterWizard.MeterWizardUnit"></activity>
+        <activity android:name=".MeterWizard.MeterWizardRatio"></activity>
+        <activity android:name=".MeterWizard.MeterWizardRPM"></activity>
+        <activity android:name=".MeterWizard.MeterWizardDriveCheck"></activity>
+        <activity android:name=".MeterWizard.MeterWizardMagnet"></activity>
+        <activity
+            android:name=".MeterWizard.MeterWizardTireSize">
+        </activity>
+        <activity android:name=".MeterWizard.MeterWizardCalibrate"></activity>
     </application>
+
 
 </manifest>
