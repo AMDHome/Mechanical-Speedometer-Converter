@@ -1,7 +1,13 @@
-package com.android.ecs193.meterconverter.MeterWizard;
+/***********************************
+ * Class for GPS calibration wizard page
+ * Comes after the tire wizard page
+ ***********************************/
 
+/**
+ * Import needed libraries
+ */
+package com.android.ecs193.meterconverter.MeterWizard;
 import android.Manifest;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,23 +26,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.ecs193.meterconverter.BtConnection;
-import com.android.ecs193.meterconverter.HomeFragment;
+import com.android.ecs193.meterconverter.SettingsFragment;
 import com.android.ecs193.meterconverter.R;
 
 public class MeterWizardCalibrate extends AppCompatActivity {
 
-    // Radius of the Earth in meters, used in calcHaversineDist
-    public static final double EARTH_RADIUS = 6371071.0;
-    // Creates a reference to the system Location Manager
-    LocationManager locationManager;
-    // Creates a listener that responds to location updates
-    LocationListener locationListener;
-    // To hold previous location
-    public static Location oldLocation = null;
-    // Constant for fine location, ACCESS_FINE_LOCATION is for GPS_Provider
-    private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 12;
+    /**
+     * Variables
+     */
 
     TextView text_target;
     TextView text_current;
@@ -46,10 +43,19 @@ public class MeterWizardCalibrate extends AppCompatActivity {
     Button but_finish;
     TextView text_timer;
     Integer targetSpeed;
-    HomeFragment mHomeFragment = new HomeFragment();
+    SettingsFragment mSettingsFragment = new SettingsFragment();
     MeterWizardRPM mMeterWizardRPM = new MeterWizardRPM();
     Boolean firstCountDown = true;
     Boolean finishCalibrate = false;
+    LocationManager locationManager; // reference to GPS location manager
+    LocationListener locationListener; // listener responding to location updates
+    public static Location oldLocation = null; // store previous location
+
+    /**
+     * Constants for GPS calibration
+     */
+    public static final double EARTH_RADIUS = 6371071.0;
+    private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 12; // constant for fine location
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,26 +63,29 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard_meter_calibrate);
 
+        // Check which unit is used for setting target speed
         text_target = findViewById(R.id.text_target_speed);
-        if (mHomeFragment.getDriveCheck()) {
+        if (mSettingsFragment.getDriveCheck()) {
             text_target.setText(String.valueOf(mMeterWizardRPM.getTargetSpeed()));
         } else {
             // Set prompt
-            if (mHomeFragment.getUnits() == "kph") {
-                targetSpeed = Math.min(50, Integer.valueOf(mHomeFragment.getMaxSpeed()) / 2);
-            } else if (mHomeFragment.getUnits() == "mph") {
-                targetSpeed = Math.min(40,  Integer.valueOf(mHomeFragment.getMaxSpeed()) / 2);
+            if (mSettingsFragment.getUnits() == "kph") {
+                targetSpeed = Math.min(50, Integer.valueOf(mSettingsFragment.getMaxSpeed()) / 2);
+            } else if (mSettingsFragment.getUnits() == "mph") {
+                targetSpeed = Math.min(40,  Integer.valueOf(mSettingsFragment.getMaxSpeed()) / 2);
             }
             text_target.setText(String.valueOf(targetSpeed));
         }
 
+        // Get current speed
         text_current = findViewById(R.id.text_curr_speed);
-        // GPS for current speed
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new speedCalc();
 
+        // Check if GPS is enabled in phone
         boolean statusOfGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        // This part should "register" the listener with the Location Manager to receive updates after checking permissions
+
+        // Check user's phone permission for GPS on this app
         if ((ContextCompat.checkSelfPermission(
                 this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
@@ -84,9 +93,11 @@ public class MeterWizardCalibrate extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[] {
                     android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION
             }, MY_PERMISSION_ACCESS_FINE_LOCATION);
+
+        // Asked to enable GPS on phone in Alert Dialog box
         } else if (!statusOfGPS) {
             // show alert dialog if Internet is not connected
-            AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardCalibrate.this)
+            AlertDialog.Builder builder = new AlertDialog.Builder(MeterWizardCalibrate.this, R.style.DialogTheme)
                     .setTitle("GPS Disabled")
                     .setMessage("Please turn on GPS in location settings to use this feature")
                     .setCancelable(false)
@@ -111,11 +122,14 @@ public class MeterWizardCalibrate extends AppCompatActivity {
                             });
             AlertDialog alert = builder.create();
             alert.show();
+
+        // Start GPS if permitted
         } else if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // minTime: 0 and minDistance: 0 indicates that the provider should make updates as fast as possible. This seems to be about once per second.
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
         }
 
+        // Finish button
         but_finish = findViewById(R.id.but_finish);
         but_finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +138,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
             }
         });
 
+        // Cancel button
         but_cancel = findViewById(R.id.but_cancel);
         but_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,14 +152,16 @@ public class MeterWizardCalibrate extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function to calibrate GPS by holding the speed for 10 seconds
+     */
     public void startCountDown() {
-
 
         text_timer = findViewById(R.id.countdownTimer);
         text_holdSpeed = findViewById(R.id.textHoldSpeed);
         text_laws = findViewById(R.id.textLaws);
 
-        mHomeFragment.startCalibration();
+        mSettingsFragment.startCalibration();
 
         // 10 seconds count down
         final CountDownTimer showCountDown;
@@ -160,7 +177,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
                     text_timer.setText(String.valueOf(millisUntilFinished / 1000 + 1));
                     totalSpeed += currentSpeed;
                 } else {
-                    mHomeFragment.endCalibration();
+                    mSettingsFragment.endCalibration();
                     text_timer.setVisibility(View.INVISIBLE);
                     cancel();
                 }
@@ -170,7 +187,7 @@ public class MeterWizardCalibrate extends AppCompatActivity {
                 text_timer.setVisibility(View.GONE);
                 but_finish.setVisibility(View.VISIBLE);
                 totalSpeed *= 10;
-                if (mHomeFragment.setFinalDrive(String.valueOf(totalSpeed))) {
+                if (mSettingsFragment.setFinalDrive(String.valueOf(totalSpeed))) {
                     finishCalibrate = true;
                     finish();
                 } else {

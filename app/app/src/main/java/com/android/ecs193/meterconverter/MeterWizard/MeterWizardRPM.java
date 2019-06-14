@@ -1,7 +1,6 @@
 package com.android.ecs193.meterconverter.MeterWizard;
 
 import android.bluetooth.BluetoothSocket;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.ecs193.meterconverter.BtConnection;
-import com.android.ecs193.meterconverter.HomeFragment;
+import com.android.ecs193.meterconverter.SettingsFragment;
 import com.android.ecs193.meterconverter.R;
 
 import java.io.IOException;
@@ -41,7 +40,7 @@ public class MeterWizardRPM extends AppCompatActivity {
     static Integer targetSpeed;
     float ratio;
 
-    HomeFragment mHomeFragment = new HomeFragment();
+    SettingsFragment mSettingsFragment = new SettingsFragment();
     MeterWizardUnit mMeterWizardUnit = new MeterWizardUnit();
     MeterWizardRatio mMeterWizardRatio = new MeterWizardRatio();
 
@@ -75,7 +74,7 @@ public class MeterWizardRPM extends AppCompatActivity {
             targetSpeed = Math.min(50, mMeterWizardRatio.getMaxSpeed() / 2);
             text_q.setText("Please adjust the buttons until the speedometer reads " + String.valueOf(targetSpeed) + " KPH.");
         } else if (mMeterWizardUnit.getUnit() == "mph") {
-            msg(String.valueOf(mMeterWizardRatio.getspeedometerHalf()));
+            //msg(String.valueOf(mMeterWizardRatio.getspeedometerHalf()));
             targetSpeed = Math.min(40, mMeterWizardRatio.getMaxSpeed() / 2);
             text_q.setText("Please adjust the buttons until the speedometer reads " + String.valueOf(targetSpeed) + " MPH.");
         }
@@ -233,7 +232,7 @@ public class MeterWizardRPM extends AppCompatActivity {
                     // Send string to Arduino to end calibration mode
                     if (btSocket != null) {
                         try {
-                            mHomeFragment.setMeterRatioText(String.valueOf(ratio));
+                            mSettingsFragment.setMeterRatioText(String.valueOf(ratio));
                             final Timer timer = new Timer();
 
                             // Wait for one second
@@ -243,7 +242,7 @@ public class MeterWizardRPM extends AppCompatActivity {
                             }, 1000);
                             String str = "P:0\0";
                             btSocket.getOutputStream().write(str.getBytes());
-                            msg(str);
+                            //msg(str);
 
                         } catch (IOException e) {
                             msg("Error");
@@ -251,7 +250,7 @@ public class MeterWizardRPM extends AppCompatActivity {
 
                     }
 
-                    if (mHomeFragment.getDriveCheck()) {
+                    if (mSettingsFragment.getDriveCheck()) {
                         Intent wizIntent = new Intent(MeterWizardRPM.this, MeterWizardMagnet.class);
                         finish();
                         startActivity(wizIntent);
@@ -323,7 +322,7 @@ public class MeterWizardRPM extends AppCompatActivity {
             try {
                 String str = "T:" + String.valueOf(target_rpm * 10) + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                //msg(str);
 
             } catch (IOException e) {
                 msg("Error");

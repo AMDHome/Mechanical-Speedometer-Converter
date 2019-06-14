@@ -7,13 +7,13 @@
         android:title="@string/title_settings"/>
 
     <item
-        android:id="@+id/nav_data"
-        android:icon="@drawable/ic_data_black_24dp"
-        android:title="@string/title_data"/>
+        android:id="@+id/nav_faq"
+        android:icon="@drawable/ic_baseline_help_24px"
+        android:title="@string/title_faq"/>
 
     <item
-        android:id="@+id/nav_calibration"
-        android:icon="@drawable/ic_calibration_black_24dp"
-        android:title="@string/title_calibration"/>
+        android:id="@+id/nav_about"
+        android:icon="@drawable/ic_baseline_info_24px"
+        android:title="@string/title_about"/>
 
 </menu>

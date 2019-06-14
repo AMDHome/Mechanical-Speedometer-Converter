@@ -1043,7 +1043,10 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable ic_baseline_create_24px
 drawable ic_baseline_error_24px
+drawable ic_baseline_help_24px
+drawable ic_baseline_info_24px
 drawable ic_baseline_keyboard_arrow_right_24px
+drawable ic_baseline_phone_24px
 drawable ic_calibration_black_24dp
 drawable ic_dashboard
 drawable ic_data_black_24dp
@@ -1224,9 +1227,9 @@ id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
 id myCarSettings
-id nav_calibration
+id nav_about
 id nav_controller_view_tag
-id nav_data
+id nav_faq
 id nav_graph
 id nav_settings
 id navigation
@@ -1439,8 +1442,8 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout dialog_tire_size
-layout frag_calibration
-layout frag_data
+layout frag_about
+layout frag_faq
 layout frag_settings
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
@@ -1537,12 +1540,14 @@ string str_cali_statement_1
 string str_cali_statement_2
 string str_calibate
 string str_cancel
+string str_co
 string str_current_speed
 string str_devices
 string str_drive_wizard_calibrate
 string str_drive_wizard_check
 string str_drive_wizard_magnet
 string str_drive_wizard_tire_size
+string str_fbkLink
 string str_finalDrive
 string str_finish
 string str_four
@@ -1556,6 +1561,7 @@ string str_mph
 string str_next
 string str_no
 string str_one
+string str_phonenum
 string str_ratio
 string str_size
 string str_speed_check_q
@@ -1583,8 +1589,8 @@ string str_two
 string str_units
 string str_yes
 string str_zero
-string title_calibration
-string title_data
+string title_about
+string title_faq
 string title_settings
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

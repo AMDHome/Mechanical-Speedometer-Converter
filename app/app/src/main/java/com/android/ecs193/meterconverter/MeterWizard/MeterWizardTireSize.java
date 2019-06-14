@@ -1,25 +1,19 @@
 package com.android.ecs193.meterconverter.MeterWizard;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.text.TextWatcher;
-import android.widget.Toast;
 
-import com.android.ecs193.meterconverter.HomeFragment;
+import com.android.ecs193.meterconverter.SettingsFragment;
 import com.android.ecs193.meterconverter.R;
 
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class MeterWizardTireSize extends AppCompatActivity {
@@ -36,7 +30,7 @@ public class MeterWizardTireSize extends AppCompatActivity {
     Button but_cancel;
     Button but_next;
 
-    HomeFragment mHomeFragment = new HomeFragment();
+    SettingsFragment mSettingsFragment = new SettingsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +74,7 @@ public class MeterWizardTireSize extends AppCompatActivity {
                             .setPositiveButton("OK", null)
                             .show();
                 } else {
-                    mHomeFragment.setTireSize(tireSize);
+                    mSettingsFragment.setTireSize(tireSize);
                     Intent wizIntent = new Intent(MeterWizardTireSize.this, MeterWizardCalibrate.class);
                     finish();
                     startActivity(wizIntent);

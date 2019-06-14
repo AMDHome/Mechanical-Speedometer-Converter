@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 
-import com.android.ecs193.meterconverter.HomeFragment;
+import com.android.ecs193.meterconverter.SettingsFragment;
 import com.android.ecs193.meterconverter.R;
 
 public class MeterWizardMagnet extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class MeterWizardMagnet extends AppCompatActivity {
     Button but_next;
     Button but_cancel;
 
-    HomeFragment mHomeFragment = new HomeFragment();
+    SettingsFragment mSettingsFragment = new SettingsFragment();
 
     Boolean butChecked = false;
 
@@ -42,7 +42,7 @@ public class MeterWizardMagnet extends AppCompatActivity {
                 } else if (but_four.isChecked()) {
                     but_four.setChecked(false);
                 }
-                mHomeFragment.setMagnetText(1);
+                mSettingsFragment.setMagnetText(1);
                 Intent wizIntent = new Intent(MeterWizardMagnet.this, MeterWizardTireSize.class);
                 finish();
                 startActivity(wizIntent);
@@ -57,7 +57,7 @@ public class MeterWizardMagnet extends AppCompatActivity {
                 } else if (but_four.isChecked()) {
                     but_four.setChecked(false);
                 }
-                mHomeFragment.setMagnetText(2);
+                mSettingsFragment.setMagnetText(2);
                 Intent wizIntent = new Intent(MeterWizardMagnet.this, MeterWizardTireSize.class);
                 finish();
                 startActivity(wizIntent);
@@ -72,7 +72,7 @@ public class MeterWizardMagnet extends AppCompatActivity {
                 } else if (but_two.isChecked()) {
                     but_two.setChecked(false);
                 }
-                mHomeFragment.setMagnetText(4);
+                mSettingsFragment.setMagnetText(4);
                 Intent wizIntent = new Intent(MeterWizardMagnet.this, MeterWizardTireSize.class);
                 finish();
                 startActivity(wizIntent);
@@ -86,13 +86,13 @@ public class MeterWizardMagnet extends AppCompatActivity {
 
 
                 if (but_one.isChecked()) {
-                    mHomeFragment.setMagnetText(1);
+                    mSettingsFragment.setMagnetText(1);
                     butChecked = true;
                 } else if (but_two.isChecked()) {
-                    mHomeFragment.setMagnetText(2);
+                    mSettingsFragment.setMagnetText(2);
                     butChecked = true;
                 } else if (but_four.isChecked()) {
-                    mHomeFragment.setMagnetText(4);
+                    mSettingsFragment.setMagnetText(4);
                     butChecked = true;
                 }
 

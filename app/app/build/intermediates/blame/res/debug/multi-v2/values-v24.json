@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/tyuen/Desktop/Mechanical-Speedometer-Converter/app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
+            "outputFile": "/Users/tyuen/Documents/UCD/Senior/ECS193/Mechanical-Speedometer-Converter/app/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
                     "source": "/Users/tyuen/gradle-5.2/caches/transforms-2/files-2.1/d2de336281bd07ea95873d6c38753b3a/res/values-v24/values-v24.xml",

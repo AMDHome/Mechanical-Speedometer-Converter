@@ -9,18 +9,18 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.android.ecs193.meterconverter.HomeFragment"
+        android:name="com.android.ecs193.meterconverter.SettingsFragment"
         android:label="frag_settings"
         tools:layout="@layout/frag_settings"/>
     <fragment
         android:id="@+id/dataFragment"
-        android:name="com.android.ecs193.meterconverter.DataFragment"
+        android:name="com.android.ecs193.meterconverter.FAQFragment"
         android:label="frag_data"
-        tools:layout="@layout/frag_data"/>
+        tools:layout="@layout/frag_faq"/>
     <fragment
         android:id="@+id/calibrationFragment"
-        android:name="com.android.ecs193.meterconverter.CalibrationFragment"
+        android:name="com.android.ecs193.meterconverter.AboutFragment"
         android:label="frag_calibration"
-        tools:layout="@layout/frag_calibration"/>
+        tools:layout="@layout/frag_about"/>
 
 </navigation>

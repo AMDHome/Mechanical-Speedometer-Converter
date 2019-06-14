@@ -5,8 +5,6 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -23,29 +21,20 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
-import android.text.method.ScrollingMovementMethod;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardRatio;
-import com.android.ecs193.meterconverter.MeterWizard.MeterWizardTireSize;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardUnit;
 import com.android.ecs193.meterconverter.MeterWizard.MeterWizardDriveCheck;
 
-import static android.view.View.GONE;
-
-public class HomeFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     Button butWizardDrive;
     Button butWizardRatio;
@@ -85,7 +74,7 @@ public class HomeFragment extends Fragment {
     static EditText tireSize1, tireSize2, tireSize3, tireSize4, tireSize5, tireSize6, tireSize7;
 
 
-    public HomeFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
@@ -149,7 +138,13 @@ public class HomeFragment extends Fragment {
                     String str = "P:1" + '\0';
                     // Write to Arduino to tell it to enter speedometer ratio calibration mode
                     btSocket.getOutputStream().write(str.getBytes());
-                    msg(str);
+                    // Add delay
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        public void run() {
+                            timer.cancel();
+                        }
+                    }, 1000);
                     Intent wizIntent = new Intent(getActivity(), MeterWizardDriveCheck.class);
                     startActivity(wizIntent);
                 } catch (IOException e) {
@@ -187,7 +182,13 @@ public class HomeFragment extends Fragment {
                         String str = "P:1" + '\0';
                         // Write to Arduino to tell it to enter speedometer ratio calibration mode
                         btSocket.getOutputStream().write(str.getBytes());
-                        msg(str);
+                        // Add delay
+                        final Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            public void run() {
+                                timer.cancel();
+                            }
+                        }, 1000);
                         Intent wizIntent = new Intent(getActivity(), MeterWizardUnit.class);
                         startActivity(wizIntent);
                     } catch (IOException e) {
@@ -496,7 +497,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 if (!rtnStr.startsWith("D:")) {
-                    msg("error reading in values");
+                    showDialog2Sec("Error", "Problem reading values from hardware");
                     return;
                 } else {
 
@@ -507,7 +508,7 @@ public class HomeFragment extends Fragment {
                     } else if (Integer.valueOf(splitArr[1]) == 1) { // units = KPH
                         unitsText.setText("kph");
                     } else {
-                        msg("error reading units");
+                        showDialog2Sec("Error", "Problem reading values from hardware");
                         return;
                     }
 
@@ -521,7 +522,8 @@ public class HomeFragment extends Fragment {
 
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                showDialog2Sec("Error", "Problem reading values from hardware");
+                return;
             }
         }
     }
@@ -545,7 +547,13 @@ public class HomeFragment extends Fragment {
                 String str = "U:";
                 str = str + indexStr + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                // Add delay
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        timer.cancel();
+                    }
+                }, 1000);
 
                 // send tire size too as units have changed
                 sendTireSizeCalc(tireSizeText.getText().toString());
@@ -563,10 +571,16 @@ public class HomeFragment extends Fragment {
             try {
                 String str = extraStr + textStr + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                // Add delay
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        timer.cancel();
+                    }
+                }, 1000);
 
             } catch (IOException e) {
-                msg("Error");
+                showDialog2Sec("Error", "Problem sending values to hardware");
             }
         }
     }
@@ -580,10 +594,16 @@ public class HomeFragment extends Fragment {
                 result=result*1000000;
                 str = extraStr + Integer.toString((int) result) + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                // Add delay
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        timer.cancel();
+                    }
+                }, 1000);
 
             } catch (IOException e) {
-                msg("Error");
+                showDialog2Sec("Error", "Problem sending values to hardware");
             }
         }
     }
@@ -616,10 +636,16 @@ public class HomeFragment extends Fragment {
                 result = result * 1000000.00;
                 String str = "W:" + String.valueOf((int)result) + ":" + tireSize + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                // Add delay
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        timer.cancel();
+                    }
+                }, 1000);
 
             } catch (IOException e) {
-                msg("Error");
+                showDialog2Sec("Error", "Problem sending values to hardware");
             }
         }
     }
@@ -631,24 +657,7 @@ public class HomeFragment extends Fragment {
             Double.parseDouble(input.getText().toString());
         }
         catch (NumberFormatException e){
-            AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
-            builder.setTitle("Error");
-            builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setMessage("Please enter a number");
-            builder.setCancelable(true);
-
-            final AlertDialog closeDialog = builder.create();
-            closeDialog.show();
-
-            // Display dialog box for 2 seconds
-            final Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                public void run() {
-                    closeDialog.dismiss();
-                    timer.cancel();
-                }
-            }, 2000);
-
+            showDialog2Sec("Error", "Please enter a number");
             return false;
         }
 
@@ -720,7 +729,13 @@ public class HomeFragment extends Fragment {
             try {
                 String str = "D:S" + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                // Add delay
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        timer.cancel();
+                    }
+                }, 1000);
             } catch (IOException e) {
                 msg("Error");
             }
@@ -732,7 +747,13 @@ public class HomeFragment extends Fragment {
             try {
                 String str = "D:0" + '\0';
                 btSocket.getOutputStream().write(str.getBytes());
-                msg(str);
+                // Add delay
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        timer.cancel();
+                    }
+                }, 1000);
             } catch (IOException e) {
                 msg("Error");
             }
@@ -756,7 +777,6 @@ public class HomeFragment extends Fragment {
                     }
                 }
 
-                msg(rtnStr);
                 if (!rtnStr.startsWith("F:")) {
                     msg("error reading in values");
                     return false;
@@ -778,9 +798,28 @@ public class HomeFragment extends Fragment {
 
     }
 
+    static private void showDialog2Sec(String title, String str) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
+        builder.setTitle(title);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setMessage(str);
+        builder.setCancelable(true);
+
+        final AlertDialog closeDialog = builder.create();
+        closeDialog.show();
+
+        // Display dialog box for 2 seconds
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                closeDialog.dismiss();
+                timer.cancel();
+            }
+        }, 2000);
+    }
+
     static private void msg(String s)
     {
         Toast.makeText(thisContext.getApplicationContext(),s, Toast.LENGTH_LONG).show();
     }
 }
-

@@ -1,5 +1,6 @@
 package com.android.ecs193.meterconverter.MeterWizard;
 
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,24 +8,24 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.ecs193.meterconverter.HomeFragment;
+import com.android.ecs193.meterconverter.BtConnection;
+import com.android.ecs193.meterconverter.SettingsFragment;
 import com.android.ecs193.meterconverter.R;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.IOException;
 
 public class MeterWizardUnit extends AppCompatActivity {
 
+    BluetoothSocket btSocket = null;
     RadioButton but_kph;
     RadioButton but_mph;
     Button but_next;
     Button but_cancel;
     static String which_but;
 
-    HomeFragment mHomeFragment = new HomeFragment();
+    SettingsFragment mSettingsFragment = new SettingsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MeterWizardUnit extends AppCompatActivity {
 
         setContentView(R.layout.activity_wizard_meter_units);
 
+        btSocket = BtConnection.getBtConnection();
         but_kph = findViewById(R.id.radio_kph);
         but_mph = findViewById(R.id.radio_mph);
         //unitsText = findViewById(R.id.unitsText);
@@ -44,7 +46,7 @@ public class MeterWizardUnit extends AppCompatActivity {
                     but_mph.setChecked(false);
                 }
                 which_but = "kph";
-                mHomeFragment.setUnits(which_but);
+                mSettingsFragment.setUnits(which_but);
                 Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
                 finish();
                 startActivity(wizIntent);
@@ -58,7 +60,7 @@ public class MeterWizardUnit extends AppCompatActivity {
                     but_kph.setChecked(false);
                 }
                 which_but = "mph";
-                mHomeFragment.setUnits(which_but);
+                mSettingsFragment.setUnits(which_but);
                 Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
                 finish();
                 startActivity(wizIntent);
@@ -70,7 +72,7 @@ public class MeterWizardUnit extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (but_mph.isChecked() || but_kph.isChecked()) {
-                    mHomeFragment.setUnits(which_but);
+                    mSettingsFragment.setUnits(which_but);
                     Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardRatio.class);
                     finish();
                     startActivity(wizIntent);
@@ -89,13 +91,24 @@ public class MeterWizardUnit extends AppCompatActivity {
         but_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mHomeFragment.getDriveCheck()) {
+                if (mSettingsFragment.getDriveCheck()) {
                     Intent wizIntent = new Intent(MeterWizardUnit.this, MeterWizardDriveCheck.class);
                     finish();
                     //slide from right to left
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     startActivity(wizIntent);
                 } else {
+                    // Send ratio to Arduino
+                    if (btSocket != null) {
+                        try {
+                            String str = "P:0" + '\0';
+                            btSocket.getOutputStream().write(str.getBytes());
+                            //msg(str);
+
+                        } catch (IOException e) {
+                            msg("Error");
+                        }
+                    }
                     finish();
                     //slide from right to left
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
@@ -106,4 +119,9 @@ public class MeterWizardUnit extends AppCompatActivity {
     }
 
     static public String getUnit() { return which_but; }
+
+    private void msg(String s)
+    {
+        Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
+    }
 }
